@@ -1,0 +1,179 @@
+{
+  "data": [
+    {
+      "timeStamp": 73141779,
+      "difficulty": 42789757665904,
+      "totalFee": 0,
+      "id": 1044484,
+      "height": 1041148
+    },
+    {
+      "timeStamp": 73141578,
+      "difficulty": 42480875304517,
+      "totalFee": 0,
+      "id": 1044483,
+      "height": 1041147
+    },
+    {
+      "timeStamp": 73139629,
+      "difficulty": 32234789685410,
+      "totalFee": 0,
+      "id": 1044442,
+      "height": 1041106
+    },
+    {
+      "timeStamp": 73139214,
+      "difficulty": 32252731458261,
+      "totalFee": 0,
+      "id": 1044436,
+      "height": 1041100
+    },
+    {
+      "timeStamp": 73139177,
+      "difficulty": 32282575398014,
+      "totalFee": 0,
+      "id": 1044435,
+      "height": 1041099
+    },
+    {
+      "timeStamp": 73138885,
+      "difficulty": 33283370238707,
+      "totalFee": 0,
+      "id": 1044430,
+      "height": 1041094
+    },
+    {
+      "timeStamp": 73138103,
+      "difficulty": 30094875816874,
+      "totalFee": 0,
+      "id": 1044414,
+      "height": 1041078
+    },
+    {
+      "timeStamp": 73137979,
+      "difficulty": 28466153747883,
+      "totalFee": 0,
+      "id": 1044409,
+      "height": 1041073
+    },
+    {
+      "timeStamp": 73136813,
+      "difficulty": 27575068260266,
+      "totalFee": 0,
+      "id": 1044390,
+      "height": 1041054
+    },
+    {
+      "timeStamp": 73136146,
+      "difficulty": 26561424362947,
+      "totalFee": 0,
+      "id": 1044378,
+      "height": 1041042
+    },
+    {
+      "timeStamp": 73134995,
+      "difficulty": 28837341809619,
+      "totalFee": 300000,
+      "id": 1044359,
+      "height": 1041023
+    },
+    {
+      "timeStamp": 73134743,
+      "difficulty": 28079330160035,
+      "totalFee": 0,
+      "id": 1044352,
+      "height": 1041016
+    },
+    {
+      "timeStamp": 73133179,
+      "difficulty": 34701816373633,
+      "totalFee": 0,
+      "id": 1044335,
+      "height": 1040999
+    },
+    {
+      "timeStamp": 73131793,
+      "difficulty": 28756905461856,
+      "totalFee": 0,
+      "id": 1044310,
+      "height": 1040974
+    },
+    {
+      "timeStamp": 73128129,
+      "difficulty": 24557959252435,
+      "totalFee": 0,
+      "id": 1044237,
+      "height": 1040901
+    },
+    {
+      "timeStamp": 73123962,
+      "difficulty": 32487288967037,
+      "totalFee": 0,
+      "id": 1044182,
+      "height": 1040846
+    },
+    {
+      "timeStamp": 73123355,
+      "difficulty": 30670327475577,
+      "totalFee": 0,
+      "id": 1044173,
+      "height": 1040837
+    },
+    {
+      "timeStamp": 73123149,
+      "difficulty": 31170528018056,
+      "totalFee": 0,
+      "id": 1044169,
+      "height": 1040833
+    },
+    {
+      "timeStamp": 73122051,
+      "difficulty": 29260940356987,
+      "totalFee": 0,
+      "id": 1044151,
+      "height": 1040815
+    },
+    {
+      "timeStamp": 73121872,
+      "difficulty": 29228200716277,
+      "totalFee": 0,
+      "id": 1044147,
+      "height": 1040811
+    },
+    {
+      "timeStamp": 73121771,
+      "difficulty": 26671000260254,
+      "totalFee": 0,
+      "id": 1044142,
+      "height": 1040806
+    },
+    {
+      "timeStamp": 73121235,
+      "difficulty": 26924032423110,
+      "totalFee": 0,
+      "id": 1044132,
+      "height": 1040796
+    },
+    {
+      "timeStamp": 73119927,
+      "difficulty": 24422891403617,
+      "totalFee": 0,
+      "id": 1044111,
+      "height": 1040775
+    },
+    {
+      "timeStamp": 73119641,
+      "difficulty": 21176901730658,
+      "totalFee": 0,
+      "id": 1044100,
+      "height": 1040764
+    },
+    {
+      "timeStamp": 73119441,
+      "difficulty": 23025992526712,
+      "totalFee": 0,
+      "id": 1044098,
+      "height": 1040762
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "name": "nem-library",
+  "version": "0.9.1",
+  "description": "Reactive Library for NEM",
+  "scripts": {
+    "pretest": "npm run build",
+    "test": "mocha --ui bdd --recursive ./dist/test ./dist/integration_test --timeout 60000",
+    "test:e2e": "mocha --ui bdd --recursive ./dist/e2e --timeout 10000",
+    "test:int": "mocha --ui bdd --recursive ./dist/integration_test --timeout 10000",
+    "test:unit": "mocha --ui bdd --recursive ./dist/test",
+    "test:all": "mocha --ui bdd --recursive ./dist/test ./dist/integration_test ./dist/e2e --timeout 90000",
+    "test:cov": "nyc --reporter=lcov --reporter=text-lcov npm run test:all && nyc report --reporter=lcov --timeout 90000",
+    "build": "rm -rf dist && tsc && npm run copyjson && npm run copyvendor",
+    "gen:docs": "typedoc --out ts-docs/ src/",
+    "copyjson": "cp -r test/infrastructure/account/responses/ dist/test/infrastructure/account/responses/",
+    "copyvendor": "cp -r src/vendor/ dist/src/vendor/"
+  },
+  "keywords": [
+    "NEM",
+    "API",
+    "RX"
+  ],
+  "license": "MIT",
+  "author": "Aleix Morgadas <aleix602@gmail.com>",
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.42",
+    "@types/nock": "^8.2.1",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.0",
+    "mocha-typescript": "^1.1.7",
+    "nock": "^9.0.14",
+    "ts-node": "^3.3.0",
+    "typedoc": "^0.8.0",
+    "typescript": "^2.5.2"
+  },
+  "dependencies": {
+    "@stomp/stompjs": "^3.1.1",
+    "@types/js-base64": "^2.1.5",
+    "@types/lodash": "^4.14.74",
+    "@types/node": "^8.0.26",
+    "@types/request": "^2.0.3",
+    "@types/request-promise-native": "^1.0.6",
+    "@types/sockjs-client": "^1.0.32",
+    "@types/utf8": "^2.1.6",
+    "crypto-js": "^3.1.9-1",
+    "fs.realpath": "^1.0.0",
+    "get-random-values": "^1.2.0",
+    "js-base64": "^2.1.9",
+    "js-joda": "^1.5.5",
+    "lodash": "^4.17.4",
+    "nem-sdk": "1.4.0",
+    "request": "^2.81.0",
+    "request-promise-core": "^1.1.1",
+    "request-promise-native": "^1.0.4",
+    "rxjs": "^5.4.3",
+    "sockjs-client": "^1.1.4",
+    "tweetnacl": "^1.0.0",
+    "typedocs": "^0.6.3",
+    "utf8": "^2.1.2",
+    "websocket": "^1.0.24"
+  },
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "LICENSE",
+    "History.md",
+    "README.md",
+    "dist/src/",
+    "dist/index.d.ts",
+    "dist/index.js",
+    "dist/index.js.map"
+  ],
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js"
+    ]
+  }
+}
