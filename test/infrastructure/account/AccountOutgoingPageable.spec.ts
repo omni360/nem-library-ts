@@ -41,7 +41,7 @@ describe("AccountOutgoingPageable", () => {
       .get("/account/transfers/outgoing?address=TDM3DOZM5WJ3ZRBPSMYRU6JSWKUCAH5VIPOF4W7K&pageSize=10")
       .thrice()
       .replyWithFile(200, __dirname + "/responses/account_outgoing_1.json")
-      .get("/account/transfers/outgoing?address=TDM3DOZM5WJ3ZRBPSMYRU6JSWKUCAH5VIPOF4W7K&hash=1b77f33eed83bd8ca0771978c10962125ba9c512071556e1d41a2988c5d41e12&pageSize=10")
+      .get("/account/transfers/outgoing?address=TDM3DOZM5WJ3ZRBPSMYRU6JSWKUCAH5VIPOF4W7K&id=128332&pageSize=10")
       .thrice()
       .replyWithFile(200, __dirname + "/responses/account_outgoing_2.json")
   });
@@ -63,7 +63,7 @@ describe("AccountOutgoingPageable", () => {
   });
 
   it("should receive the second json file", done => {
-    accountHttp.outgoingTransactions(address, {hash: "1b77f33eed83bd8ca0771978c10962125ba9c512071556e1d41a2988c5d41e12"})
+    accountHttp.outgoingTransactions(address, {id: 128332})
       .subscribe(x => {
           expect(x).to.have.length(10);
           expect(x[0].getTransactionInfo().hash.data).to.be.equal("a0f634f947b1e69581f757f0745cfcad7ab5c41fac952b78e402ce80edbaaf68");

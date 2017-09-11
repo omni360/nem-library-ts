@@ -43,7 +43,7 @@ describe("AccountPagination", () => {
   });
 
   it("should do pagination", done => {
-    let pagedTransactions = accountHttp.allTransactionsPaginated(address, 5);
+    let pagedTransactions = accountHttp.allTransactionsPaginated(address, {pageSize: 5});
     let time = 0;
     pagedTransactions.subscribe(x => {
       if (time == 2) {
@@ -61,7 +61,7 @@ describe("AccountPagination", () => {
   });
 
   it("should return transactions confirmed", done => {
-    let paginatedTransactions = accountHttp.incomingTransactionsPaginated(address, 5);
+    let paginatedTransactions = accountHttp.incomingTransactionsPaginated(address, {pageSize: 5});
     paginatedTransactions
       .subscribe(transactions => {
         transactions.map(_ => _.getTransactionInfo());

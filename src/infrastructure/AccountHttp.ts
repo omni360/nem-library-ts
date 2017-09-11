@@ -66,7 +66,7 @@ export interface QueryParams {
   /**
    * (Optional) The transaction id up to which transactions are returned. This parameter will prevail over hash.
    */
-  id?: string
+  id?: number
 }
 
 /**
@@ -171,12 +171,11 @@ export class AccountHttp extends HttpEndpoint {
   /**
    * Paginaged version of incomingTransactions request
    * @param address
-   * @param hash
-   * @param pageSize - between 5 and 100, otherwise 10
-   * @returns {IncomingTransactionsPageable}
+   * @param params
    */
-  incomingTransactionsPaginated(address: Address, pageSize?: number, hash?: string): Pageable<Transaction[]> {
-    return new IncomingTransactionsPageable(this, address, hash, pageSize);
+  incomingTransactionsPaginated(address: Address, params?: QueryParams): Pageable<Transaction[]> {
+    if (params === undefined) params = {};
+    return new IncomingTransactionsPageable(this, address, params);
   }
 
   /**
@@ -202,12 +201,12 @@ export class AccountHttp extends HttpEndpoint {
   /**
    * Paginaged version of outgoingTransactions request
    * @param address
-   * @param hash
-   * @param pageSize - between 5 and 100, otherwise 10
-   * @returns {OutgoingTransactionsPageable}
+   * @param params
+   * @param params
    */
-  outgoingTransactionsPaginated(address: Address, pageSize?: number, hash?: string): Pageable<Transaction[]> {
-    return new OutgoingTransactionsPageable(this, address, hash, pageSize);
+  outgoingTransactionsPaginated(address: Address, params?: QueryParams): Pageable<Transaction[]> {
+    if (params === undefined) params = {};
+    return new OutgoingTransactionsPageable(this, address, params);
   }
 
   /**
@@ -234,12 +233,11 @@ export class AccountHttp extends HttpEndpoint {
   /**
    * Paginaged version of allTransactions request
    * @param address
-   * @param hash
-   * @param pageSize - between 5 and 100, otherwise 10
-   * @returns {AllTransactionsPageable}
+   * @param params
    */
-  allTransactionsPaginated(address: Address, pageSize?: number, hash?: string): Pageable<Transaction[]> {
-    return new AllTransactionsPageable(this, address, hash, pageSize);
+  allTransactionsPaginated(address: Address, params?: QueryParams): Pageable<Transaction[]> {
+    if (params === undefined) params = {};
+    return new AllTransactionsPageable(this, address, params);
   }
 
   /**
@@ -272,10 +270,10 @@ export class AccountHttp extends HttpEndpoint {
       .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
       .map(harvestInfoData => {
-      return harvestInfoData.data.map((harvestInfoDTO: HarvestInfoDTO) => {
-        return AccountHarvestInfo.createFromHarvestInfoDTO(harvestInfoDTO);
+        return harvestInfoData.data.map((harvestInfoDTO: HarvestInfoDTO) => {
+          return AccountHarvestInfo.createFromHarvestInfoDTO(harvestInfoDTO);
+        });
       });
-    });
   }
 
   /**
@@ -297,10 +295,10 @@ export class AccountHttp extends HttpEndpoint {
       .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
       .map(importanceData => {
-      return importanceData.data.map((accountImportanceViewModel: AccountImportanceViewModelDTO) => {
-        return AccountImportanceInfo.createFromAccountImportanceViewModelDTO(accountImportanceViewModel);
+        return importanceData.data.map((accountImportanceViewModel: AccountImportanceViewModelDTO) => {
+          return AccountImportanceInfo.createFromAccountImportanceViewModelDTO(accountImportanceViewModel);
+        });
       });
-    });
   }
 
   /**
@@ -322,10 +320,10 @@ export class AccountHttp extends HttpEndpoint {
       .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
       .map(namespacesData => {
-      return namespacesData.data.map((namespaceDTO: NamespaceDTO) => {
-        return Namespace.createFromNamespaceDTO(namespaceDTO);
+        return namespacesData.data.map((namespaceDTO: NamespaceDTO) => {
+          return Namespace.createFromNamespaceDTO(namespaceDTO);
+        });
       });
-    });
   }
 
 
@@ -347,10 +345,10 @@ export class AccountHttp extends HttpEndpoint {
       .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
       .map(mosaicsData => {
-      return mosaicsData.data.map((mosaicDefinitionDTO: MosaicDefinitionDTO) => {
-        return MosaicDefinition.createFromMosaicDefinitionDTO(mosaicDefinitionDTO);
+        return mosaicsData.data.map((mosaicDefinitionDTO: MosaicDefinitionDTO) => {
+          return MosaicDefinition.createFromMosaicDefinitionDTO(mosaicDefinitionDTO);
+        });
       });
-    });
   }
 
 
@@ -364,10 +362,10 @@ export class AccountHttp extends HttpEndpoint {
       .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
       .map(mosaicsData => {
-      return mosaicsData.data.map((mosaicDTO: MosaicDTO) => {
-        return Mosaic.createFromMosaicDTO(mosaicDTO);
+        return mosaicsData.data.map((mosaicDTO: MosaicDTO) => {
+          return Mosaic.createFromMosaicDTO(mosaicDTO);
+        });
       });
-    });
   }
 
   /**
@@ -420,8 +418,8 @@ export class AccountHttp extends HttpEndpoint {
       }))
       .retryWhen(this.replyWhenRequestError)
       .map(nodeHarvestInfo => {
-      return new NodeHarvestInfo(nodeHarvestInfo['max-unlocked'], nodeHarvestInfo['num-unlocked'])
-    });
+        return new NodeHarvestInfo(nodeHarvestInfo['max-unlocked'], nodeHarvestInfo['num-unlocked'])
+      });
   }
 
   /**
@@ -437,10 +435,10 @@ export class AccountHttp extends HttpEndpoint {
       .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
       .map(historicalAccountData => {
-      return historicalAccountData.data.map((accountHistoricalDataViewModelDTO: AccountHistoricalDataViewModelDTO) => {
-        return AccountHistoricalInfo.createFromAccountHistoricalDataViewModelDTO(accountHistoricalDataViewModelDTO);
+        return historicalAccountData.data.map((accountHistoricalDataViewModelDTO: AccountHistoricalDataViewModelDTO) => {
+          return AccountHistoricalInfo.createFromAccountHistoricalDataViewModelDTO(accountHistoricalDataViewModelDTO);
+        });
       });
-    });
   }
 
 

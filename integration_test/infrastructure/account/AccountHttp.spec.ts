@@ -141,7 +141,7 @@ describe("AccountHttp", () => {
 
   it('receives 10 outgoing confirmed transactions given a NEM address filtered by transaction id', done => {
     const accountHttp = new AccountHttp();
-    accountHttp.outgoingTransactions(address, {id: "966779"})
+    accountHttp.outgoingTransactions(address, {id: 966779})
       .subscribe(confirmedTransactions => {
           expect(confirmedTransactions).to.not.be.undefined;
           expect(confirmedTransactions).to.have.length(10);
@@ -175,7 +175,7 @@ describe("AccountHttp", () => {
 
   it('receives 10 incoming confirmed transactions given a NEM address filtered by transaction id', done => {
     const accountHttp = new AccountHttp();
-    accountHttp.incomingTransactions(address, {id: "114305"})
+    accountHttp.incomingTransactions(address, {id: 114305})
       .subscribe(confirmedTransactions => {
           expect(confirmedTransactions).to.not.be.undefined;
           expect(confirmedTransactions[0].getTransactionInfo().id).to.be.equal(114304);
@@ -224,7 +224,7 @@ describe("AccountHttp", () => {
 
   it('receives 10 confirmed transactions given a NEM address filtered by transaction id', done => {
     const accountHttp = new AccountHttp();
-    accountHttp.allTransactions(address, {id:"114305"})
+    accountHttp.allTransactions(address, {id:114305})
       .subscribe(confirmedTransactions => {
           expect(confirmedTransactions).to.not.be.undefined;
           expect(confirmedTransactions).to.have.length(10);

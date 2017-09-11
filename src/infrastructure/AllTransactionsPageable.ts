@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import {AccountHttp} from "./AccountHttp";
+import {AccountHttp, QueryParams} from "./AccountHttp";
 import {Address} from "../models/account/Address";
 import {Transaction} from "../models";
 import {Pageable} from "./Pageable";
@@ -30,28 +30,25 @@ import {Pageable} from "./Pageable";
 export class AllTransactionsPageable extends Pageable<Transaction[]> {
   private readonly resource: AccountHttp;
   private readonly address: Address;
-  private hash?: string;
-  private readonly pageSize?: number;
+  private readonly params: QueryParams;
 
   /**
    * @param source
    * @param address
-   * @param hash
-   * @param pageSize
+   * @param params
    */
-  constructor(source: AccountHttp, address: Address, hash?: string, pageSize?: number) {
+  constructor(source: AccountHttp, address: Address, params: QueryParams) {
     super();
     this.resource = source;
     this.address = address;
-    this.pageSize = pageSize;
-    this.hash = hash;
+    this.params = params;
   }
 
   nextPage() {
-    this.resource.allTransactions(this.address, {hash: this.hash, pageSize: this.pageSize})
+    this.resource.allTransactions(this.address, this.params)
       .subscribe(next => {
         if (next.length != 0) {
-          this.hash = next[next.length - 1].getTransactionInfo().hash.data;
+          this.params.id = next[next.length - 1].getTransactionInfo().id;
           this.next(next);
         } else {
           this.complete();

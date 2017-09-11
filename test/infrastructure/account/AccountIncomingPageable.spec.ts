@@ -41,7 +41,7 @@ describe("AccountIncomingPageable", () => {
       .get("/account/transfers/incoming?address=TCFFOMQ2SBX77E2FZC3VX43ZTRV4ZNTXTCGWBM5J&pageSize=10")
       .thrice()
       .replyWithFile(200, __dirname + "/responses/account_incoming_1.json")
-      .get("/account/transfers/incoming?address=TCFFOMQ2SBX77E2FZC3VX43ZTRV4ZNTXTCGWBM5J&hash=41e4aae1b1ebc5d6a1a6ff3f2e6289389d056a3cfc14f184349b552eb3206d70&pageSize=10")
+      .get("/account/transfers/incoming?address=TCFFOMQ2SBX77E2FZC3VX43ZTRV4ZNTXTCGWBM5J&id=124876&pageSize=10")
       .thrice()
       .replyWithFile(200, __dirname + "/responses/account_incoming_2.json")
   });
@@ -63,7 +63,7 @@ describe("AccountIncomingPageable", () => {
   });
 
   it("should receive the second json file", done => {
-    accountHttp.incomingTransactions(address, {hash: "41e4aae1b1ebc5d6a1a6ff3f2e6289389d056a3cfc14f184349b552eb3206d70"})
+    accountHttp.incomingTransactions(address, {id: 124876})
       .subscribe(
         x => {
           expect(x).to.have.length(10);
@@ -74,7 +74,7 @@ describe("AccountIncomingPageable", () => {
   });
 
   it("should be able to iterate the responses", done => {
-    let pageable = accountHttp.incomingTransactionsPaginated(address, 10);
+    let pageable = accountHttp.incomingTransactionsPaginated(address, {pageSize: 10});
     let first = true;
     pageable.subscribe(x => {
       if (first) {
