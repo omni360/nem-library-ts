@@ -33,12 +33,13 @@ import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
 import {XEM} from "../../../src/models/mosaic/XEM";
 import {MultisigTransaction} from "../../../src/models/transaction/MultisigTransaction";
 import {PlainMessage} from "../../../src/models/transaction/PlainMessage";
+import {TestVariables} from "../../config/TestVariables.spec";
 
 declare let process: any;
 
 describe("EncryptedMessage", () => {
 
-  const privateKey: string = process.env.PRIVATE_KEY;
+  const privateKey: string = process.env.PRIVATE_KEY || TestVariables.TEST_PRIVATE_KEY;
   let recipientPublicAccount: PublicAccount;
 
   before(() => {

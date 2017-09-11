@@ -32,12 +32,13 @@ import {NEMLibrary} from "../../../src/NEMLibrary";
 import {LocalDateTime} from "js-joda";
 import {deepEqual} from "assert";
 import {Account} from "../../../src/models/account/Account";
+import {TestVariables} from "../../config/TestVariables.spec";
 
 declare let process: any;
 
 
 describe("SimpleWallet", () => {
-  const privateKey: string = process.env.PRIVATE_KEY;
+  const privateKey: string = process.env.PRIVATE_KEY || TestVariables.TEST_PRIVATE_KEY;
   let environmentAccount: Account;
 
   before(() => {

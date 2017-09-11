@@ -30,13 +30,13 @@ import {PublicAccount} from "../../../index";
 import {Address} from "../../../src/models/account/Address";
 import {NEMLibrary} from "../../../src/NEMLibrary";
 import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {TestVariables} from "../../config/TestVariables.spec";
 
 declare let process: any;
 
 describe("Transaction", () => {
   const recipientAccount = new Address('TCJZJHAV63RE2JSKN27DFIHZRXIHAI736WXEOJGA');
-  const publicKey: string = 'a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a';
-  const privateKey: string = process.env.PRIVATE_KEY;
+  const privateKey: string = process.env.PRIVATE_KEY || TestVariables.TEST_PRIVATE_KEY;
 
   before(() => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);

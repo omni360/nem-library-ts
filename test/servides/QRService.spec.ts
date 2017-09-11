@@ -30,6 +30,7 @@ import {NEMLibrary} from "../../src/NEMLibrary";
 import {NetworkTypes} from "../../src/models/node/NetworkTypes";
 import {deepEqual} from "assert";
 import {PlainMessage} from "../../src/models/transaction/PlainMessage";
+import {TestVariables} from "../config/TestVariables.spec";
 
 declare let process: any;
 
@@ -42,7 +43,7 @@ describe("QRService", () => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);
     qrService = new QRService();
     password = new Password("12345678");
-    const privateKey: string = process.env.PRIVATE_KEY;
+    const privateKey: string = process.env.PRIVATE_KEY || TestVariables.TEST_PRIVATE_KEY;
     simpleWallet = SimpleWallet.createWithPrivateKey("testWallet", password, privateKey);
   });
 

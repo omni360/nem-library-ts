@@ -38,13 +38,14 @@ import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 import {deepEqual} from "assert";
 import {MosaicProperties} from "../../../src/models/mosaic/MosaicDefinition";
 import {MosaicTransferable} from "../../../src/models/mosaic/MosaicTransferable";
+import {TestVariables} from "../../config/TestVariables.spec";
 
 declare let process: any;
 
 describe("TransferTransaction", () => {
   const PUBLIC_KEY = "5d5d829644625eb6554273f70b1187d904761fab4c5c0e5f01666f6725e9278b";
-  const privateKey: string = process.env.PRIVATE_KEY;
-  var recipientPublicAccount: PublicAccount;
+  const privateKey: string = process.env.PRIVATE_KEY || TestVariables.TEST_PRIVATE_KEY;
+  let recipientPublicAccount: PublicAccount;
 
   before(() => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);

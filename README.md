@@ -1,6 +1,6 @@
 # NEM Library
 
-[![Build Status](https://travis-ci.org/aleixmorgadas/nem-library.svg?branch=master)](https://travis-ci.org/aleixmorgadas/nem-library)
+[![Build Status](https://travis-ci.org/aleixmorgadas/nem-library-ts.svg?branch=master)](https://travis-ci.org/aleixmorgadas/nem-library)
 [![npm version](https://badge.fury.io/js/nem-library.svg)](https://badge.fury.io/js/nem-library)
 [![Gitter chat](https://badges.gitter.im/nem-library-ts/Lobby.svg)](https://gitter.im/nem-library-ts/)
 
