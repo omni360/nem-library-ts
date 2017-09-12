@@ -27,7 +27,7 @@ import {Wallet, WalletType} from "../../../src/models/wallet/Wallet";
 import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 import {Address} from "../../../src/models/account/Address";
 import {Password} from "../../../src/models/wallet/Password";
-import {MockWallet} from "./MockWallet.spec";
+import {FakeWallet} from "./FakeWallet.spec";
 import {NEMLibrary} from "../../../src/NEMLibrary";
 import {LocalDateTime} from "js-joda";
 
@@ -42,14 +42,14 @@ describe("Wallet", () => {
   });
 
   it("should create a new wallet instance", () => {
-    const wallet = new MockWallet("name", NetworkTypes.TEST_NET, new Address("TASDA3XWVADEVKDFMSVOO7OCAEQ2QS23XDW5E4A2"), LocalDateTime.now(), 1);
+    const wallet = new FakeWallet("name", NetworkTypes.TEST_NET, new Address("TASDA3XWVADEVKDFMSVOO7OCAEQ2QS23XDW5E4A2"), LocalDateTime.now(), 1);
     expect(wallet.address.plain()).to.be.equal("TASDA3XWVADEVKDFMSVOO7OCAEQ2QS23XDW5E4A2");
     expect(wallet.name).to.be.equal("name");
     expect(wallet.network).to.be.equal(NetworkTypes.TEST_NET);
   });
 
   it("should create a new wallet instance", () => {
-    const wallet = new MockWallet("name", NetworkTypes.TEST_NET, new Address("TASDA3XWVADEVKDFMSVOO7OCAEQ2QS23XDW5E4A2"), LocalDateTime.now(), 1);
+    const wallet = new FakeWallet("name", NetworkTypes.TEST_NET, new Address("TASDA3XWVADEVKDFMSVOO7OCAEQ2QS23XDW5E4A2"), LocalDateTime.now(), 1);
     const account = wallet.open(new Password("password"));
     expect(account.address.plain()).to.be.equal("TASDA3XWVADEVKDFMSVOO7OCAEQ2QS23XDW5E4A2");
   });
