@@ -40,7 +40,7 @@ declare let process: any;
 
 describe("TransactionHttp", () => {
   const recipientAccount: string = 'TBV7LE4TFDEMGVOON5MYOK2P7TU2KEKLMHOLHQT6';
-  const privateKey: string = process.env.PRIVATE_KEY;
+  const privateKey: string = process.env.PRIVATE_KEY || TestVariables.TEST_PRIVATE_KEY;
 
   before(() => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);

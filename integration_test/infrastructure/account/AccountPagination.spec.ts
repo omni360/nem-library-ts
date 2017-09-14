@@ -42,6 +42,13 @@ describe("AccountPagination", () => {
     NEMLibrary.reset();
   });
 
+  it("should just request one page", done => {
+    let pagedTransactions = accountHttp.allTransactionsPaginated(address, {pageSize: 5});
+    pagedTransactions.subscribe( x => {
+      done();
+    })
+  });
+
   it("should do pagination", done => {
     let pagedTransactions = accountHttp.allTransactionsPaginated(address, {pageSize: 5});
     let time = 0;
@@ -51,6 +58,7 @@ describe("AccountPagination", () => {
       }
       else {
         pagedTransactions.nextPage();
+        ++time;
       }
     }, err => {
       console.error(err);
