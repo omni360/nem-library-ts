@@ -24,7 +24,7 @@
 
 import {expect} from "chai";
 import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
-import {ChronoUnit} from "js-joda";
+import {ChronoUnit, LocalDateTime, ZonedDateTime, ZoneId, ZoneOffset} from "js-joda";
 describe("TimeWindow", () => {
 
   it("should create window default deadline 2h", () => {
@@ -67,15 +67,5 @@ describe("TimeWindow", () => {
 
     expect(timeWindow.timeStampToDTO()).to.be.equal(71847392);
     expect(timeWindow.deadlineToDTO()).to.be.equal(71850992);
-
-    expect(timeWindow.timeStamp.dayOfMonth()).to.be.equal(7);
-    expect(timeWindow.timeStamp.hour()).to.be.equal(15);
-    expect(timeWindow.timeStamp.minute()).to.be.equal(42);
-    expect(timeWindow.timeStamp.second()).to.be.equal(57);
-
-    expect(timeWindow.deadline.dayOfMonth()).to.be.equal(7);
-    expect(timeWindow.deadline.hour()).to.be.equal(16);
-    expect(timeWindow.deadline.minute()).to.be.equal(42);
-    expect(timeWindow.deadline.second()).to.be.equal(57);
   });
 });
