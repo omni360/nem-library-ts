@@ -1,6 +1,7 @@
 # NEM Library
 
-[![Build Status](https://travis-ci.org/aleixmorgadas/nem-library-ts.svg?branch=master)](https://travis-ci.org/aleixmorgadas/nem-library)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/aleixmorgadas/nem-library-ts.svg?branch=master)](https://travis-ci.org/aleixmorgadas/nem-library-ts)
 [![npm version](https://badge.fury.io/js/nem-library.svg)](https://badge.fury.io/js/nem-library)
 [![Gitter chat](https://badges.gitter.im/nem-library-ts/Lobby.svg)](https://gitter.im/nem-library-ts/)
 
