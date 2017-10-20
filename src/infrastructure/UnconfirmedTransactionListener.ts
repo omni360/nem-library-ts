@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-import {Address} from "../models/account/Address";
-import {Transaction} from "../models/transaction/Transaction";
+import * as _ from "lodash";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
-import {CreateUnconfirmedTransactionFromDTO} from "./transaction/CreateUnconfirmedTransactionFromDTO";
-import * as _ from "lodash";
+import {Address} from "../models/account/Address";
+import {Transaction} from "../models/transaction/Transaction";
 import {Listener, WebSocketConfig} from "./Listener";
+import {CreateUnconfirmedTransactionFromDTO} from "./transaction/CreateUnconfirmedTransactionFromDTO";
 
 /**
  * UnconfirmedTransaction listener
@@ -48,13 +48,13 @@ export class UnconfirmedTransactionListener extends Listener {
    * @param address
    * @returns {Observable<Transaction>}
    */
-  given(address: Address): Observable<Transaction> {
+  public given(address: Address): Observable<Transaction> {
     return Observable.create((observer: Observer<Transaction>) => {
-      let client = this.createClient();
+      const client = this.createClient();
       let lastTransaction: Transaction;
 
       client.connect({}, () => {
-        client.subscribe('/unconfirmed/' + address.plain(), (data) => {
+        client.subscribe("/unconfirmed/" + address.plain(), (data) => {
           try {
             const transaction = CreateUnconfirmedTransactionFromDTO(JSON.parse(data.body));
             if (!_.isEqual(transaction, lastTransaction)) {

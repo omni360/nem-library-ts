@@ -23,16 +23,16 @@
  */
 
 import * as nemSdk from "nem-sdk";
-import {Address} from "./Address";
 import {NEMLibrary} from "../../NEMLibrary";
 import {NetworkTypes} from "../node/NetworkTypes";
+import {Address} from "./Address";
 
 /**
  * Public account model
  */
 export class PublicAccount {
-  readonly address: Address;
-  readonly publicKey: string;
+  public readonly address: Address;
+  public readonly publicKey: string;
 
   /**
    * @internal
@@ -40,7 +40,7 @@ export class PublicAccount {
    * @param publicKey
    */
   constructor(address: Address,
-              publicKey: string
+              publicKey: string,
   ) {
     this.address = address;
     this.publicKey = publicKey;
@@ -49,7 +49,7 @@ export class PublicAccount {
   /**
    * @returns {boolean}
    */
-  hasPublicKey(): boolean {
+  public hasPublicKey(): boolean {
     return this.publicKey != null && (this.publicKey.length == 64 || this.publicKey.length == 66);
   }
 
@@ -58,7 +58,7 @@ export class PublicAccount {
    * @param publicKey
    * @returns {PublicAccount}
    */
-  static createWithPublicKey(publicKey: string): PublicAccount {
+  public static createWithPublicKey(publicKey: string): PublicAccount {
     if (publicKey == null || (publicKey.length != 64 && publicKey.length != 66)) {
       throw new Error("Not a valid public key");
     }

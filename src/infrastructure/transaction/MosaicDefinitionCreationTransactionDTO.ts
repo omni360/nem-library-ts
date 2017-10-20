@@ -47,4 +47,3 @@ export interface MosaicDefinitionCreationTransactionDTO extends TransactionDTO {
   readonly mosaicDefinition: MosaicDefinitionDTO;
 
 }
-

@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import {PublicAccount} from "../account/PublicAccount";
-import {Transaction} from "./Transaction";
-import {TransactionTypes} from "./TransactionTypes";
-import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
-import {MultisigTransactionDTO} from "../../infrastructure/transaction/MultisigTransactionDTO";
-import {UnconfirmedTransactionMetaDataPairDTO} from "../../infrastructure/transaction/UnconfirmedTransactionMetaDataPairDTO";
 import {MultisigSignatureTransactionDTO} from "../../infrastructure/transaction/MultisigSignatureTransactionDTO";
-import {HashData, TransactionInfo} from "./TransactionInfo";
-import {TimeWindow} from "./TimeWindow";
+import {MultisigTransactionDTO} from "../../infrastructure/transaction/MultisigTransactionDTO";
+import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
+import {UnconfirmedTransactionMetaDataPairDTO} from "../../infrastructure/transaction/UnconfirmedTransactionMetaDataPairDTO";
 import {Address} from "../account/Address";
+import {PublicAccount} from "../account/PublicAccount";
+import {TimeWindow} from "./TimeWindow";
+import {Transaction} from "./Transaction";
+import {HashData, TransactionInfo} from "./TransactionInfo";
+import {TransactionTypes} from "./TransactionTypes";
 
 /**
  * Multisig signature transactions are part of the NEM's multisig account system. Multisig signature transactions are included in the corresponding multisig transaction and are the way a cosignatory of a multisig account can sign a multisig transaction for that account.
@@ -40,17 +40,17 @@ export class MultisigSignatureTransaction extends Transaction {
   /**
    * The fee for the transaction. The higher the fee, the higher the priority of the transaction. Transactions with high priority get included in a block before transactions with lower priority.
    */
-  readonly fee: number;
+  public readonly fee: number;
 
   /**
    * The address of the corresponding multisig account.
    */
-  readonly otherAccount: Address;
+  public readonly otherAccount: Address;
 
   /**
    * The hash of the inner transaction of the corresponding multisig transaction.
    */
-  readonly otherHash: HashData;
+  public readonly otherHash: HashData;
 
   /**
    * @internal
@@ -76,7 +76,7 @@ export class MultisigSignatureTransaction extends Transaction {
       timeWindow,
       signature,
       signer,
-      transactionInfo
+      transactionInfo,
     );
     this.otherAccount = otherAccount;
     this.otherHash = otherHash;
@@ -88,8 +88,8 @@ export class MultisigSignatureTransaction extends Transaction {
    * @param unconfirmedTransaction
    * @returns {MultisigSignatureTransaction}
    */
-  static createUnconfirmedFromDTO(unconfirmedTransaction: UnconfirmedTransactionMetaDataPairDTO): MultisigSignatureTransaction {
-    const receiverAccount = PublicAccount.createWithPublicKey((<MultisigTransactionDTO>unconfirmedTransaction.transaction).otherTrans.signer);
+  public static createUnconfirmedFromDTO(unconfirmedTransaction: UnconfirmedTransactionMetaDataPairDTO): MultisigSignatureTransaction {
+    const receiverAccount = PublicAccount.createWithPublicKey((unconfirmedTransaction.transaction as MultisigTransactionDTO).otherTrans.signer);
     return new MultisigSignatureTransaction(
       TimeWindow.createFromDTOInfo(unconfirmedTransaction.transaction.timeStamp, unconfirmedTransaction.transaction.deadline),
       unconfirmedTransaction.transaction.version,
@@ -104,18 +104,18 @@ export class MultisigSignatureTransaction extends Transaction {
    * @returns {MultisigSignatureTransactionDTO}
    */
   public toDTO(): TransactionDTO {
-    let version = this.networkVersion ? this.networkVersion : this.version;
-    return this.serializeDTO(<MultisigSignatureTransactionDTO>{
+    const version = this.networkVersion ? this.networkVersion : this.version;
+    return this.serializeDTO({
       fee: this.fee,
-      version: version,
+      version,
       type: this.type,
       deadline: this.timeWindow.deadlineToDTO(),
       timeStamp: this.timeWindow.timeStampToDTO(),
       signature: this.signature,
       signer: this.signer ? this.signer.publicKey : undefined,
       otherHash: this.otherHash,
-      otherAccount: this.otherAccount.plain()
-    });
+      otherAccount: this.otherAccount.plain(),
+    } as MultisigSignatureTransactionDTO);
   }
 
   /**
@@ -125,10 +125,10 @@ export class MultisigSignatureTransaction extends Transaction {
    * @param otherHash
    * @returns {MultisigSignatureTransaction}
    */
-  static create(timeWindow: TimeWindow,
+  public static create(timeWindow: TimeWindow,
                 otherAccount: Address,
                 otherHash: HashData): MultisigSignatureTransaction {
-    let fee = Math.floor(3 * 0.05 * 1000000);
+    const fee = Math.floor(3 * 0.05 * 1000000);
     return new MultisigSignatureTransaction(timeWindow, 1, otherAccount, otherHash, fee);
   }
 }

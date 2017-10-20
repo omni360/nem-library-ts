@@ -35,7 +35,6 @@ export type MessageTypeDTO = 1 | 2;
  */
 export interface MessageDTO {
 
-
   /**
    * Optional field in case the transaction contains a message. The payload is the actual (possibly encrypted) message data.
    */

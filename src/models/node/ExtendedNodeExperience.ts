@@ -35,17 +35,17 @@ export class ExtendedNodeExperience {
   /**
    * Denotes the beginning of the of the Node substructure.
    */
-  readonly node: Node;
+  public readonly node: Node;
 
   /**
    * The number of synchronization attempts the node had with the remote node.
    */
-  readonly syncs: number;
+  public readonly syncs: number;
 
   /**
    * Denotes the beginning of the of the NodeExperience substructure.
    */
-  readonly experience: ExtendedNodeExperienceData;
+  public readonly experience: ExtendedNodeExperienceData;
 
   /**
    * @internal
@@ -56,7 +56,7 @@ export class ExtendedNodeExperience {
   private constructor(
     node: Node,
     syncs: number,
-    experience: ExtendedNodeExperienceData
+    experience: ExtendedNodeExperienceData,
   ) {
     this.node = node;
     this.syncs = syncs;
@@ -68,11 +68,11 @@ export class ExtendedNodeExperience {
    * @param dto
    * @returns {ExtendedNodeExperience}
    */
-  static createFromExtendedNodeExperiencePairDTO(dto: ExtendedNodeExperiencePairDTO): ExtendedNodeExperience {
+  public static createFromExtendedNodeExperiencePairDTO(dto: ExtendedNodeExperiencePairDTO): ExtendedNodeExperience {
     return new ExtendedNodeExperience(
       Node.createFromNodeDTO(dto.node),
       dto.syncs,
-      ExtendedNodeExperienceData.createFromExtendedNodeExperienceDataDTO(dto.experience)
+      ExtendedNodeExperienceData.createFromExtendedNodeExperienceDataDTO(dto.experience),
     );
   }
 }
@@ -85,12 +85,12 @@ export class ExtendedNodeExperienceData {
   /**
    * The number of successful communications with the remote node.
    */
-  readonly s: number;
+  public readonly s: number;
 
   /**
    * The number of failed communications with the remote node.
    */
-  readonly f: number;
+  public readonly f: number;
 
   /**
    * constructor
@@ -100,7 +100,7 @@ export class ExtendedNodeExperienceData {
    */
   private constructor(
     s: number,
-    f: number
+    f: number,
   ) {
     this.s = s;
     this.f = f;
@@ -111,10 +111,10 @@ export class ExtendedNodeExperienceData {
    * @param dto
    * @returns {ExtendedNodeExperienceData}
    */
-  static createFromExtendedNodeExperienceDataDTO(dto: ExtendedNodeExperienceData): ExtendedNodeExperienceData {
+  public static createFromExtendedNodeExperienceDataDTO(dto: ExtendedNodeExperienceData): ExtendedNodeExperienceData {
     return new ExtendedNodeExperienceData(
       dto.s,
-      dto.f
+      dto.f,
     );
   }
 }

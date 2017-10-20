@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-import {Observable} from "rxjs";
 import * as requestPromise from "request-promise-native";
-import {HttpEndpoint, ServerConfig} from "./HttpEndpoint";
+import {Observable} from "rxjs";
 import {Block} from "../models/blockchain/Block";
 import {BlockChainScore, BlockHeight} from "./BlockHttp";
+import {HttpEndpoint, ServerConfig} from "./HttpEndpoint";
 
 export class ChainHttp extends HttpEndpoint {
 
@@ -38,12 +38,12 @@ export class ChainHttp extends HttpEndpoint {
    * Gets the current height of the block chain.
    * @returns Observable<BlockHeight>
    */
-  getBlockchainHeight(): Observable<BlockHeight> {
-    return Observable.of('height')
-      .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
+  public getBlockchainHeight(): Observable<BlockHeight> {
+    return Observable.of("height")
+      .flatMap((url) => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
-      .map(result => {
-        return result.height
+      .map((result) => {
+        return result.height;
       });
   }
 
@@ -52,12 +52,12 @@ export class ChainHttp extends HttpEndpoint {
    * During synchronization, nodes try to get the best block chain in the network.
    * @returns Observable<BlockChainScore>
    */
-  getBlockchainScore(): Observable<BlockChainScore> {
-    return Observable.of('score')
-      .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
+  public getBlockchainScore(): Observable<BlockChainScore> {
+    return Observable.of("score")
+      .flatMap((url) => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
-      .map(result => {
-        return result.score
+      .map((result) => {
+        return result.score;
       });
   }
 
@@ -65,12 +65,12 @@ export class ChainHttp extends HttpEndpoint {
    * Gets the current last block of the chain.
    * @returns Observable<Block>
    */
-  getBlockchainLastBlock(): Observable<Block> {
-    return Observable.of('last-block')
-      .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
+  public getBlockchainLastBlock(): Observable<Block> {
+    return Observable.of("last-block")
+      .flatMap((url) => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
-      .map(result => {
-        return Block.createFromBlockDTO(result)
+      .map((result) => {
+        return Block.createFromBlockDTO(result);
       });
   }
 }

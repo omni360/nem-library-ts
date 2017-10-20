@@ -29,7 +29,7 @@ export class Password {
   /**
    * Password value
    */
-  readonly value: string;
+  public readonly value: string;
 
   /**
    * Create a password with at least 8 characters

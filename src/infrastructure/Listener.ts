@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-import {Environment, NEMLibrary} from "../NEMLibrary";
-import {NetworkTypes} from "../models/node/NetworkTypes";
 import * as Stomp from "@stomp/stompjs";
 import {Client} from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
+import {NetworkTypes} from "../models/node/NetworkTypes";
+import {Environment, NEMLibrary} from "../NEMLibrary";
 import {Protocol} from "./HttpEndpoint";
 
 export interface WebSocketConfig {
@@ -41,12 +41,12 @@ export abstract class Listener {
 
   constructor(nodes?: WebSocketConfig[]) {
     if (nodes) {
-      this.nodes = nodes.map(_ => {
+      this.nodes = nodes.map((_) => {
         return {
           protocol: _.protocol ? _.protocol : "http",
           domain: _.domain,
-          port: _.port ? _.port : 7778
-        }
+          port: _.port ? _.port : 7778,
+        };
       });
     }
     else if (NEMLibrary.getNetworkType() == NetworkTypes.TEST_NET) {
@@ -56,7 +56,7 @@ export abstract class Listener {
         {protocol: "http", domain: "192.3.61.243", port: 7778},
         {protocol: "http", domain: "23.228.67.85", port: 7778},
         {protocol: "http", domain: "50.3.87.123", port: 7778},
-      ]
+      ];
     } else if (NEMLibrary.getNetworkType() == NetworkTypes.MAIN_NET) {
       this.nodes = [
         {protocol: "http", domain: "alice6.nem.ninja", port: 7778},
@@ -72,12 +72,12 @@ export abstract class Listener {
         {protocol: "http", domain: "alice5.nem.ninja", port: 7778},
         {protocol: "http", domain: "alice6.nem.ninja", port: 7778},
         {protocol: "http", domain: "alice7.nem.ninja", port: 7778},
-      ]
+      ];
     } else {
       throw new Error("Nodes uninitialized");
     }
   }
-  
+
   protected createClient(): Client {
     let client: Client;
 
@@ -85,7 +85,7 @@ export abstract class Listener {
     if (NEMLibrary.getEnvironment() == Environment.Node) {
       sockJS = new SockJS(this.nextNode());
     } else {
-      let SockJSBrowser = require("../vendor/sockjs-0.3.4");
+      const SockJSBrowser = require("../vendor/sockjs-0.3.4");
       sockJS = SockJSBrowser(this.nextNode());
     }
 
@@ -97,17 +97,17 @@ export abstract class Listener {
 
     return client;
   }
-  
+
   protected nextNode(): string {
     if (this.pointer == this.nodes.length) {
-      this.pointer =0;
+      this.pointer = 0;
     }
-    let protocol = this.nodes[this.pointer].protocol;
-    let domain = this.nodes[this.pointer].domain;
-    let port = this.nodes[this.pointer].port;
-    let URL = protocol + "://" + domain + ":" + port + "/w/messages";
+    const protocol = this.nodes[this.pointer].protocol;
+    const domain = this.nodes[this.pointer].domain;
+    const port = this.nodes[this.pointer].port;
+    const URL = protocol + "://" + domain + ":" + port + "/w/messages";
     this.pointer++;
     return URL;
   }
-  
+
 }

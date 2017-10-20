@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-import {Observable} from "rxjs";
 import * as requestPromise from "request-promise-native";
-import {HttpEndpoint, ServerConfig} from "./HttpEndpoint";
+import {Observable} from "rxjs";
 import {MosaicDefinition, MosaicProperties} from "../models/mosaic/MosaicDefinition";
-import {MosaicDefinitionMetaDataPairDTO} from "./mosaic/MosaicDefinitionMetaDataPairDTO";
-import {MosaicTransferable} from "../models/mosaic/MosaicTransferable";
 import {MosaicId} from "../models/mosaic/MosaicId";
+import {MosaicTransferable} from "../models/mosaic/MosaicTransferable";
+import {HttpEndpoint, ServerConfig} from "./HttpEndpoint";
+import {MosaicDefinitionMetaDataPairDTO} from "./mosaic/MosaicDefinitionMetaDataPairDTO";
 
 export class MosaicHttp extends HttpEndpoint {
 
@@ -43,17 +43,17 @@ export class MosaicHttp extends HttpEndpoint {
    * @param pageSize - The number of mosaic definition objects to be returned for each request. The parameter is optional. The default value is 25, the minimum value is 5 and hte maximum value is 100.
    * @returns Observable<MosaicDefinition[]>
    */
-  getAllMosaicsGivenNamespace(namespace: string, id?: number, pageSize?: number): Observable<MosaicDefinition[]> {
-    const url = 'mosaic/definition/page?namespace=' + namespace +
+  public getAllMosaicsGivenNamespace(namespace: string, id?: number, pageSize?: number): Observable<MosaicDefinition[]> {
+    const url = "mosaic/definition/page?namespace=" + namespace +
       (id === undefined ? "" : "&id=" + id) +
       (pageSize === undefined ? "" : "&pageSize=" + pageSize);
 
     return Observable.of(url)
-      .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
+      .flatMap((url) => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
-      .map(mosaicDefinitionsData => {
+      .map((mosaicDefinitionsData) => {
         return mosaicDefinitionsData.data.map((mosaicDefinitionMetaDataPairDTO: MosaicDefinitionMetaDataPairDTO) => {
-          return MosaicDefinition.createFromMosaicDefinitionMetaDataPairDTO(mosaicDefinitionMetaDataPairDTO)
+          return MosaicDefinition.createFromMosaicDefinitionMetaDataPairDTO(mosaicDefinitionMetaDataPairDTO);
         });
       });
   }
@@ -63,10 +63,10 @@ export class MosaicHttp extends HttpEndpoint {
    * @param {string} mosaicId
    * @returns {Observable<MosaicDefinition>}
    */
-  getMosaicDefinition(mosaicId: MosaicId): Observable<MosaicDefinition> {
+  public getMosaicDefinition(mosaicId: MosaicId): Observable<MosaicDefinition> {
     return this.getAllMosaicsGivenNamespace(mosaicId.namespaceId, undefined, 100)
-      .flatMap(_ => _)
-      .filter(mosaicDefinition => mosaicDefinition.id.equals(mosaicId))
+      .flatMap((_) => _)
+      .filter((mosaicDefinition) => mosaicDefinition.id.equals(mosaicId))
       .last();
   }
 
@@ -76,8 +76,8 @@ export class MosaicHttp extends HttpEndpoint {
    * @param {number} amount
    * @returns {Observable<MosaicTransferable>}
    */
-  getMosaicTransferableWithAmount(mosaicId: MosaicId, amount: number): Observable<MosaicTransferable> {
+  public getMosaicTransferableWithAmount(mosaicId: MosaicId, amount: number): Observable<MosaicTransferable> {
     return this.getMosaicDefinition(mosaicId)
-      .map(mosaicDefinition => MosaicTransferable.createWithMosaicDefinition(mosaicDefinition, amount))
+      .map((mosaicDefinition) => MosaicTransferable.createWithMosaicDefinition(mosaicDefinition, amount));
   }
 }

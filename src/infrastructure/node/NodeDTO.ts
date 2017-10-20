@@ -117,6 +117,3 @@ export interface NodeIdentityDTO {
   readonly publickey: string;
 
 }
-
-
-

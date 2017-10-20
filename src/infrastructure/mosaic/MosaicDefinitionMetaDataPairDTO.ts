@@ -51,4 +51,3 @@ export interface MosaicMetaDTO {
    */
   readonly id: number;
 }
-

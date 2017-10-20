@@ -30,17 +30,17 @@ export class Balance {
   /**
    * The balance of the account in micro NEM.
    */
-  readonly balance: number;
+  public readonly balance: number;
 
   /**
    * The vested part of the balance of the account in micro NEM.
    */
-  readonly vestedBalance: number;
+  public readonly vestedBalance: number;
 
   /**
    * The unvested part of the balance of the account in micro NEM.
    */
-  readonly unvestedBalance: number;
+  public readonly unvestedBalance: number;
 
   /**
    * @internal
@@ -49,10 +49,10 @@ export class Balance {
    */
   constructor(
     balance: number,
-    vestedBalance: number
+    vestedBalance: number,
   ){
     this.balance = balance;
     this.vestedBalance = vestedBalance;
-    this.unvestedBalance = balance-vestedBalance;
+    this.unvestedBalance = balance - vestedBalance;
   }
 }

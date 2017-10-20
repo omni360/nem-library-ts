@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-import {Observable} from "rxjs";
 import * as requestPromise from "request-promise-native";
-import {HttpEndpoint, ServerConfig} from "./HttpEndpoint";
+import {Observable} from "rxjs";
+import {Block} from "../models/blockchain/Block";
 import {BlockDTO} from "./blockchain/BlockDTO";
 import {BlockHeightDTO} from "./blockchain/BlockHeightDTO";
-import {Block} from "../models/blockchain/Block";
+import {HttpEndpoint, ServerConfig} from "./HttpEndpoint";
 
 export type BlockHeight = number;
 export type BlockChainScore = number;
@@ -38,24 +38,23 @@ export class BlockHttp extends HttpEndpoint {
     super("block", nodes);
   }
 
-
   /**
    * Gets a block from the chain that has a given hash.
    * @param blockHeight
    * @returns Observable<Block>
    */
-  getBlockByHeight(blockHeight: BlockHeight): Observable<Block> {
-    return Observable.of('at/public')
-      .flatMap(url => requestPromise.post({
+  public getBlockByHeight(blockHeight: BlockHeight): Observable<Block> {
+    return Observable.of("at/public")
+      .flatMap((url) => requestPromise.post({
         uri: this.nextNode() + url,
-        body: <BlockHeightDTO>{
-          height: blockHeight
-        },
-        json: true
+        body: {
+          height: blockHeight,
+        } as BlockHeightDTO,
+        json: true,
       }))
       .retryWhen(this.replyWhenRequestError)
       .map((block: BlockDTO) => {
-        return Block.createFromBlockDTO(block)
+        return Block.createFromBlockDTO(block);
       });
   }
 }

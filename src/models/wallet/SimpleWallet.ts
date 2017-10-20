@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import {Wallet} from "./Wallet";
-import {EncryptedPrivateKey} from "./EncryptedPrivateKey";
-import {NetworkTypes} from "../node/NetworkTypes";
-import {Address} from "../account/Address";
-import {Password} from "./Password";
-import {NEMLibrary} from "../../NEMLibrary";
-import * as nemSdk from "nem-sdk";
-import {Account} from "../account/Account";
-import {LocalDateTime} from "js-joda";
 import {Base64} from "js-base64";
+import {LocalDateTime} from "js-joda";
+import * as nemSdk from "nem-sdk";
+import {NEMLibrary} from "../../NEMLibrary";
+import {Account} from "../account/Account";
+import {Address} from "../account/Address";
+import {NetworkTypes} from "../node/NetworkTypes";
+import {EncryptedPrivateKey} from "./EncryptedPrivateKey";
+import {Password} from "./Password";
+import {Wallet} from "./Wallet";
 
 /**
  * Simple wallet model generates a private key from a PRNG
@@ -41,7 +41,7 @@ export class SimpleWallet extends Wallet {
   /**
    * The encripted private key and information to decrypt it
    */
-  readonly encryptedPrivateKey: EncryptedPrivateKey;
+  public readonly encryptedPrivateKey: EncryptedPrivateKey;
 
   /**
    * @internal
@@ -62,15 +62,15 @@ export class SimpleWallet extends Wallet {
    * @param password
    * @returns {SimpleWallet}
    */
-  static create(name: string, password: Password): SimpleWallet {
-    let network = NEMLibrary.getNetworkType();
-    let wallet = nemSdk.default.model.wallet.createPRNG(name, password.value, SimpleWallet.networkTypesSDKAdapter(network));
+  public static create(name: string, password: Password): SimpleWallet {
+    const network = NEMLibrary.getNetworkType();
+    const wallet = nemSdk.default.model.wallet.createPRNG(name, password.value, SimpleWallet.networkTypesSDKAdapter(network));
     return new SimpleWallet(
       name,
       network,
       new Address(wallet.accounts["0"].address),
       LocalDateTime.now(),
-      new EncryptedPrivateKey(wallet.accounts["0"].encrypted, wallet.accounts["0"].iv)
+      new EncryptedPrivateKey(wallet.accounts["0"].encrypted, wallet.accounts["0"].iv),
     );
   }
 
@@ -81,16 +81,16 @@ export class SimpleWallet extends Wallet {
    * @param privateKey
    * @returns {SimpleWallet}
    */
-  static createWithPrivateKey(name: string, password: Password, privateKey: string): SimpleWallet {
-    let network = NEMLibrary.getNetworkType();
-    let wallet = nemSdk.default.model.wallet.importPrivateKey(name, password.value, privateKey, SimpleWallet.networkTypesSDKAdapter(network));
+  public static createWithPrivateKey(name: string, password: Password, privateKey: string): SimpleWallet {
+    const network = NEMLibrary.getNetworkType();
+    const wallet = nemSdk.default.model.wallet.importPrivateKey(name, password.value, privateKey, SimpleWallet.networkTypesSDKAdapter(network));
     return new SimpleWallet(
       name,
       network,
       new Address(wallet.accounts["0"].address),
       LocalDateTime.now(),
-      new EncryptedPrivateKey(wallet.accounts["0"].encrypted, wallet.accounts["0"].iv)
-    )
+      new EncryptedPrivateKey(wallet.accounts["0"].encrypted, wallet.accounts["0"].iv),
+    );
   }
 
   /**
@@ -98,11 +98,11 @@ export class SimpleWallet extends Wallet {
    * @param password
    * @returns {Account}
    */
-  open(password: Password): Account {
+  public open(password: Password): Account {
     return Account.createWithPrivateKey(this.encryptedPrivateKey.decrypt(password));
   }
 
-  unlockPrivateKey(password: Password): string {
+  public unlockPrivateKey(password: Password): string {
     const privateKey = this.encryptedPrivateKey.decrypt(password);
     if (privateKey == "" || (privateKey.length != 64 && privateKey.length != 66)) throw new Error("Invalid password");
     return privateKey;
@@ -112,7 +112,7 @@ export class SimpleWallet extends Wallet {
    * Converts SimpleWallet into writable string to persist into a file
    * @returns {string}
    */
-  writeWLTFile(): string {
+  public writeWLTFile(): string {
     return Base64.encode(JSON.stringify({
       name: this.name,
       network: this.network.toString(),
@@ -121,7 +121,7 @@ export class SimpleWallet extends Wallet {
       schema: this.schema,
       type: "simple",
       encryptedPrivateKey: this.encryptedPrivateKey.encryptedKey,
-      iv: this.encryptedPrivateKey.iv
+      iv: this.encryptedPrivateKey.iv,
     }));
   }
 
@@ -130,8 +130,8 @@ export class SimpleWallet extends Wallet {
    * @param {string} wlt
    * @returns {SimpleWallet}
    */
-  static readFromWLT(wlt: string): SimpleWallet {
-    let wallet = JSON.parse(Base64.decode(wlt));
+  public static readFromWLT(wlt: string): SimpleWallet {
+    const wallet = JSON.parse(Base64.decode(wlt));
     if (wallet.type != "simple") {
       throw new Error("ERROR WLT TYPE");
     }
@@ -140,7 +140,7 @@ export class SimpleWallet extends Wallet {
       wallet.network,
       new Address(wallet.address),
       LocalDateTime.parse(wallet.creationDate),
-      new EncryptedPrivateKey(wallet.encryptedPrivateKey, wallet.iv)
+      new EncryptedPrivateKey(wallet.encryptedPrivateKey, wallet.iv),
     );
   }
 }

@@ -32,27 +32,27 @@ export class AccountHarvestInfo {
   /**
    * The number of seconds elapsed since the creation of the nemesis block.
    */
-  readonly timeStamp: number;
+  public readonly timeStamp: number;
 
   /**
    * The database id for the harvested block.
    */
-  readonly id: number;
+  public readonly id: number;
 
   /**
    * The block difficulty. The initial difficulty was set to 100000000000000. The block difficulty is always between one tenth and ten times the initial difficulty.
    */
-  readonly difficulty: number;
+  public readonly difficulty: number;
 
   /**
    * The total fee collected by harvesting the block.
    */
-  readonly totalFee: number;
+  public readonly totalFee: number;
 
   /**
    * The height of the harvested block.
    */
-  readonly height: number;
+  public readonly height: number;
 
   /**
    * @internal
@@ -67,7 +67,7 @@ export class AccountHarvestInfo {
     id: number,
     difficulty: number,
     totalFee: number,
-    height: number
+    height: number,
 
   ) {
     this.timeStamp = timeStamp;
@@ -82,13 +82,13 @@ export class AccountHarvestInfo {
    * @param dto
    * @returns {AccountHarvestInfo}
    */
-  static createFromHarvestInfoDTO(dto: HarvestInfoDTO): AccountHarvestInfo {
+  public static createFromHarvestInfoDTO(dto: HarvestInfoDTO): AccountHarvestInfo {
     return new AccountHarvestInfo(
       dto.timeStamp,
       dto.id,
       dto.difficulty,
       dto.totalFee,
-      dto.height
-    )
+      dto.height,
+    );
   }
 }

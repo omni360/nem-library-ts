@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
-import {TransactionInfo} from "./TransactionInfo";
-import {PublicAccount} from "../account/PublicAccount";
 import * as _ from "lodash";
-import {TimeWindow} from "./TimeWindow";
+import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
+import {PublicAccount} from "../account/PublicAccount";
 import {NetworkTypes} from "../node/NetworkTypes";
+import {TimeWindow} from "./TimeWindow";
+import {TransactionInfo} from "./TransactionInfo";
 
 /**
  * An abstract transaction class that serves as the base class of all NEM transactions.
@@ -103,14 +103,14 @@ export abstract class Transaction {
   /**
    * Checks if the transaction has been confirmed and included in a block
    */
-  isConfirmed(): boolean {
+  public isConfirmed(): boolean {
     return this.transactionInfo != undefined;
   }
 
   /**
    * Get transaction info
    */
-  getTransactionInfo(): TransactionInfo {
+  public getTransactionInfo(): TransactionInfo {
     if (!this.isConfirmed()) {
       throw new Error("TransactionInfo is not available when it is not confirmed");
     }

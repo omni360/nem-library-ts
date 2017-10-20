@@ -33,12 +33,12 @@ export class EncryptedPrivateKey {
   /**
    * Encrypted private key data
    */
-  readonly encryptedKey: string;
+  public readonly encryptedKey: string;
 
   /**
    * Initialization vector used in the decrypt process
    */
-  readonly iv: string;
+  public readonly iv: string;
 
   /**
    * @internal
@@ -55,15 +55,14 @@ export class EncryptedPrivateKey {
    * Decrypt an encrypted private key
    * @param password
    */
-  decrypt(password: Password): string {
-    let common = nemSdk.default.model.objects.create("common")(password.value, "");
-    let wallet = {
-      "encrypted": this.encryptedKey,
-      "iv": this.iv
+  public decrypt(password: Password): string {
+    const common = nemSdk.default.model.objects.create("common")(password.value, "");
+    const wallet = {
+      encrypted: this.encryptedKey,
+      iv: this.iv,
     };
     nemSdk.default.crypto.helpers.passwordToPrivatekey(common, wallet, "pass:bip32");
     return common.privateKey;
   }
-
 
 }

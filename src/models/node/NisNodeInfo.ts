@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-import {Node} from "./Node";
 import {NisNodeInfoDTO} from "../../infrastructure/debug/NisNodeInfoDTO";
 import {ApplicationMetaDataDTO} from "../../infrastructure/node/ApplicationMetaDataDTO";
+import {Node} from "./Node";
 
 /**
  * A NodeCollection object holds arrays of nodes with different statuses.
@@ -34,12 +34,12 @@ export class NisNodeInfo {
   /**
    * Denotes the beginning of the node substructure.
    */
-  readonly node: Node;
+  public readonly node: Node;
 
   /**
    * Denotes the beginning of the application meta data substructure.
    */
-  readonly nisInfo: ApplicationMetaData;
+  public readonly nisInfo: ApplicationMetaData;
 
   /**
    * @internal
@@ -48,7 +48,7 @@ export class NisNodeInfo {
    */
   private constructor(
     node: Node,
-    nisInfo: ApplicationMetaData
+    nisInfo: ApplicationMetaData,
   ) {
     this.node = node;
     this.nisInfo = nisInfo;
@@ -59,10 +59,10 @@ export class NisNodeInfo {
    * @param dto
    * @returns {NisNodeInfo}
    */
-  static createFromNisNodeInfoDTO(dto: NisNodeInfoDTO): NisNodeInfo {
+  public static createFromNisNodeInfoDTO(dto: NisNodeInfoDTO): NisNodeInfo {
       return new NisNodeInfo(
         Node.createFromNodeDTO(dto.node),
-        ApplicationMetaData.createFromApplicationMetaDataDTO(dto.nisInfo)
+        ApplicationMetaData.createFromApplicationMetaDataDTO(dto.nisInfo),
       );
   }
 
@@ -76,28 +76,27 @@ export class ApplicationMetaData {
   /**
    * The current network time, i.e. the number of seconds that have elapsed since the creation of the nemesis block.
    */
-  readonly currentTime: number;
+  public readonly currentTime: number;
 
   /**
    * The name of the application running on the node.
    */
-  readonly application: string;
+  public readonly application: string;
 
   /**
    * The network time when the application was started.
    */
-  readonly startTime: number;
+  public readonly startTime: number;
 
   /**
    * The application version.
    */
-  readonly version: string;
+  public readonly version: string;
 
   /**
    * The signer of the certificate used by the application.
    */
-  readonly signer: string;
-
+  public readonly signer: string;
 
   /**
    * @internal
@@ -112,7 +111,7 @@ export class ApplicationMetaData {
     application: string,
     startTime: number,
     version: string,
-    signer: string
+    signer: string,
   ) {
     this.currentTime = currentTime;
     this.application = application;
@@ -126,13 +125,13 @@ export class ApplicationMetaData {
    * @param dto
    * @returns {ApplicationMetaData}
    */
-  static createFromApplicationMetaDataDTO(dto: ApplicationMetaDataDTO): ApplicationMetaData {
+  public static createFromApplicationMetaDataDTO(dto: ApplicationMetaDataDTO): ApplicationMetaData {
     return new ApplicationMetaData(
       dto.currentTime,
       dto.application,
       dto.startTime,
       dto.version,
-      dto.signer
+      dto.signer,
     );
   }
 }

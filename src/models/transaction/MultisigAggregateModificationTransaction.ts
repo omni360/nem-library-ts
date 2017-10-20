@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-import {Transaction} from "./Transaction";
-import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
-import {TransactionTypes} from "./TransactionTypes";
-import {PublicAccount} from "../account/PublicAccount";
-import {TransactionInfo} from "./TransactionInfo";
 import {
   MultisigAggregateModificationMinCosignatoriesDTO,
-  MultisigAggregateModificationTransactionDTO
+  MultisigAggregateModificationTransactionDTO,
 } from "../../infrastructure/transaction/MultisigAggregateModificationTransactionDTO";
 import {MultisigCosignatoryModificationDTO} from "../../infrastructure/transaction/MultisigCosignatoryModificationDTO";
+import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
+import {PublicAccount} from "../account/PublicAccount";
 import {TimeWindow} from "./TimeWindow";
+import {Transaction} from "./Transaction";
+import {TransactionInfo} from "./TransactionInfo";
+import {TransactionTypes} from "./TransactionTypes";
 
 /**
  * Multisig aggregate modification transactions are part of the NEM's multisig account system.
@@ -48,12 +48,12 @@ export class MultisigAggregateModificationTransaction extends Transaction {
   /**
    * Value indicating the relative change of the minimum cosignatories.
    */
-  readonly relativeChange?: number;
+  public readonly relativeChange?: number;
 
   /**
    * The JSON array of multisig modifications.
    */
-  readonly modifications: CosignatoryModification[];
+  public readonly modifications: CosignatoryModification[];
 
   /**
    * @internal
@@ -85,25 +85,25 @@ export class MultisigAggregateModificationTransaction extends Transaction {
    * @returns {MultisigAggregateModificationTransactionDTO}
    */
   public toDTO(): TransactionDTO {
-    let version = this.networkVersion ? this.networkVersion : this.version;
-    return this.serializeDTO(<MultisigAggregateModificationTransactionDTO> {
+    const version = this.networkVersion ? this.networkVersion : this.version;
+    return this.serializeDTO({
       signer: this.signer ? this.signer.publicKey : undefined,
       deadline: this.timeWindow.deadlineToDTO(),
       timeStamp: this.timeWindow.timeStampToDTO(),
       type: this.type,
-      version: version,
+      version,
       signature: this.signature,
       fee: this.fee,
-      minCosignatories: this.relativeChange === undefined ? undefined: <MultisigAggregateModificationMinCosignatoriesDTO>{
-        relativeChange: this.relativeChange
-      },
+      minCosignatories: this.relativeChange === undefined ? undefined : {
+        relativeChange: this.relativeChange,
+      } as MultisigAggregateModificationMinCosignatoriesDTO,
       modifications: this.modifications.map((modification): MultisigCosignatoryModificationDTO => {
         return {
           cosignatoryAccount: modification.cosignatoryAccount.publicKey,
-          modificationType: modification.action
-        }
-      })
-    });
+          modificationType: modification.action,
+        };
+      }),
+    } as MultisigAggregateModificationTransactionDTO);
   }
 
   /**
@@ -113,10 +113,10 @@ export class MultisigAggregateModificationTransaction extends Transaction {
    * @param relativeChange
    * @returns {MultisigAggregateModificationTransaction}
    */
-  static create(timeWindow: TimeWindow,
+  public static create(timeWindow: TimeWindow,
                 modifications: CosignatoryModification[],
                 relativeChange?: number): MultisigAggregateModificationTransaction {
-    let fee = Math.floor(10 * 0.05 * 1000000);
+    const fee = Math.floor(10 * 0.05 * 1000000);
     return new MultisigAggregateModificationTransaction(timeWindow, 1, modifications, fee, undefined, relativeChange);
   }
 }
@@ -128,12 +128,12 @@ export class MultisigAggregateModificationTransaction extends Transaction {
  */
 export enum CosignatoryModificationAction {
   ADD = 1,
-  DELETE = 2
+  DELETE = 2,
 }
 
 export class CosignatoryModification {
-  readonly cosignatoryAccount: PublicAccount;
-  readonly action: CosignatoryModificationAction;
+  public readonly cosignatoryAccount: PublicAccount;
+  public readonly action: CosignatoryModificationAction;
 
   /**
    * constructor

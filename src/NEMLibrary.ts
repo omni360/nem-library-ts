@@ -27,7 +27,7 @@ import {NetworkTypes} from "./models/node/NetworkTypes";
 export class NEMLibrary {
   private static networkType?: NetworkTypes;
 
-  static bootstrap(networkType: NetworkTypes): void {
+  public static bootstrap(networkType: NetworkTypes): void {
     if (this.networkType != undefined) {
       throw new Error("NEMLibrary should only be initialized once");
     }
@@ -38,14 +38,14 @@ export class NEMLibrary {
    *
    *
    */
-  static reset() {
+  public static reset() {
     this.networkType = undefined;
   }
 
   /**
    *
    */
-  static getNetworkType(): NetworkTypes {
+  public static getNetworkType(): NetworkTypes {
     if (this.networkType) {
       return this.networkType;
     }
@@ -55,8 +55,8 @@ export class NEMLibrary {
   /**
    * @internal
    */
-  static getEnvironment(): Environment {
-    let isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
+  public static getEnvironment(): Environment {
+    const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
     if (isBrowser()) {
       return Environment.Browser;
     }
@@ -69,5 +69,5 @@ export class NEMLibrary {
  */
 export enum Environment {
   Browser,
-  Node
+  Node,
 }

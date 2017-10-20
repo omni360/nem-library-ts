@@ -31,17 +31,17 @@ export class TransactionInfo {
   /**
    * The height of the block in which the transaction was included.
    */
-  readonly height: number;
+  public readonly height: number;
 
   /**
    *  The id of the transaction.
    */
-  readonly id: number;
+  public readonly id: number;
 
   /**
    *  The transaction hash.
    */
-  readonly hash: HashData;
+  public readonly hash: HashData;
 
   /**
    * constructor
@@ -64,7 +64,7 @@ export class MultisigTransactionInfo extends TransactionInfo {
   /**
    * The hash of the inner transaction. This entry is only available for multisig transactions.
    */
-  readonly innerHash: HashData;
+  public readonly innerHash: HashData;
 
   /**
    * constructor

@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-import {TransferTransactionDTO} from "./TransferTransactionDTO";
-import {TransactionMetaDataDTO} from "./TransactionMetaDataDTO";
-import {MosaicSupplyChangeTransactionDTO} from "./MosaicSupplyChangeTransactionDTO";
-import {MosaicDefinitionCreationTransactionDTO} from "./MosaicDefinitionCreationTransactionDTO";
-import {ProvisionNamespaceTransactionDTO} from "./ProvisionNamespaceTransactionDTO";
 import {ImportanceTransferTransactionDTO} from "./ImportanceTransferTransactionDTO";
-import {MultisigTransactionDTO} from "./MultisigTransactionDTO";
+import {MosaicDefinitionCreationTransactionDTO} from "./MosaicDefinitionCreationTransactionDTO";
+import {MosaicSupplyChangeTransactionDTO} from "./MosaicSupplyChangeTransactionDTO";
 import {MultisigAggregateModificationTransactionDTO} from "./MultisigAggregateModificationTransactionDTO";
+import {MultisigTransactionDTO} from "./MultisigTransactionDTO";
+import {ProvisionNamespaceTransactionDTO} from "./ProvisionNamespaceTransactionDTO";
+import {TransactionMetaDataDTO} from "./TransactionMetaDataDTO";
+import {TransferTransactionDTO} from "./TransferTransactionDTO";
 
 /**
  * @internal

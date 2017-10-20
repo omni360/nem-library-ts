@@ -23,8 +23,8 @@
  */
 
 import {Subject} from "rxjs/Subject";
-import {Subscription} from "rxjs/Subscription";
 import {Subscriber} from "rxjs/Subscriber";
+import {Subscription} from "rxjs/Subscription";
 
 /**
  * Pageable class
@@ -41,7 +41,7 @@ export class Pageable<T> extends Subject<T>{
   /**
    * Execute next page
    */
-  nextPage(): void {
+  public nextPage(): void {
     throw new Error("Unimplemented method");
   }
 

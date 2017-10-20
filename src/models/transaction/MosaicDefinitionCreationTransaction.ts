@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-import {Transaction} from "./Transaction";
-import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
 import {MosaicDefinitionCreationTransactionDTO} from "../../infrastructure/transaction/MosaicDefinitionCreationTransactionDTO";
-import {MosaicDefinition} from "../mosaic/MosaicDefinition";
-import {TransactionTypes} from "./TransactionTypes";
-import {PublicAccount} from "../account/PublicAccount";
-import {TransactionInfo} from "./TransactionInfo";
-import {TimeWindow} from "./TimeWindow";
-import {Address} from "../account/Address";
+import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
 import {NEMLibrary} from "../../NEMLibrary";
+import {Address} from "../account/Address";
+import {PublicAccount} from "../account/PublicAccount";
+import {MosaicDefinition} from "../mosaic/MosaicDefinition";
 import {NetworkTypes} from "../node/NetworkTypes";
+import {TimeWindow} from "./TimeWindow";
+import {Transaction} from "./Transaction";
+import {TransactionInfo} from "./TransactionInfo";
+import {TransactionTypes} from "./TransactionTypes";
 
 /**
  * Before a mosaic can be created or transferred, a corresponding definition of the mosaic has to be created and published to the network.
@@ -42,22 +42,22 @@ export class MosaicDefinitionCreationTransaction extends Transaction {
   /**
    * The fee for the transaction. The higher the fee, the higher the priority of the transaction. Transactions with high priority get included in a block before transactions with lower priority.
    */
-  readonly fee: number;
+  public readonly fee: number;
 
   /**
    * The fee for the creation of the mosaic.
    */
-  readonly creationFee: number;
+  public readonly creationFee: number;
 
   /**
    * The public account to which the creation fee is tranferred.
    */
-  readonly creationFeeSink: Address;
+  public readonly creationFeeSink: Address;
 
   /**
    * The actual mosaic definition.
    */
-  readonly mosaicDefinition: MosaicDefinition;
+  public readonly mosaicDefinition: MosaicDefinition;
 
   /**
    * @internal
@@ -91,20 +91,20 @@ export class MosaicDefinitionCreationTransaction extends Transaction {
    * @internal
    * @returns {MosaicDefinitionCreationTransactionDTO}
    */
-  toDTO(): TransactionDTO {
-    let version = this.networkVersion ? this.networkVersion : this.version;
-    return this.serializeDTO(<MosaicDefinitionCreationTransactionDTO>{
+  public toDTO(): TransactionDTO {
+    const version = this.networkVersion ? this.networkVersion : this.version;
+    return this.serializeDTO({
       type: this.type,
       fee: this.fee,
-      version: version,
+      version,
       signer: this.signer ? this.signer.publicKey : undefined,
       signature: this.signature,
       deadline: this.timeWindow.deadlineToDTO(),
       timeStamp: this.timeWindow.timeStampToDTO(),
       creationFee: this.creationFee,
       creationFeeSink: this.creationFeeSink.plain(),
-      mosaicDefinition: this.mosaicDefinition.toDTO()
-    });
+      mosaicDefinition: this.mosaicDefinition.toDTO(),
+    } as MosaicDefinitionCreationTransactionDTO);
   }
 
   /**
@@ -113,9 +113,9 @@ export class MosaicDefinitionCreationTransaction extends Transaction {
    * @param mosaicDefinition
    * @returns {MosaicDefinitionCreationTransaction}
    */
-  static create(timeWindow: TimeWindow,
+  public static create(timeWindow: TimeWindow,
                 mosaicDefinition: MosaicDefinition): MosaicDefinitionCreationTransaction {
-    let fee = Math.floor(3 * 0.05 * 1000000);
+    const fee = Math.floor(3 * 0.05 * 1000000);
     let creationFeeSink;
     if (NEMLibrary.getNetworkType() == NetworkTypes.TEST_NET) {
       creationFeeSink = new Address("TBMOSA-ICOD4F-54EE5C-DMR23C-CBGOAM-2XSJBR-5OLC");
@@ -124,7 +124,7 @@ export class MosaicDefinitionCreationTransaction extends Transaction {
     }
     const creationFee = Math.floor(10 * 1000000);
     return new MosaicDefinitionCreationTransaction(
-      timeWindow, 1, creationFee, creationFeeSink, mosaicDefinition, fee
+      timeWindow, 1, creationFee, creationFeeSink, mosaicDefinition, fee,
     );
   }
 }

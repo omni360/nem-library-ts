@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-import {NEMLibrary} from "../NEMLibrary";
-import {NetworkTypes} from "../models/node/NetworkTypes";
 import {RequestError} from "request-promise-native/errors";
+import {NetworkTypes} from "../models/node/NetworkTypes";
+import {NEMLibrary} from "../NEMLibrary";
 
 export type Protocol = "http" | "https";
 
@@ -40,12 +40,12 @@ export abstract class HttpEndpoint {
 
   constructor(private resource: string, nodes?: ServerConfig[], preferProtocol?: Protocol) {
     if (nodes) {
-      this.nodes = nodes.map(_ => {
+      this.nodes = nodes.map((_) => {
         return {
           protocol: _.protocol ? _.protocol : "http",
           domain: _.domain,
-          port: _.port ? _.port : 7890
-        }
+          port: _.port ? _.port : 7890,
+        };
       });
     }
     else if (NEMLibrary.getNetworkType() == NetworkTypes.TEST_NET) {
@@ -55,7 +55,7 @@ export abstract class HttpEndpoint {
         {protocol: "http", domain: "192.3.61.243", port: 7890},
         {protocol: "http", domain: "23.228.67.85", port: 7890},
         {protocol: "http", domain: "50.3.87.123", port: 7890},
-      ]
+      ];
     } else if (NEMLibrary.getNetworkType() == NetworkTypes.MAIN_NET) {
       this.nodes = [
         {protocol: "http", domain: "alice6.nem.ninja", port: 7890},
@@ -71,13 +71,13 @@ export abstract class HttpEndpoint {
         {protocol: "http", domain: "alice5.nem.ninja", port: 7890},
         {protocol: "http", domain: "alice6.nem.ninja", port: 7890},
         {protocol: "http", domain: "alice7.nem.ninja", port: 7890},
-        {protocol: "https", domain: "nis2.wnsl.biz", port: 7779}
-      ]
+        {protocol: "https", domain: "nis2.wnsl.biz", port: 7779},
+      ];
     } else {
       throw new Error("Nodes uninitialized");
     }
     if (preferProtocol) {
-      this.nodes = this.nodes.filter(_ => _.protocol == preferProtocol)
+      this.nodes = this.nodes.filter((_) => _.protocol == preferProtocol);
     }
   }
 
@@ -85,23 +85,23 @@ export abstract class HttpEndpoint {
    * @internal
    * @returns {string}
    */
-  nextNode(): string {
+  public nextNode(): string {
     if (this.pointer == this.nodes.length) {
       this.pointer = 0;
     }
-    let protocol = this.nodes[this.pointer].protocol;
-    let domain = this.nodes[this.pointer].domain;
-    let port = this.nodes[this.pointer].port;
-    let URL = protocol + "://" + domain + ":" + port + "/" + this.resource + "/";
+    const protocol = this.nodes[this.pointer].protocol;
+    const domain = this.nodes[this.pointer].domain;
+    const port = this.nodes[this.pointer].port;
+    const URL = protocol + "://" + domain + ":" + port + "/" + this.resource + "/";
     this.pointer++;
     return URL;
   }
 
-  protected replyWhenRequestError = errors => {
-    return errors.do(x => {
+  protected replyWhenRequestError = (errors) => {
+    return errors.do((x) => {
       if (!(x instanceof RequestError)) {
         throw (x);
       }
     });
-  };
+  }
 }

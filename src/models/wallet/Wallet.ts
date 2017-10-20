@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import {NetworkTypes} from "../node/NetworkTypes";
-import {Address} from "../account/Address";
-import {Password} from "./Password";
-import {Account} from "../account/Account";
-import {LocalDateTime} from "js-joda";
 import {Base64} from "js-base64";
+import {LocalDateTime} from "js-joda";
+import {Account} from "../account/Account";
+import {Address} from "../account/Address";
+import {NetworkTypes} from "../node/NetworkTypes";
+import {Password} from "./Password";
 
 export enum WalletType {
   SIMPLE,
-  BRAIN
+  BRAIN,
 }
 
 /**
@@ -41,27 +41,27 @@ export abstract class Wallet {
   /**
    * The wallet's name
    */
-  readonly name: string;
+  public readonly name: string;
 
   /**
    * The wallet's network
    */
-  readonly network: NetworkTypes;
+  public readonly network: NetworkTypes;
 
   /**
    * The wallet's address
    */
-  readonly address: Address;
+  public readonly address: Address;
 
   /**
    * The wallet's creation date
    */
-  readonly creationDate: LocalDateTime;
+  public readonly creationDate: LocalDateTime;
 
   /**
    * Wallet schema number
    */
-  readonly schema: number;
+  public readonly schema: number;
 
   /**
    * @internal
@@ -95,7 +95,7 @@ export abstract class Wallet {
   /**
    * @internal
    */
-  static networkTypesSDKAdapter(network: NetworkTypes) : number {
+  public static networkTypesSDKAdapter(network: NetworkTypes): number {
     return network == NetworkTypes.TEST_NET ? -104 : network;
   }
 
@@ -104,8 +104,8 @@ export abstract class Wallet {
    * @param {string} wlt
    * @returns {WalletType}
    */
-  static walletTypeGivenWLT(wlt: string): WalletType {
-    let wallet = JSON.parse(Base64.decode(wlt));
+  public static walletTypeGivenWLT(wlt: string): WalletType {
+    const wallet = JSON.parse(Base64.decode(wlt));
     if (wallet.type == "simple") return WalletType.SIMPLE;
     else if (wallet.type == "brain") return WalletType.BRAIN;
     throw new Error("ILLEGAL WALLET TYPE");

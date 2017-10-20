@@ -22,43 +22,43 @@
  * SOFTWARE.
  */
 
+import {Address} from "../../models/account/Address";
 import {PublicAccount} from "../../models/account/PublicAccount";
-import {TransferTransaction} from "../../models/transaction/TransferTransaction";
-import {TransferTransactionDTO} from "./TransferTransactionDTO";
-import {TransactionTypes} from "../../models/transaction/TransactionTypes";
-import {Transaction} from "../../models/transaction/Transaction";
-import {UnconfirmedTransactionMetaDataPairDTO} from "./UnconfirmedTransactionMetaDataPairDTO";
-import {MosaicSupplyChangeTransactionDTO} from "./MosaicSupplyChangeTransactionDTO";
-import {MosaicDefinitionCreationTransactionDTO} from "./MosaicDefinitionCreationTransactionDTO";
-import {ProvisionNamespaceTransaction} from "../../models/transaction/ProvisionNamespaceTransaction";
-import {ProvisionNamespaceTransactionDTO} from "./ProvisionNamespaceTransactionDTO";
-import {ImportanceTransferTransaction} from "../../models/transaction/ImportanceTransferTransaction";
-import {ImportanceTransferTransactionDTO} from "./ImportanceTransferTransactionDTO";
-import {MosaicLevyDTO} from "../mosaic/MosaicLevyDTO";
-import {MosaicLevy} from "../../models/mosaic/MosaicLevy";
+import {Mosaic} from "../../models/mosaic/Mosaic";
 import {MosaicDefinition, MosaicProperties} from "../../models/mosaic/MosaicDefinition";
 import {MosaicId} from "../../models/mosaic/MosaicId";
+import {MosaicLevy} from "../../models/mosaic/MosaicLevy";
+import {XEM} from "../../models/mosaic/XEM";
+import {EncryptedMessage} from "../../models/transaction/EncryptedMessage";
+import {ImportanceTransferTransaction} from "../../models/transaction/ImportanceTransferTransaction";
+import {Message} from "../../models/transaction/Message";
 import {MosaicDefinitionCreationTransaction} from "../../models/transaction/MosaicDefinitionCreationTransaction";
 import {MosaicSupplyChangeTransaction} from "../../models/transaction/MosaicSupplyChangeTransaction";
 import {
   CosignatoryModification,
-  MultisigAggregateModificationTransaction
+  MultisigAggregateModificationTransaction,
 } from "../../models/transaction/MultisigAggregateModificationTransaction";
-import {MultisigAggregateModificationTransactionDTO} from "./MultisigAggregateModificationTransactionDTO";
-import {Mosaic} from "../../models/mosaic/Mosaic";
-import {MosaicDTO} from "../mosaic/MosaicDTO";
-import {HashData} from "../../models/transaction/TransactionInfo";
 import {MultisigSignatureTransaction} from "../../models/transaction/MultisigSignatureTransaction";
-import {CreateSimpleTransactionFromDTO} from "./CreateTransactionFromDTO";
-import {MultisigSignatureTransactionDTO} from "./MultisigSignatureTransactionDTO";
 import {MultisigTransaction} from "../../models/transaction/MultisigTransaction";
-import {MultisigTransactionDTO} from "./MultisigTransactionDTO";
-import {Address} from "../../models/account/Address";
-import {TimeWindow} from "../../models/transaction/TimeWindow";
 import {EmptyMessage, PlainMessage} from "../../models/transaction/PlainMessage";
-import {EncryptedMessage} from "../../models/transaction/EncryptedMessage";
-import {Message} from "../../models/transaction/Message";
-import {XEM} from "../../models/mosaic/XEM";
+import {ProvisionNamespaceTransaction} from "../../models/transaction/ProvisionNamespaceTransaction";
+import {TimeWindow} from "../../models/transaction/TimeWindow";
+import {Transaction} from "../../models/transaction/Transaction";
+import {HashData} from "../../models/transaction/TransactionInfo";
+import {TransactionTypes} from "../../models/transaction/TransactionTypes";
+import {TransferTransaction} from "../../models/transaction/TransferTransaction";
+import {MosaicDTO} from "../mosaic/MosaicDTO";
+import {MosaicLevyDTO} from "../mosaic/MosaicLevyDTO";
+import {CreateSimpleTransactionFromDTO} from "./CreateTransactionFromDTO";
+import {ImportanceTransferTransactionDTO} from "./ImportanceTransferTransactionDTO";
+import {MosaicDefinitionCreationTransactionDTO} from "./MosaicDefinitionCreationTransactionDTO";
+import {MosaicSupplyChangeTransactionDTO} from "./MosaicSupplyChangeTransactionDTO";
+import {MultisigAggregateModificationTransactionDTO} from "./MultisigAggregateModificationTransactionDTO";
+import {MultisigSignatureTransactionDTO} from "./MultisigSignatureTransactionDTO";
+import {MultisigTransactionDTO} from "./MultisigTransactionDTO";
+import {ProvisionNamespaceTransactionDTO} from "./ProvisionNamespaceTransactionDTO";
+import {TransferTransactionDTO} from "./TransferTransactionDTO";
+import {UnconfirmedTransactionMetaDataPairDTO} from "./UnconfirmedTransactionMetaDataPairDTO";
 
 /**
  * @internal
@@ -68,7 +68,7 @@ import {XEM} from "../../models/mosaic/XEM";
  */
 export const CreateUnconfirmedTransactionFromDTO = (dto: UnconfirmedTransactionMetaDataPairDTO): Transaction => {
   if (dto.transaction.type == TransactionTypes.MULTISIG) {
-    const transaction = <MultisigTransactionDTO>dto.transaction;
+    const transaction = dto.transaction as MultisigTransactionDTO;
     return new MultisigTransaction(
       TimeWindow.createFromDTOInfo(transaction.timeStamp, transaction.deadline),
       transaction.version,
@@ -82,22 +82,22 @@ export const CreateUnconfirmedTransactionFromDTO = (dto: UnconfirmedTransactionM
           new HashData(signature.otherHash.data!),
           signature.fee,
           signature.signature,
-          PublicAccount.createWithPublicKey(signature.signer)
-        )
+          PublicAccount.createWithPublicKey(signature.signer),
+        );
       }),
       transaction.signature,
       PublicAccount.createWithPublicKey(transaction.signer),
       undefined,
-      new HashData(<string>dto.meta.data)
-    )
+      new HashData(dto.meta.data as string),
+    );
   }
   else if (dto.transaction.type == TransactionTypes.TRANSFER) {
-    const transaction = <TransferTransactionDTO>dto.transaction;
+    const transaction = dto.transaction as TransferTransactionDTO;
     let message: PlainMessage | EncryptedMessage;
     if (transaction.message.type == 1) {
-      message = PlainMessage.createFromDTO(<string> transaction.message.payload);
+      message = PlainMessage.createFromDTO(transaction.message.payload as string);
     }else if (transaction.message.type == 2) {
-      message = EncryptedMessage.createFromDTO(<string> transaction.message.payload);
+      message = EncryptedMessage.createFromDTO(transaction.message.payload as string);
     } else {
       message = EmptyMessage;
     }
@@ -115,7 +115,7 @@ export const CreateUnconfirmedTransactionFromDTO = (dto: UnconfirmedTransactionM
     );
   }
   else if (dto.transaction.type == TransactionTypes.IMPORTANCE_TRANSFER) {
-    const transaction = <ImportanceTransferTransactionDTO>dto.transaction;
+    const transaction = dto.transaction as ImportanceTransferTransactionDTO;
     return new ImportanceTransferTransaction(
       TimeWindow.createFromDTOInfo(transaction.timeStamp, transaction.deadline),
       transaction.version,
@@ -123,14 +123,14 @@ export const CreateUnconfirmedTransactionFromDTO = (dto: UnconfirmedTransactionM
       PublicAccount.createWithPublicKey(transaction.remoteAccount),
       transaction.fee,
       transaction.signature,
-      PublicAccount.createWithPublicKey(transaction.signer)
-    )
+      PublicAccount.createWithPublicKey(transaction.signer),
+    );
   }
   /*else if (dto.transaction.type == TransactionTypes.MULTISIG_AGGREGATE_MODIFICATION) {
    const transaction = <MultisigAggregateModificationTransactionDTO>dto.transaction;
    }*/
   else if (dto.transaction.type == TransactionTypes.PROVISION_NAMESPACE) {
-    const transaction = <ProvisionNamespaceTransactionDTO>dto.transaction;
+    const transaction = dto.transaction as ProvisionNamespaceTransactionDTO;
     return new ProvisionNamespaceTransaction(
       TimeWindow.createFromDTOInfo(transaction.timeStamp, transaction.deadline),
       transaction.version,
@@ -140,19 +140,19 @@ export const CreateUnconfirmedTransactionFromDTO = (dto: UnconfirmedTransactionM
       transaction.fee,
       transaction.signature,
       transaction.parent == null ? undefined : transaction.parent,
-      PublicAccount.createWithPublicKey(transaction.signer)
+      PublicAccount.createWithPublicKey(transaction.signer),
     );
   }
   else if (dto.transaction.type == TransactionTypes.MOSAIC_DEFINITION_CREATION) {
-    const transaction = <MosaicDefinitionCreationTransactionDTO>dto.transaction;
-    const levy = (<MosaicLevyDTO>transaction.mosaicDefinition.levy).mosaicId === undefined ?
-      undefined : MosaicLevy.createFromMosaicLevyDTO(<MosaicLevyDTO>transaction.mosaicDefinition.levy);
-    let mosaicDefinition = new MosaicDefinition(
+    const transaction = dto.transaction as MosaicDefinitionCreationTransactionDTO;
+    const levy = (transaction.mosaicDefinition.levy as MosaicLevyDTO).mosaicId === undefined ?
+      undefined : MosaicLevy.createFromMosaicLevyDTO(transaction.mosaicDefinition.levy as MosaicLevyDTO);
+    const mosaicDefinition = new MosaicDefinition(
       PublicAccount.createWithPublicKey(transaction.mosaicDefinition.creator),
       new MosaicId(transaction.mosaicDefinition.id.namespaceId, transaction.mosaicDefinition.id.name),
       transaction.mosaicDefinition.description,
       MosaicProperties.createFromMosaicProperties(transaction.mosaicDefinition.properties),
-      levy
+      levy,
     );
     return new MosaicDefinitionCreationTransaction(
       TimeWindow.createFromDTOInfo(transaction.timeStamp, transaction.deadline),
@@ -162,11 +162,11 @@ export const CreateUnconfirmedTransactionFromDTO = (dto: UnconfirmedTransactionM
       mosaicDefinition,
       transaction.fee,
       transaction.signature,
-      PublicAccount.createWithPublicKey(transaction.signer)
+      PublicAccount.createWithPublicKey(transaction.signer),
     );
   }
   else if (dto.transaction.type == TransactionTypes.MOSAIC_SUPPLY_CHANGE) {
-    const transaction = <MosaicSupplyChangeTransactionDTO>dto.transaction;
+    const transaction = dto.transaction as MosaicSupplyChangeTransactionDTO;
     return new MosaicSupplyChangeTransaction(
       TimeWindow.createFromDTOInfo(transaction.timeStamp, transaction.deadline),
       transaction.version,
@@ -175,23 +175,23 @@ export const CreateUnconfirmedTransactionFromDTO = (dto: UnconfirmedTransactionM
       transaction.delta,
       transaction.fee,
       transaction.signature,
-      PublicAccount.createWithPublicKey(transaction.signer)
+      PublicAccount.createWithPublicKey(transaction.signer),
     );
   }
   else if (dto.transaction.type == TransactionTypes.MULTISIG_AGGREGATE_MODIFICATION) {
-    const transaction = <MultisigAggregateModificationTransactionDTO>dto.transaction;
+    const transaction = dto.transaction as MultisigAggregateModificationTransactionDTO;
     return new MultisigAggregateModificationTransaction(
       TimeWindow.createFromDTOInfo(transaction.timeStamp, transaction.deadline),
       transaction.version,
-      transaction.modifications.map(modification => {
+      transaction.modifications.map((modification) => {
         return new CosignatoryModification(
           PublicAccount.createWithPublicKey(modification.cosignatoryAccount),
-          modification.modificationType)
+          modification.modificationType);
       }),
       transaction.fee,
       transaction.signature,
       transaction.minCosignatories === undefined ? undefined : transaction.minCosignatories.relativeChange,
-      PublicAccount.createWithPublicKey(transaction.signer)
+      PublicAccount.createWithPublicKey(transaction.signer),
     );
   }
   throw new Error("Unimplemented transaction with type " + dto.transaction.type);

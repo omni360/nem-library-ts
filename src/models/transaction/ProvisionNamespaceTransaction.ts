@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import {Transaction} from "./Transaction";
-import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
 import {ProvisionNamespaceTransactionDTO} from "../../infrastructure/transaction/ProvisionNamespaceTransactionDTO";
-import {PublicAccount} from "../account/PublicAccount";
-import {TransactionTypes} from "./TransactionTypes";
-import {TransactionInfo} from "./TransactionInfo";
-import {Address} from "../account/Address";
-import {TimeWindow} from "./TimeWindow";
+import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
 import {NEMLibrary} from "../../NEMLibrary";
+import {Address} from "../account/Address";
+import {PublicAccount} from "../account/PublicAccount";
 import {NetworkTypes} from "../node/NetworkTypes";
+import {TimeWindow} from "./TimeWindow";
+import {Transaction} from "./Transaction";
+import {TransactionInfo} from "./TransactionInfo";
+import {TransactionTypes} from "./TransactionTypes";
 
 /**
  * Accounts can rent a namespace for one year and after a year renew the contract. This is done via a ProvisionNamespaceTransaction.
@@ -40,27 +40,27 @@ export class ProvisionNamespaceTransaction extends Transaction {
   /**
    * The fee for the transaction. The higher the fee, the higher the priority of the transaction. Transactions with high priority get included in a block before transactions with lower priority.
    */
-  readonly fee: number;
+  public readonly fee: number;
 
   /**
    * The Address to which the rental fee is transferred.
    */
-  readonly rentalFeeSink: Address;
+  public readonly rentalFeeSink: Address;
 
   /**
    * The fee for renting the namespace.
    */
-  readonly rentalFee: number;
+  public readonly rentalFee: number;
 
   /**
    * The parent namespace. This can be undefined if the transaction rents a root namespace.
    */
-  readonly parent?: string;
+  public readonly parent?: string;
 
   /**
    * The new part which is concatenated to the parent with a '.' as separator.
    */
-  readonly newPart: string;
+  public readonly newPart: string;
 
   /**
    * @internal
@@ -98,9 +98,9 @@ export class ProvisionNamespaceTransaction extends Transaction {
    * @returns {TransactionDTO}
    */
   public toDTO(): TransactionDTO {
-    let version = this.networkVersion ? this.networkVersion : this.version;
-    return this.serializeDTO(<ProvisionNamespaceTransactionDTO>{
-      version: version,
+    const version = this.networkVersion ? this.networkVersion : this.version;
+    return this.serializeDTO({
+      version,
       fee: this.fee,
       type: this.type,
       signer: this.signer ? this.signer.publicKey : undefined,
@@ -110,8 +110,8 @@ export class ProvisionNamespaceTransaction extends Transaction {
       rentalFeeSink: this.rentalFeeSink.plain(),
       deadline: this.timeWindow.deadlineToDTO(),
       timeStamp: this.timeWindow.timeStampToDTO(),
-      newPart: this.newPart
-    });
+      newPart: this.newPart,
+    } as ProvisionNamespaceTransactionDTO);
   }
 
   /**
@@ -121,7 +121,7 @@ export class ProvisionNamespaceTransaction extends Transaction {
    * @param parent
    * @returns {ProvisionNamespaceTransaction}
    */
-  static create(timeWindow: TimeWindow,
+  public static create(timeWindow: TimeWindow,
                 newPart: string,
                 parent?: string): ProvisionNamespaceTransaction {
     const subnamespaceFee = 10 * 1000000;
@@ -132,7 +132,7 @@ export class ProvisionNamespaceTransaction extends Transaction {
     } else if (NEMLibrary.getNetworkType() == NetworkTypes.MAIN_NET) {
       rentalFeeSink = new Address("NAMESP-ACEWH4-MKFMBC-VFERDP-OOP4FK-7MTBXD-PZZA");
     }
-    let fee = Math.floor(3 * 0.05 * 1000000);
+    const fee = Math.floor(3 * 0.05 * 1000000);
     return new ProvisionNamespaceTransaction(timeWindow, 1, rentalFeeSink, parent === undefined ? RootNamespaceFee : subnamespaceFee, newPart, fee, undefined, parent);
   }
 
@@ -142,7 +142,7 @@ export class ProvisionNamespaceTransaction extends Transaction {
    * @param {string} namespaceName - Root namespace provision
    * @returns {ProvisionNamespaceTransaction}
    */
-  static createRoot(timeWindow: TimeWindow, namespaceName: string): ProvisionNamespaceTransaction {
+  public static createRoot(timeWindow: TimeWindow, namespaceName: string): ProvisionNamespaceTransaction {
     return ProvisionNamespaceTransaction.create(timeWindow, namespaceName);
   }
 
@@ -153,7 +153,7 @@ export class ProvisionNamespaceTransaction extends Transaction {
    * @param {string} newNamespaceName
    * @returns {ProvisionNamespaceTransaction}
    */
-  static createSub(timeWindow: TimeWindow, parentNamespace: string, newNamespaceName: string): ProvisionNamespaceTransaction {
+  public static createSub(timeWindow: TimeWindow, parentNamespace: string, newNamespaceName: string): ProvisionNamespaceTransaction {
     return ProvisionNamespaceTransaction.create(timeWindow, newNamespaceName, parentNamespace);
   }
 }

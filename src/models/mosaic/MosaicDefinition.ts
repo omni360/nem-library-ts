@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-import {MosaicId} from "./MosaicId";
+import {MosaicDefinitionDTO} from "../../infrastructure/mosaic/MosaicDefinitionDTO";
+import {MosaicDefinitionMetaDataPairDTO} from "../../infrastructure/mosaic/MosaicDefinitionMetaDataPairDTO";
+import {MosaicLevyDTO} from "../../infrastructure/mosaic/MosaicLevyDTO";
 import {MosaicPropertyDTO} from "../../infrastructure/mosaic/MosaicPropertyDTO";
 import {PublicAccount} from "../account/PublicAccount";
+import {MosaicId} from "./MosaicId";
 import {MosaicLevy} from "./MosaicLevy";
-import {MosaicDefinitionDTO} from "../../infrastructure/mosaic/MosaicDefinitionDTO";
-import {MosaicLevyDTO} from "../../infrastructure/mosaic/MosaicLevyDTO";
-import {MosaicDefinitionMetaDataPairDTO} from "../../infrastructure/mosaic/MosaicDefinitionMetaDataPairDTO";
 
 /**
  * A mosaic definition describes an asset class. Some fields are mandatory while others are optional.
@@ -39,32 +39,32 @@ export class MosaicDefinition {
   /**
    * 	The public key of the mosaic definition creator.
    */
-  readonly creator: PublicAccount;
+  public readonly creator: PublicAccount;
 
   /**
    * The mosaic id
    */
-  readonly id: MosaicId;
+  public readonly id: MosaicId;
 
   /**
    * The mosaic description. The description may have a length of up to 512 characters and cannot be empty.
    */
-  readonly description: string;
+  public readonly description: string;
 
   /**
    * Mosaic properties
    */
-  readonly properties: MosaicProperties;
+  public readonly properties: MosaicProperties;
 
   /**
    * The optional levy for the mosaic. A creator can demand that each mosaic transfer induces an additional fee
    */
-  readonly levy?: MosaicLevy;
+  public readonly levy?: MosaicLevy;
 
   /**
    * The id for the mosaic definition object.
    */
-  readonly metaId?: number;
+  public readonly metaId?: number;
 
   /**
    * constructor
@@ -81,7 +81,7 @@ export class MosaicDefinition {
     description: string,
     properties: MosaicProperties,
     levy?: MosaicLevy,
-    metaId?: number
+    metaId?: number,
   ) {
     this.creator = creator;
     this.id = id;
@@ -96,15 +96,15 @@ export class MosaicDefinition {
    * @param dto
    * @returns {MosaicDefinition}
    */
-  static createFromMosaicDefinitionDTO(dto: MosaicDefinitionDTO): MosaicDefinition {
-    const levy = <MosaicLevyDTO>dto.levy;
+  public static createFromMosaicDefinitionDTO(dto: MosaicDefinitionDTO): MosaicDefinition {
+    const levy = dto.levy as MosaicLevyDTO;
     return new MosaicDefinition(
       PublicAccount.createWithPublicKey(dto.creator),
       MosaicId.createFromMosaicIdDTO(dto.id),
       dto.description,
       MosaicProperties.createFromMosaicProperties(dto.properties),
-      levy.mosaicId === undefined ? undefined : MosaicLevy.createFromMosaicLevyDTO(levy)
-    )
+      levy.mosaicId === undefined ? undefined : MosaicLevy.createFromMosaicLevyDTO(levy),
+    );
   }
 
   /**
@@ -112,33 +112,32 @@ export class MosaicDefinition {
    * @param dto
    * @returns {MosaicDefinition}
    */
-  static createFromMosaicDefinitionMetaDataPairDTO(dto: MosaicDefinitionMetaDataPairDTO): MosaicDefinition {
-    const levy = <MosaicLevyDTO>dto.mosaic.levy;
+  public static createFromMosaicDefinitionMetaDataPairDTO(dto: MosaicDefinitionMetaDataPairDTO): MosaicDefinition {
+    const levy = dto.mosaic.levy as MosaicLevyDTO;
     return new MosaicDefinition(
       PublicAccount.createWithPublicKey(dto.mosaic.creator),
       MosaicId.createFromMosaicIdDTO(dto.mosaic.id),
       dto.mosaic.description,
       MosaicProperties.createFromMosaicProperties(dto.mosaic.properties),
       levy.mosaicId === undefined ? undefined : MosaicLevy.createFromMosaicLevyDTO(levy),
-      dto.meta.id
-    )
+      dto.meta.id,
+    );
   }
 
   /**
    * @internal
    * @returns {{description: string, id: MosaicId, levy: (MosaicLevyDTO|{}), properties: MosaicProperty[], creator: string}}
    */
-  toDTO(): MosaicDefinitionDTO {
+  public toDTO(): MosaicDefinitionDTO {
     return {
       description: this.description,
       id: this.id,
       levy: this.levy != undefined ? this.levy.toDTO() : null,
       properties: this.properties.toDTO(),
-      creator: this.creator.publicKey
-    }
+      creator: this.creator.publicKey,
+    };
   }
 }
-
 
 /**
  * Each mosaic definition comes with a set of properties.
@@ -152,13 +151,13 @@ export class MosaicProperties {
    * The supply is given in entire units of the mosaic, not in smallest sub-units.
    * The initial supply must be in the range of 0 and 9,000,000,000. The default value is "1000".
    */
-  readonly initialSupply: number;
+  public readonly initialSupply: number;
 
   /**
    * The creator can choose between a definition that allows a mosaic supply change at a later point or an immutable supply.
    * Allowed values for the property are "true" and "false". The default value is "false".
    */
-  readonly supplyMutable: boolean;
+  public readonly supplyMutable: boolean;
 
   /**
    * The creator can choose if the mosaic definition should allow for transfers of the mosaic among accounts other than the creator.
@@ -166,7 +165,7 @@ export class MosaicProperties {
    * If set to "true" the mosaics can be transferred to and from arbitrary accounts.
    * Allowed values for the property are thus "true" and "false". The default value is "true".
    */
-  readonly transferable: boolean;
+  public readonly transferable: boolean;
 
   /**
    * The divisibility determines up to what decimal place the mosaic can be divided into.
@@ -174,8 +173,7 @@ export class MosaicProperties {
    * When transferring mosaics via a transfer transaction the quantity transferred is given in multiples of those smallest parts.
    * The divisibility must be in the range of 0 and 6. The default value is "0".
    */
-  readonly divisibility: number;
-
+  public readonly divisibility: number;
 
   /**
    * constructor
@@ -199,25 +197,25 @@ export class MosaicProperties {
   /**
    * @internal
    */
-  toDTO() {
-    return <MosaicPropertyDTO[]>[
+  public toDTO() {
+    return [
       {
-        "name":"divisibility",
-        "value": this.divisibility.toString()
+        name: "divisibility",
+        value: this.divisibility.toString(),
       },
       {
-        "name":"initialSupply",
-        "value": this.initialSupply.toString()
+        name: "initialSupply",
+        value: this.initialSupply.toString(),
       },
       {
-        "name":"supplyMutable",
-        "value": this.supplyMutable.toString()
+        name: "supplyMutable",
+        value: this.supplyMutable.toString(),
       },
       {
-        "name":"transferable",
-        "value": this.transferable.toString()
-      }
-    ]
+        name: "transferable",
+        value: this.transferable.toString(),
+      },
+    ] as MosaicPropertyDTO[];
   }
 
   /**
@@ -225,13 +223,12 @@ export class MosaicProperties {
    * @param dto
    * @returns {MosaicProperty}
    */
-  static createFromMosaicProperties(mosaicProperties: MosaicPropertyDTO[]): MosaicProperties {
+  public static createFromMosaicProperties(mosaicProperties: MosaicPropertyDTO[]): MosaicProperties {
     return new MosaicProperties(
       Number(mosaicProperties[0].value),
       Number(mosaicProperties[1].value),
       (mosaicProperties[2].value == "true"),
       (mosaicProperties[3].value == "true"),
-    )
+    );
   }
 }
-

@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
+import {MosaicLevyDTO} from "../../infrastructure/mosaic/MosaicLevyDTO";
 import {Address} from "../account/Address";
 import {MosaicId} from "./MosaicId";
-import {MosaicLevyDTO} from "../../infrastructure/mosaic/MosaicLevyDTO";
 
 /**
  * 1: The levy is an absolute fee. The field 'fee' states how many sub-units of the specified mosaic will be transferred to the recipient.
@@ -32,7 +32,7 @@ import {MosaicLevyDTO} from "../../infrastructure/mosaic/MosaicLevyDTO";
  */
 export enum MosaicLevyType {
   Absolute = 1,
-  Percentil = 2
+  Percentil = 2,
 }
 
 /**
@@ -44,22 +44,22 @@ export class MosaicLevy {
   /**
    * 	The levy type
    */
-  readonly type: MosaicLevyType;
+  public readonly type: MosaicLevyType;
 
   /**
    * The recipient of the levy.
    */
-  readonly recipient: Address;
+  public readonly recipient: Address;
 
   /**
    * The mosaic in which the levy is paid.
    */
-  readonly mosaicId: MosaicId;
+  public readonly mosaicId: MosaicId;
 
   /**
    * The fee. The interpretation is dependent on the type of the levy
    */
-  readonly fee: number;
+  public readonly fee: number;
 
   /**
    * constructor
@@ -72,7 +72,7 @@ export class MosaicLevy {
     type: MosaicLevyType,
     recipient: Address,
     mosaicId: MosaicId,
-    fee: number
+    fee: number,
   ) {
     this.type = type;
     this.recipient = recipient;
@@ -83,13 +83,13 @@ export class MosaicLevy {
   /**
    * @internal
    */
-  toDTO(): MosaicLevyDTO {
+  public toDTO(): MosaicLevyDTO {
     return {
       mosaicId: this.mosaicId,
       recipient: this.recipient.plain(),
       type: this.type,
-      fee: this.fee
-    }
+      fee: this.fee,
+    };
   }
 
   /**
@@ -97,7 +97,7 @@ export class MosaicLevy {
    * @param dto
    * @returns {MosaicLevy}
    */
-  static createFromMosaicLevyDTO(dto: MosaicLevyDTO): MosaicLevy {
+  public static createFromMosaicLevyDTO(dto: MosaicLevyDTO): MosaicLevy {
     return new MosaicLevy(
       dto.type,
       new Address(dto.recipient),

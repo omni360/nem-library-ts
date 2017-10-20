@@ -45,11 +45,11 @@ export class BlockchainListener extends Listener {
    * Start listening new blocks
    * @returns {Observable<Block>}
    */
-  newBlock(): Observable<Block> {
+  public newBlock(): Observable<Block> {
     return Observable.create((observer: Observer<Block>) => {
-      let client = this.createClient();
+      const client = this.createClient();
       client.connect({}, () => {
-        client.subscribe('/blocks', (data) => {
+        client.subscribe("/blocks", (data) => {
           try {
             const dto = JSON.parse(data.body);
             observer.next(Block.createFromBlockDTO(dto));
@@ -70,11 +70,11 @@ export class BlockchainListener extends Listener {
    * Start listening new blockchain height
    * @returns {Observable<BlockHeight>}
    */
-  newHeight(): Observable<BlockHeight> {
+  public newHeight(): Observable<BlockHeight> {
     return Observable.create((observer: Observer<BlockHeight>) => {
-      let client = this.createClient();
+      const client = this.createClient();
       client.connect({}, () => {
-        client.subscribe('/blocks/new', (data) => {
+        client.subscribe("/blocks/new", (data) => {
           try {
             const dto = JSON.parse(data.body);
             observer.next(dto.height);

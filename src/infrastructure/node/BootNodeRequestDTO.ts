@@ -45,8 +45,6 @@ export interface BootNodeRequestDTO {
   readonly identity: BootNodeRequestIdentityDTO;
 }
 
-
-
 /**
  * @internal
  * BootNode meta data
@@ -98,5 +96,3 @@ export interface BootNodeRequestIdentityDTO {
   readonly privatekey: string;
 
 }
-
-

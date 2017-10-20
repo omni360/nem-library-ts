@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import {NamespaceMetaDataPairDTO} from "../../infrastructure/namespace/NamespaceMetaDataPairDTO";
 import {NamespaceDTO} from "../../infrastructure/namespace/NamespaceDTO";
+import {NamespaceMetaDataPairDTO} from "../../infrastructure/namespace/NamespaceMetaDataPairDTO";
 import {Address} from "../account/Address";
 
 /**
@@ -34,22 +34,22 @@ export class Namespace {
   /**
    * The fully qualified name of the namespace, also named namespace id.
    */
-  readonly name: string;
+  public readonly name: string;
 
   /**
    * The owner of the namespace.
    */
-  readonly owner: Address;
+  public readonly owner: Address;
 
   /**
    * The height at which the ownership begins.
    */
-  readonly height: number;
+  public readonly height: number;
 
   /**
    * The database id for the namespace object.
    */
-  readonly id?: number;
+  public readonly id?: number;
 
   /**
    * constructor
@@ -63,12 +63,12 @@ export class Namespace {
     name: string,
     owner: Address,
     height: number,
-    id?: number
+    id?: number,
   ) {
     this.name = name;
     this.owner = owner;
     this.height = height;
-    this.id = id
+    this.id = id;
   }
 
   /**
@@ -76,12 +76,12 @@ export class Namespace {
    * @param dto
    * @returns {Namespace}
    */
-  static createFromNamespaceMetaDataPairDTO(dto: NamespaceMetaDataPairDTO): Namespace {
+  public static createFromNamespaceMetaDataPairDTO(dto: NamespaceMetaDataPairDTO): Namespace {
     return new Namespace(
       dto.namespace.fqn,
       new Address(dto.namespace.owner),
       dto.namespace.height,
-      dto.meta.id
+      dto.meta.id,
     );
   }
 
@@ -90,11 +90,11 @@ export class Namespace {
    * @param dto
    * @returns {Namespace}
    */
-  static createFromNamespaceDTO(dto: NamespaceDTO): Namespace {
+  public static createFromNamespaceDTO(dto: NamespaceDTO): Namespace {
     return new Namespace(
       dto.fqn,
       new Address(dto.owner),
-      dto.height
+      dto.height,
     );
   }
 }

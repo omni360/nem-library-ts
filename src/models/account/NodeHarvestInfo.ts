@@ -27,12 +27,12 @@ export class NodeHarvestInfo {
   /**
    * Maximum unlocked slots
    */
-  readonly maxUnlocked: number;
+  public readonly maxUnlocked: number;
 
   /**
    * Number of slots unlocked
    */
-  readonly numUnlocked: number;
+  public readonly numUnlocked: number;
 
   /**
    * @internal
@@ -41,7 +41,7 @@ export class NodeHarvestInfo {
    */
   constructor(
     maxUnlocked: number,
-    numUnlocked: number
+    numUnlocked: number,
   ) {
     this.maxUnlocked = maxUnlocked;
     this.numUnlocked = numUnlocked;

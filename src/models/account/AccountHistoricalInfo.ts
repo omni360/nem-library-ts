@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-import {Balance} from "./Balance";
 import {AccountHistoricalDataViewModelDTO} from "../../infrastructure/account/AccountHistoricalDataViewModelDTO";
 import {Address} from "./Address";
+import {Balance} from "./Balance";
 
 /**
  *
@@ -36,22 +36,22 @@ export class AccountHistoricalInfo {
   /**
    * The balance of the account in micro NEM.
    */
-  readonly balance: Balance;
+  public readonly balance: Balance;
 
   /**
    * The importance of the account.
    */
-  readonly importance: number;
+  public readonly importance: number;
 
   /**
    * The public key of the account.
    */
-  readonly address: Address;
+  public readonly address: Address;
 
   /**
    * The page rank part of the importance.
    */
-  readonly pageRank: number;
+  public readonly pageRank: number;
 
   /**
    * @internal
@@ -66,7 +66,7 @@ export class AccountHistoricalInfo {
     vestedBalance: number,
     importance: number,
     address: string,
-    pageRank: number
+    pageRank: number,
   ){
     this.balance = new Balance(balance, vestedBalance);
     this.importance = importance;
@@ -79,13 +79,13 @@ export class AccountHistoricalInfo {
    * @param dto
    * @returns {AccountHistoricalInfo}
    */
-  static createFromAccountHistoricalDataViewModelDTO(dto: AccountHistoricalDataViewModelDTO): AccountHistoricalInfo {
+  public static createFromAccountHistoricalDataViewModelDTO(dto: AccountHistoricalDataViewModelDTO): AccountHistoricalInfo {
     return new AccountHistoricalInfo(
       dto.balance,
       dto.vestedBalance,
       dto.importance,
       dto.address,
       dto.pageRank,
-    )
+    );
   }
 }

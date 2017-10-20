@@ -34,6 +34,6 @@ export enum NetworkTypes {
    * Test net network
    * @type {number}
    */
-  TEST_NET = 0x98
+  TEST_NET = 0x98,
 
 }

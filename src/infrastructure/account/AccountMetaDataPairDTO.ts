@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import {AccountMetaDataDTO} from "./AccountMetaDataDTO";
 import {AccountInfoDTO} from "./AccountInfoDTO";
+import {AccountMetaDataDTO} from "./AccountMetaDataDTO";
 
 /**
  * @internal

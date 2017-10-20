@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
+import {MultisigTransactionDTO} from "../../infrastructure/transaction/MultisigTransactionDTO";
+import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
+import {PublicAccount} from "../account/PublicAccount";
+import {NetworkTypes} from "../node/NetworkTypes";
+import {MultisigSignatureTransaction} from "./MultisigSignatureTransaction";
+import {TimeWindow} from "./TimeWindow";
 import {Transaction} from "./Transaction";
 import {HashData, MultisigTransactionInfo} from "./TransactionInfo";
-import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
-import {MultisigSignatureTransaction} from "./MultisigSignatureTransaction";
 import {TransactionTypes} from "./TransactionTypes";
-import {PublicAccount} from "../account/PublicAccount";
-import {MultisigTransactionDTO} from "../../infrastructure/transaction/MultisigTransactionDTO";
-import {TimeWindow} from "./TimeWindow";
-import {NetworkTypes} from "../node/NetworkTypes";
 
 /**
  * Multisig transaction are the only way to make transaction from a multisig account to another account.
@@ -42,23 +42,23 @@ export class MultisigTransaction extends Transaction {
   /**
    * The fee for the transaction.
    */
-  readonly fee: number;
+  public readonly fee: number;
 
   /**
    * The JSON array of MulsigSignatureTransaction objects.
    */
-  readonly signatures: MultisigSignatureTransaction[];
+  public readonly signatures: MultisigSignatureTransaction[];
 
   /**
    * The inner transaction. The inner transaction can be a transfer transaction, an importance transfer transaction or a multisig aggregate modification transaction.
    * The inner transaction does not have a valid signature.
    */
-  readonly otherTransaction: Transaction;
+  public readonly otherTransaction: Transaction;
 
   /**
    * Hash data
    */
-  readonly hashData?: HashData;
+  public readonly hashData?: HashData;
 
   /**
    * @internal
@@ -92,7 +92,7 @@ export class MultisigTransaction extends Transaction {
    * Check if transaction is pending to sign
    * @returns {boolean}
    */
-  isPendingToSign(): boolean {
+  public isPendingToSign(): boolean {
     return this.transactionInfo == null && this.hashData != null;
   }
 
@@ -103,14 +103,13 @@ export class MultisigTransaction extends Transaction {
    * @param multisig
    * @returns {MultisigTransaction}
    */
-  static create(timeWindow: TimeWindow,
+  public static create(timeWindow: TimeWindow,
                 otherTrans: Transaction,
                 multisig: PublicAccount): MultisigTransaction {
-    let fee = Math.floor(3 * 0.05 * 1000000);
+    const fee = Math.floor(3 * 0.05 * 1000000);
     otherTrans.signer = multisig;
     return new MultisigTransaction(timeWindow, 1, otherTrans, fee, []);
   }
-
 
   /**
    * @internal
@@ -126,19 +125,19 @@ export class MultisigTransaction extends Transaction {
    * @internal
    * @returns {MultisigTransactionDTO}
    */
-  toDTO(): TransactionDTO {
-    let version = this.networkVersion ? this.networkVersion : this.version;
-    return this.serializeDTO(<MultisigTransactionDTO>{
+  public toDTO(): TransactionDTO {
+    const version = this.networkVersion ? this.networkVersion : this.version;
+    return this.serializeDTO({
       signer: this.signer ? this.signer.publicKey : undefined,
       deadline: this.timeWindow.deadlineToDTO(),
       timeStamp: this.timeWindow.timeStampToDTO(),
       type: this.type,
       signature: this.signature,
-      signatures: this.signatures.map(signature => signature.toDTO()),
-      version: version,
+      signatures: this.signatures.map((signature) => signature.toDTO()),
+      version,
       fee: this.fee,
       otherTrans: this.otherTransaction.toDTO(),
-    });
+    } as MultisigTransactionDTO);
   }
 
   // endregion

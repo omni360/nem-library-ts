@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-import {MosaicHttp} from "../infrastructure/MosaicHttp";
-import {MosaicTransferable} from "../models/mosaic/MosaicTransferable";
 import {Observable} from "rxjs/Observable";
-import {XEM} from "../models/mosaic/XEM";
+import {MosaicHttp} from "../infrastructure/MosaicHttp";
 import {MosaicProperties} from "../models/mosaic/MosaicDefinition";
 import {MosaicLevyType} from "../models/mosaic/MosaicLevy";
+import {MosaicTransferable} from "../models/mosaic/MosaicTransferable";
+import {XEM} from "../models/mosaic/XEM";
 /**
  * Mosaic service
  */
@@ -52,16 +52,16 @@ export class MosaicService {
    * @param mosaicTransferable
    * @returns {any}
    */
-  calculateLevy(mosaicTransferable: MosaicTransferable): Observable<number> {
+  public calculateLevy(mosaicTransferable: MosaicTransferable): Observable<number> {
     if (mosaicTransferable.levy == undefined) return Observable.of(0);
     if (mosaicTransferable.levy.mosaicId.equals(XEM.MOSAICID)) {
       return Observable.of(
-        this.levyFee(mosaicTransferable, new MosaicProperties(XEM.DIVISIBILITY, XEM.INITIALSUPPLY, XEM.TRANSFERABLE, XEM.SUPPLYMUTABLE))
+        this.levyFee(mosaicTransferable, new MosaicProperties(XEM.DIVISIBILITY, XEM.INITIALSUPPLY, XEM.TRANSFERABLE, XEM.SUPPLYMUTABLE)),
       );
     } else {
-      return this.mosaicHttp.getMosaicDefinition(mosaicTransferable.levy.mosaicId).map(levyMosaicDefinition => {
+      return this.mosaicHttp.getMosaicDefinition(mosaicTransferable.levy.mosaicId).map((levyMosaicDefinition) => {
         return this.levyFee(mosaicTransferable, levyMosaicDefinition.properties);
-      })
+      });
     }
   }
 
@@ -72,7 +72,7 @@ export class MosaicService {
    * @returns {any}
    */
   private levyFee(mosaicTransferable: MosaicTransferable, levyProperties: MosaicProperties): number {
-    var levyValue;
+    let levyValue;
 
     if (mosaicTransferable.levy!.type == MosaicLevyType.Absolute) {
       levyValue = mosaicTransferable.levy!.fee;
@@ -80,13 +80,13 @@ export class MosaicService {
       levyValue = mosaicTransferable.quantity() * mosaicTransferable.levy!.fee / 10000;
     }
 
-    let o = parseInt(levyValue, 10);
+    const o = parseInt(levyValue, 10);
 
     if (!o) {
       if (levyProperties.divisibility === 0) {
         return 0;
       } else {
-        return parseFloat("0." + o.toFixed(levyProperties.divisibility).split('.')[1]);
+        return parseFloat("0." + o.toFixed(levyProperties.divisibility).split(".")[1]);
       }
     }
 

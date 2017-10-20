@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import {Wallet} from "./Wallet";
-import {NetworkTypes} from "../node/NetworkTypes";
-import {Address} from "../account/Address";
-import {BrainPassword} from "./BrainPassword";
+import {Base64} from "js-base64";
+import {LocalDateTime} from "js-joda";
+import * as nemSdk from "nem-sdk";
 import {NEMLibrary} from "../../NEMLibrary";
 import {Account} from "../account/Account";
-import * as nemSdk from "nem-sdk";
-import {LocalDateTime} from "js-joda";
-import {Base64} from "js-base64";
+import {Address} from "../account/Address";
+import {NetworkTypes} from "../node/NetworkTypes";
+import {BrainPassword} from "./BrainPassword";
 import {Password} from "./Password";
+import {Wallet} from "./Wallet";
 
 /**
  * Brain wallet derived the private key from the brainPassword, hashing the brainPassword multiple times, therefore it's crucial to select a SAFE brainPassword.
@@ -55,15 +55,15 @@ export class BrainWallet extends Wallet {
    * @param password
    * @returns {BrainWallet}
    */
-  static create(name: string, password: BrainPassword): BrainWallet {
-    let network = NEMLibrary.getNetworkType();
-    let wallet = nemSdk.default.model.wallet.createBrain(name, password.value, Wallet.networkTypesSDKAdapter(network));
+  public static create(name: string, password: BrainPassword): BrainWallet {
+    const network = NEMLibrary.getNetworkType();
+    const wallet = nemSdk.default.model.wallet.createBrain(name, password.value, Wallet.networkTypesSDKAdapter(network));
     return new BrainWallet(
       name,
       network,
       new Address(wallet.accounts["0"].address),
-      LocalDateTime.now()
-    )
+      LocalDateTime.now(),
+    );
   }
 
   /**
@@ -71,14 +71,14 @@ export class BrainWallet extends Wallet {
    * @param password
    * @returns {Account}
    */
-  open(password: BrainPassword): Account {
-    let common = nemSdk.default.model.objects.create("common")(password.value, "");
+  public open(password: BrainPassword): Account {
+    const common = nemSdk.default.model.objects.create("common")(password.value, "");
     nemSdk.default.crypto.helpers.passwordToPrivatekey(common, {}, "pass:6k");
     return Account.createWithPrivateKey(common.privateKey);
   }
 
   public unlockPrivateKey(password: Password): string {
-    let common = nemSdk.default.model.objects.create("common")(password.value, "");
+    const common = nemSdk.default.model.objects.create("common")(password.value, "");
     nemSdk.default.crypto.helpers.passwordToPrivatekey(common, {}, "pass:6k");
     return common.privateKey;
   }
@@ -87,7 +87,7 @@ export class BrainWallet extends Wallet {
    * Converts BrainWallet into writable string to persist into a file
    * @returns {string}
    */
-  writeWLTFile(): string {
+  public writeWLTFile(): string {
     return Base64.encode(JSON.stringify({
       name: this.name,
       network: this.network.toString(),
@@ -103,8 +103,8 @@ export class BrainWallet extends Wallet {
    * @param {string} wlt
    * @returns {BrainWallet}
    */
-  static readFromWLT(wlt: string): BrainWallet {
-    let wallet = JSON.parse(Base64.decode(wlt));
+  public static readFromWLT(wlt: string): BrainWallet {
+    const wallet = JSON.parse(Base64.decode(wlt));
     if (wallet.type != "brain") {
       throw new Error("ERROR WLT TYPE");
     }

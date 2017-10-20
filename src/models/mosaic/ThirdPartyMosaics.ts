@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-import {MosaicTransferable} from "./MosaicTransferable";
-import {MosaicId} from "./MosaicId";
 import {MosaicProperties} from "./MosaicDefinition";
+import {MosaicId} from "./MosaicId";
+import {MosaicTransferable} from "./MosaicTransferable";
 
 export class DimCoin extends MosaicTransferable {
 

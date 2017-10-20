@@ -23,8 +23,8 @@
  */
 
 import {NodeDTO, NodeEndpointDTO, NodeIdentityDTO, NodeMetaDataDTO} from "../../infrastructure/node/NodeDTO";
-import {NetworkTypes} from "./NetworkTypes";
 import {PublicAccount} from "../account/PublicAccount";
+import {NetworkTypes} from "./NetworkTypes";
 
 /**
  * Nodes are the entities that perform communication in the network like sending and receiving data.
@@ -35,18 +35,17 @@ export class Node {
   /**
    * Denotes the beginning of the meta data substructure.
    */
-  readonly metaData: NodeMetaData;
+  public readonly metaData: NodeMetaData;
 
   /**
    * Denotes the beginning of the endpoint substructure.
    */
-  readonly endpoint: NodeEndpoint;
+  public readonly endpoint: NodeEndpoint;
 
   /**
    * Denotes the beginning of the identity substructure.
    */
-  readonly identity: NodeIdentity;
-
+  public readonly identity: NodeIdentity;
 
   /**
    * @internal
@@ -57,7 +56,7 @@ export class Node {
   private constructor(
     metaData: NodeMetaData,
     endpoint: NodeEndpoint,
-    identity: NodeIdentity
+    identity: NodeIdentity,
   ) {
     this.metaData = metaData;
     this.endpoint = endpoint;
@@ -69,11 +68,11 @@ export class Node {
    * @param dto
    * @returns {NodeDTO}
    */
-  static createFromNodeDTO(dto: NodeDTO): Node {
+  public static createFromNodeDTO(dto: NodeDTO): Node {
     return new Node(
       NodeMetaData.createFromNodeMetaDataDTO(dto.metaData),
       NodeEndpoint.createFromNodeEndpointDTO(dto.endpoint),
-      NodeIdentity.createFromNodeIdentityDTO(dto.identity)
+      NodeIdentity.createFromNodeIdentityDTO(dto.identity),
     );
   }
 }
@@ -85,27 +84,27 @@ export class NodeMetaData {
   /**
    * The number of features the nodes has.
    */
-  readonly features: number;
+  public readonly features: number;
 
   /**
    * The network id
    */
-  readonly network: NetworkTypes;
+  public readonly network: NetworkTypes;
 
   /**
    * The name of the application that is running the node.
    */
-  readonly application: string;
+  public readonly application: string;
 
   /**
    * The version of the application.
    */
-  readonly version: string;
+  public readonly version: string;
 
   /**
    * The underlying platform (OS, java version).
    */
-  readonly platform: string;
+  public readonly platform: string;
 
   /**
    * @internal
@@ -120,7 +119,7 @@ export class NodeMetaData {
     network: NetworkTypes,
     application: string,
     version: string,
-    platform: string
+    platform: string,
   ) {
     this.features = features;
     this.network = network;
@@ -134,13 +133,13 @@ export class NodeMetaData {
    * @param dto
    * @returns {NodeMetaDataDTO}
    */
-  static createFromNodeMetaDataDTO(dto: NodeMetaDataDTO): NodeMetaData {
+  public static createFromNodeMetaDataDTO(dto: NodeMetaDataDTO): NodeMetaData {
     return new NodeMetaData(
         dto.features,
         dto.networkId,
         dto.application,
         dto.version,
-        dto.platform
+        dto.platform,
     );
   }
 }
@@ -152,17 +151,17 @@ export class NodeEndpoint {
   /**
    * The protocol used for the communication (HTTP or HTTPS).
    */
-  readonly protocol: string;
+  public readonly protocol: string;
 
   /**
    * The port used for the communication.
    */
-  readonly port: number;
+  public readonly port: number;
 
   /**
    * The IP address of the endpoint.
    */
-  readonly host: string;
+  public readonly host: string;
 
   /**
    * @internal
@@ -173,7 +172,7 @@ export class NodeEndpoint {
   private constructor(
     protocol: string,
     port: number,
-    host: string
+    host: string,
   ) {
     this.protocol = protocol;
     this.port = port;
@@ -185,11 +184,11 @@ export class NodeEndpoint {
    * @param dto
    * @returns {NodeEndpointDTO}
    */
-  static createFromNodeEndpointDTO(dto: NodeEndpointDTO): NodeEndpoint {
+  public static createFromNodeEndpointDTO(dto: NodeEndpointDTO): NodeEndpoint {
     return new NodeEndpoint(
       dto.protocol,
       dto.port,
-      dto.host
+      dto.host,
     );
   }
 }
@@ -201,12 +200,12 @@ export class NodeIdentity {
   /**
    * The name of the node.
    */
-  readonly name: string;
+  public readonly name: string;
 
   /**
    * The public account used to identify the node.
    */
-  readonly publicAccount?: PublicAccount;
+  public readonly publicAccount?: PublicAccount;
 
   /**
    * @internal
@@ -215,7 +214,7 @@ export class NodeIdentity {
    */
   private constructor(
     name: string,
-    publicAccount?: PublicAccount
+    publicAccount?: PublicAccount,
   ) {
     this.name = name;
     this.publicAccount = publicAccount;
@@ -226,10 +225,10 @@ export class NodeIdentity {
    * @param dto
    * @returns {NodeIdentityDTO}
    */
-  static createFromNodeIdentityDTO(dto: NodeIdentityDTO): NodeIdentity {
+  public static createFromNodeIdentityDTO(dto: NodeIdentityDTO): NodeIdentity {
     return new NodeIdentity(
       dto.name,
-      dto.publickey === undefined ? undefined : PublicAccount.createWithPublicKey(dto.publickey)
+      dto.publickey === undefined ? undefined : PublicAccount.createWithPublicKey(dto.publickey),
     );
   }
 }

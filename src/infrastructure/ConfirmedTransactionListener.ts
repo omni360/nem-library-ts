@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-import {Address} from "../models/account/Address";
-import {Transaction} from "../models/transaction/Transaction";
+import * as _ from "lodash";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
-import * as _ from "lodash";
+import {Address} from "../models/account/Address";
+import {Transaction} from "../models/transaction/Transaction";
 import {Listener, WebSocketConfig} from "./Listener";
 import {CreateTransactionFromDTO} from "./transaction/CreateTransactionFromDTO";
 
@@ -48,13 +48,13 @@ export class ConfirmedTransactionListener extends Listener {
    * @param address
    * @returns {Observable<Transaction>}
    */
-  given(address: Address): Observable<Transaction> {
+  public given(address: Address): Observable<Transaction> {
     return Observable.create((observer: Observer<Transaction>) => {
       let lastTransaction: Transaction;
-      let client = this.createClient();
+      const client = this.createClient();
 
       client.connect({}, () => {
-        client.subscribe('/transactions/' + address.plain(), (data) => {
+        client.subscribe("/transactions/" + address.plain(), (data) => {
           try {
             const transaction = CreateTransactionFromDTO(JSON.parse(data.body));
             if (!_.isEqual(transaction, lastTransaction)) {

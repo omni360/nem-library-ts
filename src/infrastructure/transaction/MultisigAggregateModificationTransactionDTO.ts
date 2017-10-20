@@ -45,7 +45,6 @@ export interface MultisigAggregateModificationTransactionDTO extends Transaction
   readonly minCosignatories?: MultisigAggregateModificationMinCosignatoriesDTO;
 }
 
-
 /**
  * @internal
  * Minimum cosignatories modification
@@ -57,4 +56,3 @@ export interface MultisigAggregateModificationMinCosignatoriesDTO {
    */
   readonly relativeChange: number;
 }
-

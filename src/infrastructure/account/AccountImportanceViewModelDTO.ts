@@ -66,4 +66,3 @@ export interface AccountImportanceDataDTO {
    */
   readonly height: number;
 }
-

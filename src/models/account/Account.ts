@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-import {SignedTransaction} from "../transaction/SignedTransaction";
 import * as nemSdk from "nem-sdk";
-import {Transaction} from "../transaction/Transaction";
-import {PublicAccount} from "./PublicAccount";
-import {Address} from "./Address";
-import {NetworkTypes} from "../node/NetworkTypes";
 import {NEMLibrary} from "../../NEMLibrary";
+import {NetworkTypes} from "../node/NetworkTypes";
 import {EncryptedMessage} from "../transaction/EncryptedMessage";
 import {PlainMessage} from "../transaction/PlainMessage";
+import {SignedTransaction} from "../transaction/SignedTransaction";
+import {Transaction} from "../transaction/Transaction";
+import {Address} from "./Address";
+import {PublicAccount} from "./PublicAccount";
 
 /**
  * Account model
@@ -55,16 +55,16 @@ export class Account extends PublicAccount {
    * @param transaction
    * @returns {{data: any, signature: string}}
    */
-  signTransaction(transaction: Transaction): SignedTransaction {
+  public signTransaction(transaction: Transaction): SignedTransaction {
     transaction.signer = PublicAccount.createWithPublicKey(this.publicKey);
     transaction.setNetworkType(this.address.network());
     const dto = transaction.toDTO();
-    let keyPair: any = nemSdk.default.crypto.keyPair.create(nemSdk.default.utils.helpers.fixPrivateKey(this.privateKey));
-    let result = nemSdk.default.utils.serialization.serializeTransaction(dto);
-    let signature = keyPair.sign(result);
+    const keyPair: any = nemSdk.default.crypto.keyPair.create(nemSdk.default.utils.helpers.fixPrivateKey(this.privateKey));
+    const result = nemSdk.default.utils.serialization.serializeTransaction(dto);
+    const signature = keyPair.sign(result);
     return {
       data: nemSdk.default.utils.convert.ua2hex(result),
-      signature: signature.toString()
+      signature: signature.toString(),
     };
   }
 
@@ -73,7 +73,7 @@ export class Account extends PublicAccount {
    * @param privateKey
    * @returns {Account}
    */
-  static createWithPrivateKey(privateKey: string) {
+  public static createWithPrivateKey(privateKey: string) {
     if (privateKey == undefined) {
       throw new Error("Private Key is undefined");
     }
@@ -83,14 +83,14 @@ export class Account extends PublicAccount {
     } else if (NEMLibrary.getNetworkType() == NetworkTypes.TEST_NET) {
       network = nemSdk.default.model.network.data.testnet.id;
     }
-    let keyPair: any = nemSdk.default.crypto.keyPair.create(nemSdk.default.utils.helpers.fixPrivateKey(privateKey));
+    const keyPair: any = nemSdk.default.crypto.keyPair.create(nemSdk.default.utils.helpers.fixPrivateKey(privateKey));
     const publicKey: string = keyPair.publicKey.toString();
     const address: string = nemSdk.default.model.address.toAddress(publicKey, network);
     return new Account(
       new Address(address),
       publicKey,
-      privateKey
-    )
+      privateKey,
+    );
   }
 
   /**
@@ -99,7 +99,7 @@ export class Account extends PublicAccount {
    * @param recipientPublicAccount
    * @returns {EncryptedMessage}
    */
-  encryptMessage(message: string, recipientPublicAccount: PublicAccount): EncryptedMessage {
+  public encryptMessage(message: string, recipientPublicAccount: PublicAccount): EncryptedMessage {
     return EncryptedMessage.create(message, recipientPublicAccount, this.privateKey);
   }
 
@@ -109,7 +109,7 @@ export class Account extends PublicAccount {
    * @param recipientPublicAccount
    * @returns {PlainMessage}
    */
-  decryptMessage(encryptedMessage: EncryptedMessage, recipientPublicAccount: PublicAccount): PlainMessage {
+  public decryptMessage(encryptedMessage: EncryptedMessage, recipientPublicAccount: PublicAccount): PlainMessage {
     return EncryptedMessage.decrypt(encryptedMessage, this.privateKey, recipientPublicAccount);
   }
 }

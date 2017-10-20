@@ -75,4 +75,3 @@ export interface NemAsyncTimerVisitorDTO {
   readonly lastoperationtime: number;
 
 }
-

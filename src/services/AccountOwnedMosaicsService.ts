@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
+import {Observable} from "rxjs/Observable";
 import {AccountHttp} from "../infrastructure/AccountHttp";
 import {MosaicHttp} from "../infrastructure/MosaicHttp";
 import {Address} from "../models/account/Address";
-import {MosaicDefinition} from "../models/mosaic/MosaicDefinition";
-import {Observable} from "rxjs/Observable";
 import {Mosaic} from "../models/mosaic/Mosaic";
+import {MosaicDefinition} from "../models/mosaic/MosaicDefinition";
 import {MosaicTransferable} from "../models/mosaic/MosaicTransferable";
 import {XEM} from "../models/mosaic/XEM";
 
@@ -60,14 +60,14 @@ export class AccountOwnedMosaicsService {
    * @param address
    * @returns {Observable<MosaicDefinition[]>}
    */
-  fromAddress(address: Address): Observable<MosaicTransferable[]> {
+  public fromAddress(address: Address): Observable<MosaicTransferable[]> {
     return this.accountHttp.getMosaicOwnedByAddress(address)
-      .flatMap(_ => _)
+      .flatMap((_) => _)
       .flatMap((mosaic: Mosaic) => {
         if (XEM.MOSAICID.equals(mosaic.mosaicId)) return Observable.of(new XEM(mosaic.quantity / Math.pow(10, 6)));
         else {
           return this.mosaicHttp.getMosaicDefinition(mosaic.mosaicId)
-            .map(mosaicDefinition => {
+            .map((mosaicDefinition) => {
               return MosaicTransferable.createWithMosaicDefinition(mosaicDefinition, mosaic.quantity / Math.pow(10, mosaicDefinition.properties.divisibility));
             });
         }

@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-import {Message} from "./Message";
-import {PublicAccount} from "../account/PublicAccount";
 import * as nemSdk from "nem-sdk";
 import {MessageDTO} from "../../infrastructure/transaction/Message";
+import {PublicAccount} from "../account/PublicAccount";
+import {Message} from "./Message";
 import {PlainMessage} from "./PlainMessage";
 
 /**
@@ -36,7 +36,7 @@ export class EncryptedMessage extends Message {
   /**
    * @internal
    */
-  readonly recipientPublicAccount?: PublicAccount;
+  public readonly recipientPublicAccount?: PublicAccount;
 
   /**
    * @internal
@@ -48,11 +48,11 @@ export class EncryptedMessage extends Message {
     this.recipientPublicAccount = recipientPublicAccount;
   }
 
-  isEncrypted(): boolean {
+  public isEncrypted(): boolean {
     return true;
   }
 
-  isPlain(): boolean {
+  public isPlain(): boolean {
     return false;
   }
 
@@ -63,14 +63,14 @@ export class EncryptedMessage extends Message {
    * @param privateKey
    * @returns {EncryptedMessage}
    */
-  static create(message: string, recipientPublicAccount: PublicAccount, privateKey) {
+  public static create(message: string, recipientPublicAccount: PublicAccount, privateKey) {
     return new EncryptedMessage(nemSdk.default.crypto.helpers.encode(privateKey, recipientPublicAccount.publicKey, message), recipientPublicAccount);
   }
 
   /**
    * @internal
    */
-  static createFromDTO(payload: string): EncryptedMessage {
+  public static createFromDTO(payload: string): EncryptedMessage {
     return new EncryptedMessage(payload);
   }
 
@@ -81,7 +81,7 @@ export class EncryptedMessage extends Message {
    * @param recipientPublicAccount
    * @returns {EncryptedMessage}
    */
-  static decrypt(encryptMessage: EncryptedMessage, privateKey, recipientPublicAccount: PublicAccount): PlainMessage {
+  public static decrypt(encryptMessage: EncryptedMessage, privateKey, recipientPublicAccount: PublicAccount): PlainMessage {
     return new PlainMessage(Message.decodeHex(nemSdk.default.crypto.helpers.decode(privateKey, recipientPublicAccount.publicKey, encryptMessage.payload)));
   }
 
@@ -89,10 +89,10 @@ export class EncryptedMessage extends Message {
    * @internal
    * @returns {MessageDTO}
    */
-  toDTO(): MessageDTO {
-    return <MessageDTO> {
-      "payload": this.payload,
-      "type": 2
-    }
+  public toDTO(): MessageDTO {
+    return {
+      payload: this.payload,
+      type: 2,
+    } as MessageDTO;
   }
 }

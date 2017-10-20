@@ -23,8 +23,8 @@
  */
 
 import {MosaicIdDTO} from "./MosaicIdDTO";
-import {MosaicPropertyDTO} from "./MosaicPropertyDTO";
 import {MosaicLevyDTO} from "./MosaicLevyDTO";
+import {MosaicPropertyDTO} from "./MosaicPropertyDTO";
 
 /**
  * @internal
@@ -59,7 +59,5 @@ export interface MosaicDefinitionDTO {
    * The optional levy for the mosaic. A creator can demand that each mosaic transfer induces an additional fee
    */
   readonly levy: MosaicLevyDTO | null | {};
-
-
 
 }

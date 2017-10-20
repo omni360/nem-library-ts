@@ -49,7 +49,6 @@ export interface ExtendedNodeExperiencePairDTO {
   readonly experience: ExtendedNodeExperienceDataDTO;
 }
 
-
 /**
  * @internal
  * Node experience data

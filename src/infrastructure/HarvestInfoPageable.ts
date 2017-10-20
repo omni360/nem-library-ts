@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-import {AccountHttp} from "./AccountHttp";
-import {Address} from "../models/account/Address";
 import {Subject} from "rxjs/Subject";
-import {Pageable} from "./Pageable";
 import {AccountHarvestInfo} from "../models/account/AccountHarvestInfo";
+import {Address} from "../models/account/Address";
+import {AccountHttp} from "./AccountHttp";
+import {Pageable} from "./Pageable";
 
 /**
  * @internal
@@ -43,16 +43,16 @@ export class HarvestInfoPageable extends Pageable<AccountHarvestInfo[]> {
     this.id = id;
   }
 
-  nextPage() {
-    this.resource.getHarvestInfoDataForAnAccount(this.address, this.id).subscribe(next => {
+  public nextPage() {
+    this.resource.getHarvestInfoDataForAnAccount(this.address, this.id).subscribe((next) => {
       if (next.length != 0) {
         this.id = (next[next.length - 1].id).toString();
         this.next(next);
       } else {
         this.complete();
       }
-    }, err => {
+    }, (err) => {
       this.error(err);
-    })
+    });
   }
 }

@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
+import {MosaicDTO} from "../mosaic/MosaicDTO";
 import {MessageDTO} from "./Message";
 import {TransactionDTO} from "./TransactionDTO";
-import {MosaicDTO} from "../mosaic/MosaicDTO";
 
 /**
  * @internal

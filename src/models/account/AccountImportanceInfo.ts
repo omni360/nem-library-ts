@@ -24,7 +24,7 @@
 
 import {
   AccountImportanceDataDTO,
-  AccountImportanceViewModelDTO
+  AccountImportanceViewModelDTO,
 } from "../../infrastructure/account/AccountImportanceViewModelDTO";
 import {Address} from "./Address";
 
@@ -36,12 +36,12 @@ export class AccountImportanceInfo {
   /**
    * The address of the account.
    */
-  readonly address: Address;
+  public readonly address: Address;
 
   /**
    * Substructure that describes the importance of the account.
    */
-  readonly importance: AccountImportanceData;
+  public readonly importance: AccountImportanceData;
 
   /**
    * @internal
@@ -50,7 +50,7 @@ export class AccountImportanceInfo {
    */
   private constructor(
     address: Address,
-    importance: AccountImportanceData
+    importance: AccountImportanceData,
   ) {
     this.address = address;
     this.importance = importance;
@@ -61,7 +61,7 @@ export class AccountImportanceInfo {
    * @param dto
    * @returns {AccountImportanceInfo}
    */
-  static createFromAccountImportanceViewModelDTO(dto: AccountImportanceViewModelDTO) {
+  public static createFromAccountImportanceViewModelDTO(dto: AccountImportanceViewModelDTO) {
     return new AccountImportanceInfo(
       new Address(dto.address),
       AccountImportanceData.createFromAccountImportanceDataDTO(dto.importance));
@@ -77,22 +77,22 @@ export class AccountImportanceData {
   /**
    * Indicates if the fields "score", "ev" and "height" are available.isSet can have the values 0 or 1. In case isSet is 0 the fields are not available.
    */
-  readonly isSet: number;
+  public readonly isSet: number;
 
   /**
    * The importance of the account. The importance ranges between 0 and 1.
    */
-  readonly score?: number;
+  public readonly score?: number;
 
   /**
    * The page rank portion of the importance. The page rank ranges between 0 and 1.
    */
-  readonly ev?: number;
+  public readonly ev?: number;
 
   /**
    * The height at which the importance calculation was performed.
    */
-  readonly height?: number;
+  public readonly height?: number;
 
   /**
    * @internal
@@ -105,7 +105,7 @@ export class AccountImportanceData {
     isSet: number,
     score?: number,
     ev?: number,
-    height?: number
+    height?: number,
   ) {
     this.isSet = isSet;
     this.score = score;
@@ -118,7 +118,7 @@ export class AccountImportanceData {
    * @param dto
    * @returns {AccountImportanceData}
    */
-  static createFromAccountImportanceDataDTO(dto: AccountImportanceDataDTO) {
+  public static createFromAccountImportanceDataDTO(dto: AccountImportanceDataDTO) {
     return new AccountImportanceData(
       dto.isSet,
       dto.score,
@@ -126,4 +126,3 @@ export class AccountImportanceData {
       dto.height);
   }
 }
-

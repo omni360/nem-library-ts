@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import {NodeDTO} from "../node/NodeDTO";
 import {ApplicationMetaDataDTO} from "../node/ApplicationMetaDataDTO";
+import {NodeDTO} from "../node/NodeDTO";
 /**
  * @internal
  * The NisNodeInfo object provides detailed information about a node.

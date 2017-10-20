@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-import {Observable} from "rxjs";
 import * as requestPromise from "request-promise-native";
-import {HttpEndpoint, ServerConfig} from "./HttpEndpoint";
+import {Observable} from "rxjs";
 import {Namespace} from "../models/namespace/Namespace";
-import {NamespaceMetaDataPairDTO} from "./namespace/NamespaceMetaDataPairDTO";
+import {HttpEndpoint, ServerConfig} from "./HttpEndpoint";
 import {NamespaceDTO} from "./namespace/NamespaceDTO";
+import {NamespaceMetaDataPairDTO} from "./namespace/NamespaceMetaDataPairDTO";
 
 export class NamespaceHttp extends HttpEndpoint {
 
@@ -41,14 +41,14 @@ export class NamespaceHttp extends HttpEndpoint {
    * @param pageSize - (Optional) The number of namespace objects to be returned for each request. The parameter is optional. The default value is 25, the minimum value is 5 and hte maximum value is 100.
    * @returns Observable<Namespace[]>
    */
-  getRootNamespaces(id: number, pageSize?: string): Observable<Namespace[]> {
-    const url = 'root/page?id=' + id +
+  public getRootNamespaces(id: number, pageSize?: string): Observable<Namespace[]> {
+    const url = "root/page?id=" + id +
       (pageSize === undefined ? "" : "&pageSize=" + pageSize);
 
     return Observable.of(url)
-      .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
+      .flatMap((url) => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
-      .map(namespacesData => {
+      .map((namespacesData) => {
         return namespacesData.data.map((namespace: NamespaceMetaDataPairDTO) => {
           return Namespace.createFromNamespaceMetaDataPairDTO(namespace);
         });
@@ -60,9 +60,9 @@ export class NamespaceHttp extends HttpEndpoint {
    * @param namespace - The namespace id.
    * @returns Observable<Namespace>
    */
-  getNamespace(namespace: string): Observable<Namespace> {
+  public getNamespace(namespace: string): Observable<Namespace> {
     return Observable.of("?namespace=" + namespace)
-      .flatMap(url => requestPromise.get(this.nextNode() + url, {json: true}))
+      .flatMap((url) => requestPromise.get(this.nextNode() + url, {json: true}))
       .retryWhen(this.replyWhenRequestError)
       .map((namespace: NamespaceDTO) => {
          return Namespace.createFromNamespaceDTO(namespace);

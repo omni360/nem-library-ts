@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import {BlockDTO} from "./BlockDTO";
 import {TransactionMetaDataPairDTO} from "../transaction/TransactionMetaDataPairDTO";
+import {BlockDTO} from "./BlockDTO";
 /**
  * @internal
  * The following structure is used by the NEM block blockchain explorer for convenience reason. The data is similar but not identical to that of a Block.
@@ -35,7 +35,6 @@ export interface ExplorerBlockViewModelDTO {
    */
   readonly data: ExplorerBlockViewModelDataDTO[];
 }
-
 
 /**
  * @internal
@@ -64,7 +63,6 @@ export interface ExplorerBlockViewModelDataDTO {
   readonly difficulty: number;
 }
 
-
 /**
  * @internal
  * The following structure is used by the NEM block blockchain explorer for convenience reason.
@@ -86,6 +84,3 @@ export interface ExplorerTransferViewModelDTO {
    */
   readonly innerHash: string;
 }
-
-
-

@@ -19,9 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import {AccountHttp, QueryParams} from "./AccountHttp";
-import {Address} from "../models/account/Address";
 import {Transaction} from "../models";
+import {Address} from "../models/account/Address";
+import {AccountHttp, QueryParams} from "./AccountHttp";
 import {Pageable} from "./Pageable";
 
 /**
@@ -44,17 +44,17 @@ export class AllTransactionsPageable extends Pageable<Transaction[]> {
     this.params = params;
   }
 
-  nextPage() {
+  public nextPage() {
     this.resource.allTransactions(this.address, this.params)
-      .subscribe(next => {
+      .subscribe((next) => {
         if (next.length != 0) {
           this.params.id = next[next.length - 1].getTransactionInfo().id;
           this.next(next);
         } else {
           this.complete();
         }
-      }, err => {
+      }, (err) => {
         this.error(err);
-      })
+      });
   }
 }

@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-import {MosaicTransferable} from "./MosaicTransferable";
+import {PublicAccount} from "../account/PublicAccount";
 import {MosaicDefinition, MosaicProperties} from "./MosaicDefinition";
 import {MosaicId} from "./MosaicId";
-import {PublicAccount} from "../account/PublicAccount";
+import {MosaicTransferable} from "./MosaicTransferable";
 
 /**
  * XEM mosaic transferable
@@ -35,31 +35,31 @@ export class XEM extends MosaicTransferable {
    * Divisiblity
    * @type {number}
    */
-  static DIVISIBILITY = 6;
+  public static DIVISIBILITY = 6;
 
   /**
    * Initial supply
    * @type {number}
    */
-  static INITIALSUPPLY= 8999999999;
+  public static INITIALSUPPLY= 8999999999;
 
   /**
    * Is tranferable
    * @type {boolean}
    */
-  static TRANSFERABLE = true;
+  public static TRANSFERABLE = true;
 
   /**
    * Is mutable
    * @type {boolean}
    */
-  static SUPPLYMUTABLE = false;
+  public static SUPPLYMUTABLE = false;
 
   /**
    * mosaicId
    * @type {MosaicId}
    */
-  static MOSAICID = new MosaicId("nem", "xem");
+  public static MOSAICID = new MosaicId("nem", "xem");
 
   /**
    * constructor

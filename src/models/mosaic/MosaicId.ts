@@ -32,12 +32,12 @@ export class MosaicId {
   /**
    * The corresponding namespace id
    */
-  readonly namespaceId: string;
+  public readonly namespaceId: string;
 
   /**
    * The name of the mosaic definition.
    */
-  readonly name: string;
+  public readonly name: string;
 
   /**
    * constructor
@@ -46,13 +46,13 @@ export class MosaicId {
    */
   constructor(
     namespaceId: string,
-    name: string
+    name: string,
   ) {
     this.namespaceId = namespaceId;
     this.name = name;
   }
 
-  toString(): string {
+  public toString(): string {
     return this.description();
   }
 
@@ -60,11 +60,11 @@ export class MosaicId {
    * @internal
    * @returns {{name: string, namespaceId: string}}
    */
-  toDTO(): MosaicIdDTO {
+  public toDTO(): MosaicIdDTO {
     return {
       name: this.name,
-      namespaceId: this.namespaceId
-    }
+      namespaceId: this.namespaceId,
+    };
   }
 
   /**
@@ -72,24 +72,23 @@ export class MosaicId {
    * @param dto
    * @returns {MosaicId}
    */
-  static createFromMosaicIdDTO(dto: MosaicIdDTO): MosaicId {
+  public static createFromMosaicIdDTO(dto: MosaicIdDTO): MosaicId {
     return new MosaicId(dto.namespaceId, dto.name);
   }
-
 
   /**
    * Compares mosaicIds for equality
    * @param mosaicId
    * @returns {boolean}
    */
-  equals(mosaicId: MosaicId): boolean {
+  public equals(mosaicId: MosaicId): boolean {
     return this.namespaceId == mosaicId.namespaceId && this.name == mosaicId.name;
   }
 
   /**
    * Mosaic Id description in format namespaceId:name ex: nem:xem
    */
-  description(): string {
+  public description(): string {
     return this.namespaceId + ":" + this.name;
   }
 }

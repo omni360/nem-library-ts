@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import {MessageDTO} from "../../infrastructure/transaction/Message";
 import * as utf8 from "utf8";
+import {MessageDTO} from "../../infrastructure/transaction/Message";
 
 /**
  * Message model
@@ -32,7 +32,7 @@ export abstract class Message {
   /**
    * Message payload
    */
-  readonly payload: string;
+  public readonly payload: string;
 
   /**
    * @internal
@@ -42,22 +42,22 @@ export abstract class Message {
     this.payload = payload;
   }
 
-  abstract isEncrypted(): boolean;
+  public abstract isEncrypted(): boolean;
 
-  abstract isPlain(): boolean;
+  public abstract isPlain(): boolean;
 
   /**
    * @internal
    * @param message
    * @returns {string}
    */
-  static encodeHex(message: string): string {
-    let rawString = this.rstr2utf8(message);
+  public static encodeHex(message: string): string {
+    const rawString = this.rstr2utf8(message);
     let hex = "";
     for (let i = 0; i < rawString.length; i++) {
-      hex += this.strlpad(rawString.charCodeAt(i).toString(16), "0", 2)
+      hex += this.strlpad(rawString.charCodeAt(i).toString(16), "0", 2);
     }
-    return utf8.encode(hex)
+    return utf8.encode(hex);
   }
 
   /**
@@ -65,8 +65,8 @@ export abstract class Message {
    * @param hex
    * @returns {string}
    */
-  static decodeHex(hex: string): string {
-    let str = '';
+  public static decodeHex(hex: string): string {
+    let str = "";
     for (let i = 0; i < hex.length; i += 2)
       str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
     try {
@@ -81,11 +81,11 @@ export abstract class Message {
    * @param input
    * @returns {string}
    */
-  static rstr2utf8(input): string {
+  public static rstr2utf8(input): string {
     let output = "";
 
     for (let n = 0; n < input.length; n++) {
-      let c = input.charCodeAt(n);
+      const c = input.charCodeAt(n);
 
       if (c < 128) {
         output += String.fromCharCode(c);
@@ -100,7 +100,7 @@ export abstract class Message {
     }
 
     return output;
-  };
+  }
 
   /**
    * @internal
@@ -110,7 +110,7 @@ export abstract class Message {
    * @param len
    * @returns {any}
    */
-  static strlpad(str, pad, len) {
+  public static strlpad(str, pad, len) {
     while (str.length < len) {
       str = pad + str;
     }

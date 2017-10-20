@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import {Message} from "./Message";
 import {MessageDTO} from "../../infrastructure/transaction/Message";
+import {Message} from "./Message";
 
 /**
  * Plain Message model
@@ -42,42 +42,41 @@ export class PlainMessage extends Message {
    * Create new constructor
    * @returns {boolean}
    */
-  static create(message: string) {
+  public static create(message: string) {
     return new PlainMessage(this.encodeHex(message));
   }
 
-  isEncrypted(): boolean {
+  public isEncrypted(): boolean {
     return false;
   }
 
-  isPlain(): boolean {
+  public isPlain(): boolean {
     return true;
   }
 
   /**
    * @internal
    */
-  static createFromDTO(payload: string): PlainMessage {
+  public static createFromDTO(payload: string): PlainMessage {
     return new PlainMessage(payload);
   }
-
 
   /**
    * @internal
    * @returns {MessageDTO}
    */
-  toDTO(): MessageDTO {
-    return <MessageDTO> {
-      "payload": this.payload,
-      "type": 1
-    }
+  public toDTO(): MessageDTO {
+    return {
+      payload: this.payload,
+      type: 1,
+    } as MessageDTO;
   }
 
   /**
    * Message string
    * @returns {string}
    */
-  plain(): string {
+  public plain(): string {
     return Message.decodeHex(this.payload);
   }
 }

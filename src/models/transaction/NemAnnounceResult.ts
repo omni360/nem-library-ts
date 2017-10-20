@@ -33,7 +33,7 @@ import {NemAnnounceResultDTO} from "../../infrastructure/transaction/NemAnnounce
 export enum TypeNemAnnounceResult {
   Validation = 1,
   HeartBeat = 2,
-  Status = 4
+  Status = 4,
 }
 
 /**
@@ -80,7 +80,6 @@ export type CodeNemAnnounceResult =
   0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
   11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19;
 
-
 /**
  * The NemAnnounceResult extends the NemRequestResult by supplying the additional fields 'transactionHash' and in case of a multisig transaction 'innerTransactionHash'.
  */
@@ -89,27 +88,27 @@ export class NemAnnounceResult {
   /**
    * The type is dependent on the request which was answered.
    */
-  readonly type: TypeNemAnnounceResult;
+  public readonly type: TypeNemAnnounceResult;
 
   /**
    * The meaning of the code is dependent on the type.
    */
-  readonly code: CodeNemAnnounceResult;
+  public readonly code: CodeNemAnnounceResult;
 
   /**
    * Error or success message
    */
-  readonly message: string;
+  public readonly message: string;
 
   /**
    * The JSON hash object of the transaction.
    */
-  readonly transactionHash: HashData;
+  public readonly transactionHash: HashData;
 
   /**
    * The JSON hash object of the inner transaction or null if the transaction is not a multisig transaction.
    */
-  readonly innerTransactionHash: HashData;
+  public readonly innerTransactionHash: HashData;
 
   /**
    * @internal
@@ -124,7 +123,7 @@ export class NemAnnounceResult {
     code: CodeNemAnnounceResult,
     message: string,
     transactionHash: HashData,
-    innerTransactionHash: HashData
+    innerTransactionHash: HashData,
   ){
     this.type = type;
     this.code = code;
@@ -138,13 +137,13 @@ export class NemAnnounceResult {
    * @param dto
    * @returns {NemAnnounceResult}
    */
-  static createFromNemAnnounceResultDTO(dto: NemAnnounceResultDTO) {
+  public static createFromNemAnnounceResultDTO(dto: NemAnnounceResultDTO) {
     return new NemAnnounceResult(
       dto.type,
       dto.code,
       dto.message,
       dto.transactionHash,
-      dto.innerTransactionHash
+      dto.innerTransactionHash,
     );
   }
 }

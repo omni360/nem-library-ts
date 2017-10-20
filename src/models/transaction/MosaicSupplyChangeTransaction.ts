@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-import {Transaction} from "./Transaction";
+import {MosaicSupplyChangeTransactionDTO} from "../../infrastructure/transaction/MosaicSupplyChangeTransactionDTO";
 import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
 import {PublicAccount} from "../account/PublicAccount";
-import {TransactionInfo} from "./TransactionInfo";
-import {TransactionTypes} from "./TransactionTypes";
-import {MosaicSupplyChangeTransactionDTO} from "../../infrastructure/transaction/MosaicSupplyChangeTransactionDTO";
 import {MosaicId} from "../mosaic/MosaicId";
 import {TimeWindow} from "./TimeWindow";
+import {Transaction} from "./Transaction";
+import {TransactionInfo} from "./TransactionInfo";
+import {TransactionTypes} from "./TransactionTypes";
 
 /**
  * The supply type. Supported supply types are:
@@ -38,7 +38,7 @@ import {TimeWindow} from "./TimeWindow";
  */
 export enum MosaicSupplyType {
   Increase = 1,
-  Decrease = 2
+  Decrease = 2,
 }
 
 /**
@@ -48,22 +48,22 @@ export class MosaicSupplyChangeTransaction extends Transaction {
   /**
    * The fee for the transaction. The higher the fee, the higher the priority of the transaction. Transactions with high priority get included in a block before transactions with lower priority.
    */
-  readonly fee: number;
+  public readonly fee: number;
 
   /**
    * The mosaic id.
    */
-  readonly mosaicId: MosaicId;
+  public readonly mosaicId: MosaicId;
 
   /**
    * The supply type.
    */
-  readonly supplyType: MosaicSupplyType;
+  public readonly supplyType: MosaicSupplyType;
 
   /**
    * The supply change in units for the mosaic.
    */
-  readonly delta: number;
+  public readonly delta: number;
 
   /**
    * @internal
@@ -97,20 +97,20 @@ export class MosaicSupplyChangeTransaction extends Transaction {
    * @internal
    * @returns TransactionDTO
    */
-  toDTO(): TransactionDTO {
-    let version = this.networkVersion ? this.networkVersion : this.version;
-    return this.serializeDTO(<MosaicSupplyChangeTransactionDTO> {
+  public toDTO(): TransactionDTO {
+    const version = this.networkVersion ? this.networkVersion : this.version;
+    return this.serializeDTO({
       deadline: this.timeWindow.deadlineToDTO(),
       timeStamp: this.timeWindow.timeStampToDTO(),
       signer: this.signer ? this.signer.publicKey : undefined,
       type: this.type,
-      version: version,
+      version,
       signature: this.signature,
       fee: this.fee,
       mosaicId: this.mosaicId.toDTO(),
       delta: this.delta,
-      supplyType: this.supplyType
-    });
+      supplyType: this.supplyType,
+    } as MosaicSupplyChangeTransactionDTO);
   }
 
   /**
@@ -121,11 +121,11 @@ export class MosaicSupplyChangeTransaction extends Transaction {
    * @param delta
    * @returns {MosaicSupplyChangeTransaction}
    */
-  static create(timeWindow: TimeWindow,
+  public static create(timeWindow: TimeWindow,
                 mosaicId: MosaicId,
                 supplyType: MosaicSupplyType,
                 delta: number): MosaicSupplyChangeTransaction {
-    let fee = Math.floor(3.0 * 0.05 * 1000000);
+    const fee = Math.floor(3.0 * 0.05 * 1000000);
     return new MosaicSupplyChangeTransaction(timeWindow, 1, mosaicId, supplyType, delta, fee);
   }
 }

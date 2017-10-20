@@ -32,7 +32,6 @@ import {TransactionDTO} from "../transaction/TransactionDTO";
  */
 export type BlockType = 1 | -1;
 
-
 /**
  * @internal
  * 0x68 << 24 + 1 (1744830465 as 4 byte integer): the main network version

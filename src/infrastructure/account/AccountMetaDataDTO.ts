@@ -33,9 +33,9 @@ import {AccountInfoDTO} from "./AccountInfoDTO";
 /**
  * @internal
  */
-export type Status = 'UNKNOWN'
-  | 'LOCKED'
-  | 'UNLOCKED';
+export type Status = "UNKNOWN"
+  | "LOCKED"
+  | "UNLOCKED";
 
 /**
  * @internal
@@ -45,11 +45,11 @@ export type Status = 'UNKNOWN'
  * "DEACTIVATING": The account has deactivated remote harvesting but remote harvesting is still active.
  * "INACTIVE": The account has inactive remote harvesting, or it has deactivated remote harvesting and deactivation is operational.
  */
-export type RemoteStatus = 'REMOTE'
-  | 'ACTIVATING'
-  | 'ACTIVE'
-  | 'DEACTIVATING'
-  | 'INACTIVE'
+export type RemoteStatus = "REMOTE"
+  | "ACTIVATING"
+  | "ACTIVE"
+  | "DEACTIVATING"
+  | "INACTIVE";
 
 /**
  * @internal

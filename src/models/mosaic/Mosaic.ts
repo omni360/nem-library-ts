@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import {MosaicId} from "./MosaicId";
 import {MosaicDTO} from "../../infrastructure/mosaic/MosaicDTO";
+import {MosaicId} from "./MosaicId";
 
 /**
  * A mosaic describes an instance of a mosaic definition. Mosaics can be transferred by means of a transfer transaction.
@@ -33,12 +33,12 @@ export class Mosaic {
   /**
    * The mosaic id
    */
-  readonly mosaicId: MosaicId;
+  public readonly mosaicId: MosaicId;
 
   /**
    * The mosaic quantity. The quantity is always given in smallest units for the mosaic, i.e. if it has a divisibility of 3 the quantity is given in millis.
    */
-  readonly quantity: number;
+  public readonly quantity: number;
 
   /**
    * constructor
@@ -47,7 +47,7 @@ export class Mosaic {
    */
   constructor(
     mosaicId: MosaicId,
-    quantity: number
+    quantity: number,
   ) {
     this.mosaicId = mosaicId;
     this.quantity = quantity;
@@ -58,7 +58,7 @@ export class Mosaic {
    * @param dto
    * @returns {Mosaic}
    */
-  static createFromMosaicDTO(dto: MosaicDTO): Mosaic {
+  public static createFromMosaicDTO(dto: MosaicDTO): Mosaic {
     return new Mosaic(
       MosaicId.createFromMosaicIdDTO(dto.mosaicId),
       dto.quantity);

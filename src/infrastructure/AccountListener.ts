@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-import {Address} from "../models/account/Address";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {AccountInfoWithMetaData} from "../models/account/AccountInfo";
+import {Address} from "../models/account/Address";
 import {Listener, WebSocketConfig} from "./Listener";
 
 /**
@@ -46,11 +46,11 @@ export class AccountListener extends Listener {
    * @param address
    * @returns {Observable<AccountInfoWithMetaData>}
    */
-  given(address: Address): Observable<AccountInfoWithMetaData> {
+  public given(address: Address): Observable<AccountInfoWithMetaData> {
     return Observable.create((observer: Observer<AccountInfoWithMetaData>) => {
-      let client = this.createClient();
+      const client = this.createClient();
       client.connect({}, () => {
-        client.subscribe('/account/' + address.plain(), (data) => {
+        client.subscribe("/account/" + address.plain(), (data) => {
           try {
             const account = AccountInfoWithMetaData.createFromAccountMetaDataPairDTO(JSON.parse(data.body));
             observer.next(account);

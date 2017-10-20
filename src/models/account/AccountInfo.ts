@@ -22,24 +22,24 @@
  * SOFTWARE.
  */
 
-import {AccountMetaDataDTO} from "../../infrastructure/account/AccountMetaDataDTO";
 import {AccountInfoDTO} from "../../infrastructure/account/AccountInfoDTO";
-import {PublicAccount} from "./PublicAccount";
-import {Balance} from "./Balance";
+import {AccountMetaDataDTO} from "../../infrastructure/account/AccountMetaDataDTO";
 import {AccountMetaDataPairDTO} from "../../infrastructure/account/AccountMetaDataPairDTO";
+import {Balance} from "./Balance";
+import {PublicAccount} from "./PublicAccount";
 
 export enum RemoteStatus {
-  REMOTE = 'REMOTE',
-  ACTIVATING = 'ACTIVATING',
-  ACTIVE = 'ACTIVE',
-  DEACTIVATING = 'DEACTIVATING',
-  INACTIVE = 'INACTIVE'
+  REMOTE = "REMOTE",
+  ACTIVATING = "ACTIVATING",
+  ACTIVE = "ACTIVE",
+  DEACTIVATING = "DEACTIVATING",
+  INACTIVE = "INACTIVE",
 }
 
 export enum Status {
-  UNKNOWN = 'UNKNOWN',
-  LOCKED = 'LOCKED',
-  UNLOCKED = 'UNLOCKED'
+  UNKNOWN = "UNKNOWN",
+  LOCKED = "LOCKED",
+  UNLOCKED = "UNLOCKED",
 }
 /**
  * The account structure describes basic information for an account.
@@ -49,32 +49,32 @@ export class AccountInfo {
   /**
    * The balance of the account in micro NEM.
    */
-  readonly balance: Balance;
+  public readonly balance: Balance;
 
   /**
    * The importance of the account.
    */
-  readonly importance: number;
+  public readonly importance: number;
 
   /**
    * The public key of the account.
    */
-  readonly publicAccount: PublicAccount;
+  public readonly publicAccount: PublicAccount;
 
   /**
    * The number blocks that the account already harvested.
    */
-  readonly harvestedBlocks: number;
+  public readonly harvestedBlocks: number;
 
   /**
    * Total number of cosignatories
    */
-  readonly cosignatoriesCount?: number;
+  public readonly cosignatoriesCount?: number;
 
   /**
    * Minimum number of cosignatories needed for a transaction to be processed
    */
-  readonly minCosignatories?: number;
+  public readonly minCosignatories?: number;
 
   /**
    * @internal
@@ -106,14 +106,14 @@ export class AccountInfo {
    * @param dto
    * @returns {AccountInfo}
    */
-  static createFromAccountInfoDTO(dto: AccountInfoDTO): AccountInfo {
+  public static createFromAccountInfoDTO(dto: AccountInfoDTO): AccountInfo {
     return new AccountInfo(
       dto.balance,
       dto.vestedBalance,
       dto.importance,
       dto.publicKey,
-      dto.harvestedBlocks
-    )
+      dto.harvestedBlocks,
+    );
   }
 }
 
@@ -122,22 +122,22 @@ export class AccountInfoWithMetaData extends AccountInfo {
   /**
    * The harvesting status of a queried account
    */
-  readonly status: Status;
+  public readonly status: Status;
 
   /**
    * The status of remote harvesting of a queried account
    */
-  readonly remoteStatus: RemoteStatus;
+  public readonly remoteStatus: RemoteStatus;
 
   /**
    * JSON array of AccountInfo structures. The account is cosignatory for each of the accounts in the array.
    */
-  readonly cosignatoryOf: AccountInfo[];
+  public readonly cosignatoryOf: AccountInfo[];
 
   /**
    * JSON array of AccountInfo structures. The array holds all accounts that are a cosignatory for this account.
    */
-  readonly cosignatories: AccountInfo[];
+  public readonly cosignatories: AccountInfo[];
 
   /**
    * @internal
@@ -176,7 +176,7 @@ export class AccountInfoWithMetaData extends AccountInfo {
    * @param dto
    * @returns {AccountInfoWithMetaData}
    */
-  static createFromAccountMetaDataPairDTO(dto: AccountMetaDataPairDTO): AccountInfoWithMetaData {
+  public static createFromAccountMetaDataPairDTO(dto: AccountMetaDataPairDTO): AccountInfoWithMetaData {
     return new AccountInfoWithMetaData(
       Status[dto.meta.status],
       RemoteStatus[dto.meta.remoteStatus],
@@ -186,8 +186,8 @@ export class AccountInfoWithMetaData extends AccountInfo {
       dto.account.vestedBalance,
       dto.account.importance,
       dto.account.publicKey,
-      dto.account.harvestedBlocks
-    )
+      dto.account.harvestedBlocks,
+    );
   }
 }
 
@@ -196,22 +196,22 @@ export class AccountStatus {
   /**
    * The harvesting status of a queried account
    */
-  readonly status: Status;
+  public readonly status: Status;
 
   /**
    * The status of remote harvesting of a queried account
    */
-  readonly remoteStatus: RemoteStatus;
+  public readonly remoteStatus: RemoteStatus;
 
   /**
    * JSON array of AccountInfo structures. The account is cosignatory for each of the accounts in the array.
    */
-  readonly cosignatoryOf: AccountInfo[];
+  public readonly cosignatoryOf: AccountInfo[];
 
   /**
    * JSON array of AccountInfo structures. The array holds all accounts that are a cosignatory for this account.
    */
-  readonly cosignatories: AccountInfo[];
+  public readonly cosignatories: AccountInfo[];
 
   /**
    * @internal
@@ -231,12 +231,12 @@ export class AccountStatus {
    * @param dto
    * @returns {AccountInfoWithMetaData}
    */
-  static createFromAccountMetaDataDTO(dto: AccountMetaDataDTO): AccountStatus {
+  public static createFromAccountMetaDataDTO(dto: AccountMetaDataDTO): AccountStatus {
     return new AccountStatus(
       Status[dto.status],
       RemoteStatus[dto.remoteStatus],
       dto.cosignatoryOf.map((accountInfoDTO: AccountInfoDTO) => AccountInfo.createFromAccountInfoDTO(accountInfoDTO)),
-      dto.cosignatories.map((accountInfoDTO: AccountInfoDTO) => AccountInfo.createFromAccountInfoDTO(accountInfoDTO))
+      dto.cosignatories.map((accountInfoDTO: AccountInfoDTO) => AccountInfo.createFromAccountInfoDTO(accountInfoDTO)),
     );
   }
 }

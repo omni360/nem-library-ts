@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-import {Transaction} from "./Transaction";
-import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
 import {ImportanceTransferTransactionDTO} from "../../infrastructure/transaction/ImportanceTransferTransactionDTO";
-import {TransactionTypes} from "./TransactionTypes";
+import {TransactionDTO} from "../../infrastructure/transaction/TransactionDTO";
 import {PublicAccount} from "../account/PublicAccount";
-import {TransactionInfo} from "./TransactionInfo";
 import {TimeWindow} from "./TimeWindow";
+import {Transaction} from "./Transaction";
+import {TransactionInfo} from "./TransactionInfo";
+import {TransactionTypes} from "./TransactionTypes";
 
 /**
  * The mode. Possible values are:
@@ -37,7 +37,7 @@ import {TimeWindow} from "./TimeWindow";
  */
 export enum ImportanceMode {
   Activate = 1,
-  Deactivate = 2
+  Deactivate = 2,
 }
 
 /**
@@ -55,12 +55,12 @@ export class ImportanceTransferTransaction extends Transaction {
   /**
    * The public key of the receiving account as hexadecimal string.
    */
-  readonly remoteAccount: PublicAccount;
+  public readonly remoteAccount: PublicAccount;
 
   /**
    * The mode, activate or deactivate
    */
-  readonly mode: ImportanceMode;
+  public readonly mode: ImportanceMode;
 
   /**
    * @internal
@@ -94,18 +94,18 @@ export class ImportanceTransferTransaction extends Transaction {
    * Create DTO of ImportanceTransferTransaction
    */
   public toDTO(): TransactionDTO {
-    let version = this.networkVersion ? this.networkVersion : this.version;
-    return this.serializeDTO(<ImportanceTransferTransactionDTO> {
+    const version = this.networkVersion ? this.networkVersion : this.version;
+    return this.serializeDTO({
       signer: this.signer ? this.signer.publicKey : undefined,
       deadline: this.timeWindow.deadlineToDTO(),
       timeStamp: this.timeWindow.timeStampToDTO(),
       type: this.type,
       fee: this.fee,
       signature: this.signature,
-      version: version,
+      version,
       remoteAccount: this.remoteAccount.publicKey,
-      mode: this.mode
-    });
+      mode: this.mode,
+    } as ImportanceTransferTransactionDTO);
   }
 
   /**
@@ -115,7 +115,7 @@ export class ImportanceTransferTransaction extends Transaction {
    * @param remoteAccount
    * @returns {ImportanceTransferTransaction}
    */
-  static create(timeWindow: TimeWindow,
+  public static create(timeWindow: TimeWindow,
                 mode: ImportanceMode,
                 remoteAccount: PublicAccount): ImportanceTransferTransaction {
     const fee = Math.floor(3.0 * 0.05 * 1000000.0);

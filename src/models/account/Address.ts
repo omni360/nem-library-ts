@@ -32,10 +32,10 @@ export class Address {
   private readonly networkType: NetworkTypes;
 
   constructor(address: string) {
-    this.value = address.replace(/-/g,'').trim().toUpperCase();
-    if (this.value.charAt(0) == 'T') {
+    this.value = address.replace(/-/g, "").trim().toUpperCase();
+    if (this.value.charAt(0) == "T") {
       this.networkType = NetworkTypes.TEST_NET;
-    } else if (this.value.charAt(0) == 'N') {
+    } else if (this.value.charAt(0) == "N") {
       this.networkType = NetworkTypes.MAIN_NET;
     } else {
       throw new Error("NetworkType invalid");
@@ -46,7 +46,7 @@ export class Address {
    * Get address in plain format ex: TALICEROONSJCPHC63F52V6FY3SDMSVAEUGHMB7C
    * @returns {string}
    */
-  plain(): string {
+  public plain(): string {
     return this.value;
   }
 
@@ -54,19 +54,19 @@ export class Address {
    * Get address in pretty format ex: TALICE-ROONSJ-CPHC63-F52V6F-Y3SDMS-VAEUGH-MB7C
    * @returns {string}
    */
-  pretty(): string {
-    return this.value.match(/.{1,6}/g)!.join('-');
+  public pretty(): string {
+    return this.value.match(/.{1,6}/g)!.join("-");
   }
 
   /**
    * Address network
    * @returns {number}
    */
-  network(): NetworkTypes {
-    return this.value.charAt(0) == 'T' ? NetworkTypes.TEST_NET : NetworkTypes.MAIN_NET;
+  public network(): NetworkTypes {
+    return this.value.charAt(0) == "T" ? NetworkTypes.TEST_NET : NetworkTypes.MAIN_NET;
   }
 
-  equals(otherAddress: Address) {
+  public equals(otherAddress: Address) {
     return this.plain() == otherAddress.plain();
   }
 }

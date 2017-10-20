@@ -25,7 +25,7 @@
 import {ChronoUnit, Instant, LocalDateTime, ZoneId} from "js-joda";
 
 export class TimeWindow {
-  static timestampNemesisBlock: number = 1427587585;
+  public static timestampNemesisBlock: number = 1427587585;
 
   /**
    * The deadline of the transaction. The deadline is given as the number of seconds elapsed since the creation of the nemesis block.
@@ -45,7 +45,7 @@ export class TimeWindow {
    */
   private constructor(
     timeStamp: LocalDateTime,
-    deadline: LocalDateTime
+    deadline: LocalDateTime,
   ) {
     this.deadline = deadline;
     this.timeStamp = timeStamp;
@@ -56,10 +56,10 @@ export class TimeWindow {
    * @param chronoUnit
    * @returns {TimeWindow}
    */
-  static createWithDeadline(deadline: number = 2, chronoUnit: ChronoUnit = ChronoUnit.HOURS): TimeWindow {
-    let currentTimeStamp = (new Date()).getTime();
-    let timeStampDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(currentTimeStamp), ZoneId.SYSTEM);
-    let deadlineDateTime = timeStampDateTime.plus(deadline, chronoUnit);
+  public static createWithDeadline(deadline: number = 2, chronoUnit: ChronoUnit = ChronoUnit.HOURS): TimeWindow {
+    const currentTimeStamp = (new Date()).getTime();
+    const timeStampDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(currentTimeStamp), ZoneId.SYSTEM);
+    const deadlineDateTime = timeStampDateTime.plus(deadline, chronoUnit);
 
     if (deadline <= 0) {
       throw new Error("deadline should be greater than 0");
@@ -75,10 +75,10 @@ export class TimeWindow {
    * @param timestamp
    * @param deadline
    */
-  static createFromDTOInfo(timeStamp: number, deadline: number): TimeWindow {
+  public static createFromDTOInfo(timeStamp: number, deadline: number): TimeWindow {
     return new TimeWindow(
       TimeWindow.createLocalDateTimeFromNemDate(timeStamp),
-      TimeWindow.createLocalDateTimeFromNemDate(deadline)
+      TimeWindow.createLocalDateTimeFromNemDate(deadline),
     );
   }
 
@@ -87,21 +87,21 @@ export class TimeWindow {
    * @param dateSeconds
    * @returns {LocalDateTime}
    */
-  static createLocalDateTimeFromNemDate(dateSeconds: number): LocalDateTime {
+  public static createLocalDateTimeFromNemDate(dateSeconds: number): LocalDateTime {
     return LocalDateTime.ofInstant(Instant.ofEpochMilli(1000 * Math.round(dateSeconds + TimeWindow.timestampNemesisBlock)), ZoneId.SYSTEM);
   }
 
   /**
    * @internal
    */
-  deadlineToDTO(): number {
+  public deadlineToDTO(): number {
     return this.deadline.atZone(ZoneId.SYSTEM).toEpochSecond() - TimeWindow.timestampNemesisBlock;
   }
 
   /**
    * @internal
    */
-  timeStampToDTO(): number {
+  public timeStampToDTO(): number {
     return this.timeStamp.atZone(ZoneId.SYSTEM).toEpochSecond() - TimeWindow.timestampNemesisBlock;
   }
 }
