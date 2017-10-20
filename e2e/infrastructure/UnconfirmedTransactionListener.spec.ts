@@ -32,10 +32,11 @@ import {TimeWindow} from "../../src/models/transaction/TimeWindow";
 import {XEM} from "../../src/models/mosaic/XEM";
 import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
 import {EmptyMessage} from "../../src/models/transaction/PlainMessage";
+import {Observable} from "rxjs/Observable";
 
 declare let process: any;
 
-describe("UnconfirmedTransactionListener", () => {
+describe('UnconfirmedTransactionListener', () => {
   const privateKey: string = process.env.PRIVATE_KEY;
   let transactionHttp: TransactionHttp;
   let account: Account;
@@ -61,7 +62,7 @@ describe("UnconfirmedTransactionListener", () => {
       EmptyMessage
     );
 
-    new UnconfirmedTransactionListener().given(address)
+    new UnconfirmedTransactionListener().given(account.address)
       .subscribe(x => {
         console.log(x);
         done();
@@ -71,8 +72,11 @@ describe("UnconfirmedTransactionListener", () => {
 
     let transaction = account.signTransaction(transferTransaction);
 
-    transactionHttp.announceTransaction(transaction).delay(200).subscribe(x => {
-      console.log(x);
-    })
+    Observable.of(1)
+      .delay(3000)
+      .flatMap(ignored => transactionHttp.announceTransaction(transaction))
+      .subscribe(x => {
+        console.log(x);
+      });
   })
 });

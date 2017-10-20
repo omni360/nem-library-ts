@@ -87,3 +87,4 @@ modules.xml
 # End of https://www.gitignore.io/api/intellij+iml
 dist/
 ts-docs
+package-lock.json
