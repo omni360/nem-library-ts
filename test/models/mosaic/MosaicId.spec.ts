@@ -31,7 +31,7 @@ describe("MosaicId", () => {
     const namespaceId = "nem";
     const name = "coin";
 
-    let mosaicId = new MosaicId(namespaceId, name);
+    const mosaicId = new MosaicId(namespaceId, name);
 
     expect(mosaicId.namespaceId).to.be.equal(namespaceId);
     expect(mosaicId.name).to.be.equal(name);

@@ -37,4 +37,3 @@ describe("NetworkTypes", () => {
     expect(NetworkTypes.TEST_NET).to.be.equal(152);
   });
 });
-

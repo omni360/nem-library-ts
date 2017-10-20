@@ -23,19 +23,19 @@
  */
 
 import {expect} from "chai";
-import {AccountHarvestInfo} from "../../../src/models/account/AccountHarvestInfo";
 import {HarvestInfoDTO} from "../../../src/infrastructure/account/HarvestInfoDTO";
+import {AccountHarvestInfo} from "../../../src/models/account/AccountHarvestInfo";
 
 describe("AccountHarvestInfo", () => {
 
-  it("should create an AccountHarvestInfo object", done => {
-    const harvestInfoDTO = <HarvestInfoDTO> {
+  it("should create an AccountHarvestInfo object", (done) => {
+    const harvestInfoDTO = {
       timeStamp: 1,
       id: 1,
       difficulty: 1,
       totalFee: 1,
-      height: 1
-    };
+      height: 1,
+    } as HarvestInfoDTO;
 
     const accountHarvestInfo = AccountHarvestInfo.createFromHarvestInfoDTO(harvestInfoDTO);
     expect(accountHarvestInfo.timeStamp).to.be.equal(1);

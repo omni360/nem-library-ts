@@ -28,7 +28,7 @@ import {DimCoin, DimToken, EcobitEco} from "../../../src/models/mosaic/ThirdPart
 describe("ThirdPartyMosaics", () => {
 
   it("DimCoin", () => {
-    let dimcoin = new DimCoin(20);
+    const dimcoin = new DimCoin(20);
 
     expect(dimcoin.mosaicId.namespaceId).to.be.equal("dim");
     expect(dimcoin.mosaicId.name).to.be.equal("coin");
@@ -40,7 +40,7 @@ describe("ThirdPartyMosaics", () => {
   });
 
   it("DimToken", () => {
-    let dimToken = new DimToken(10);
+    const dimToken = new DimToken(10);
 
     expect(dimToken.mosaicId.namespaceId).to.be.equal("dim");
     expect(dimToken.mosaicId.name).to.be.equal("token");
@@ -52,7 +52,7 @@ describe("ThirdPartyMosaics", () => {
   });
 
   it("EcobitEco", () => {
-    let ecobitEco = new EcobitEco(10);
+    const ecobitEco = new EcobitEco(10);
 
     expect(ecobitEco.mosaicId.namespaceId).to.be.equal("ecobit");
     expect(ecobitEco.mosaicId.name).to.be.equal("eco");
@@ -61,5 +61,5 @@ describe("ThirdPartyMosaics", () => {
     expect(ecobitEco.properties.transferable).to.be.equal(true);
     expect(ecobitEco.properties.supplyMutable).to.be.equal(false);
     expect(ecobitEco.quantity()).to.be.equal(10);
-  })
+  });
 });

@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
+import {expect} from "chai";
 import nock = require("nock");
 import {AccountHttp} from "../../../src/infrastructure/AccountHttp";
 import {Address} from "../../../src/models/account/Address";
-import {NEMLibrary} from "../../../src/NEMLibrary";
 import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
-import {expect} from "chai";
+import {NEMLibrary} from "../../../src/NEMLibrary";
 
 describe("AccountIncomingPageable", () => {
   let address: Address;
@@ -43,7 +43,7 @@ describe("AccountIncomingPageable", () => {
       .replyWithFile(200, __dirname + "/responses/account_incoming_1.json")
       .get("/account/transfers/incoming?address=TCFFOMQ2SBX77E2FZC3VX43ZTRV4ZNTXTCGWBM5J&id=124876&pageSize=10")
       .thrice()
-      .replyWithFile(200, __dirname + "/responses/account_incoming_2.json")
+      .replyWithFile(200, __dirname + "/responses/account_incoming_2.json");
   });
 
   after(() => {
@@ -51,32 +51,31 @@ describe("AccountIncomingPageable", () => {
     NEMLibrary.reset();
   });
 
-
-  it("should receive the first file", done => {
+  it("should receive the first file", (done) => {
     accountHttp.incomingTransactions(address).subscribe(
-      x => {
+      (x) => {
         expect(x).to.have.length(10);
         expect(x[0].getTransactionInfo().hash.data).to.be.equal("339645a75f41b40ebae4d39abbdbede7c5dec472efe812143142926bcb17124b");
         done();
-      }
-    )
+      },
+    );
   });
 
-  it("should receive the second json file", done => {
+  it("should receive the second json file", (done) => {
     accountHttp.incomingTransactions(address, {id: 124876})
       .subscribe(
-        x => {
+        (x) => {
           expect(x).to.have.length(10);
           expect(x[0].getTransactionInfo().hash.data).to.be.equal("22e24c444888e88347384fad5ab34f6a48df677581eef33a98a8433b75910185");
           done();
-        }
-      )
+        },
+      );
   });
 
-  it("should be able to iterate the responses", done => {
-    let pageable = accountHttp.incomingTransactionsPaginated(address, {pageSize: 10});
+  it("should be able to iterate the responses", (done) => {
+    const pageable = accountHttp.incomingTransactionsPaginated(address, {pageSize: 10});
     let first = true;
-    pageable.subscribe(x => {
+    pageable.subscribe((x) => {
       if (first) {
         first = false;
         pageable.nextPage();
@@ -89,4 +88,3 @@ describe("AccountIncomingPageable", () => {
     });
   });
 });
-

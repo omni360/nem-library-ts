@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-import {MosaicDefinitionCreationTransaction} from "../../../src/models/transaction/MosaicDefinitionCreationTransaction";
+import {deepEqual} from "assert";
+import {expect} from "chai";
 import {PublicAccount} from "../../../src/models/account/PublicAccount";
 import {MosaicDefinition, MosaicProperties} from "../../../src/models/mosaic/MosaicDefinition";
 import {MosaicId} from "../../../src/models/mosaic/MosaicId";
-import {expect} from "chai";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {MosaicDefinitionCreationTransaction} from "../../../src/models/transaction/MosaicDefinitionCreationTransaction";
 import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
 import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
-import {deepEqual} from "assert";
 
 describe("MosaicDefinitionCreationTransaction", () => {
   before(() => {
@@ -44,15 +44,15 @@ describe("MosaicDefinitionCreationTransaction", () => {
   const PUBLIC_KEY = "5d5d829644625eb6554273f70b1187d904761fab4c5c0e5f01666f6725e9278b";
 
   it("should be created", () => {
-    let publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
-    let mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
+    const publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
+    const mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
     const transaction = new MosaicDefinitionCreationTransaction(
       TimeWindow.createWithDeadline(),
       1744830466,
       5,
       publicAccount.address,
       mosaicDefinition,
-      454545
+      454545,
     );
     deepEqual(transaction.mosaicDefinition, mosaicDefinition);
     expect(transaction.creationFee).to.be.equal(5);
@@ -62,15 +62,15 @@ describe("MosaicDefinitionCreationTransaction", () => {
   });
 
   it("should be created from DTO", () => {
-    let publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
-    let mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
+    const publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
+    const mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
     const transaction = new MosaicDefinitionCreationTransaction(
       TimeWindow.createWithDeadline(),
       1744830466,
       5,
       publicAccount.address,
       mosaicDefinition,
-      454545
+      454545,
     );
     deepEqual(transaction.mosaicDefinition, mosaicDefinition);
     expect(transaction.creationFee).to.be.equal(5);
@@ -79,10 +79,9 @@ describe("MosaicDefinitionCreationTransaction", () => {
     expect(transaction.fee).to.be.equal(454545);
   });
 
-
   it("should be created by named constructor", () => {
-    let publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
-    let mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
+    const publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
+    const mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
     const transaction = MosaicDefinitionCreationTransaction.create(
       TimeWindow.createWithDeadline(),
       mosaicDefinition);
@@ -91,8 +90,8 @@ describe("MosaicDefinitionCreationTransaction", () => {
   });
 
   it("should have the fee calculated for TEST_NET", () => {
-    let publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
-    let mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
+    const publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
+    const mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
     const transaction = MosaicDefinitionCreationTransaction.create(
       TimeWindow.createWithDeadline(),
       mosaicDefinition);
@@ -102,8 +101,8 @@ describe("MosaicDefinitionCreationTransaction", () => {
   it("should have the specific rental fee sink for TEST_NET", () => {
     NEMLibrary.reset();
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);
-    let publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
-    let mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
+    const publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
+    const mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
     const transaction = MosaicDefinitionCreationTransaction.create(
       TimeWindow.createWithDeadline(),
       mosaicDefinition);
@@ -114,8 +113,8 @@ describe("MosaicDefinitionCreationTransaction", () => {
   it("should have the specific rental fee sink for MAIN_NET", () => {
     NEMLibrary.reset();
     NEMLibrary.bootstrap(NetworkTypes.MAIN_NET);
-    let publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
-    let mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
+    const publicAccount = PublicAccount.createWithPublicKey(PUBLIC_KEY);
+    const mosaicDefinition = new MosaicDefinition(publicAccount, new MosaicId("nem-library", "nem-library"), "my definition", new MosaicProperties());
     const transaction = MosaicDefinitionCreationTransaction.create(
       TimeWindow.createWithDeadline(),
       mosaicDefinition);

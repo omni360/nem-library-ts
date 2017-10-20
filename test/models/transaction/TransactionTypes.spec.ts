@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import {TransactionTypes} from "../../../src/models/transaction/TransactionTypes";
 import {expect} from "chai";
+import {TransactionTypes} from "../../../src/models/transaction/TransactionTypes";
 
 describe("TransactionTypes", () => {
 
@@ -94,9 +94,9 @@ describe("TransactionTypes", () => {
       TransactionTypes.MULTISIG_AGGREGATE_MODIFICATION,
       TransactionTypes.PROVISION_NAMESPACE,
       TransactionTypes.MOSAIC_DEFINITION_CREATION,
-      TransactionTypes.MOSAIC_SUPPLY_CHANGE
+      TransactionTypes.MOSAIC_SUPPLY_CHANGE,
     ];
-    expect(TransactionTypes.getMultisigEmbeddableTypes()).to.deep.equal(multisigEmbeddableTypes)
+    expect(TransactionTypes.getMultisigEmbeddableTypes()).to.deep.equal(multisigEmbeddableTypes);
   });
 
   it("should return all block embeddable types", () => {
@@ -107,7 +107,7 @@ describe("TransactionTypes", () => {
       TransactionTypes.PROVISION_NAMESPACE,
       TransactionTypes.MOSAIC_DEFINITION_CREATION,
       TransactionTypes.MOSAIC_SUPPLY_CHANGE,
-      TransactionTypes.MULTISIG
+      TransactionTypes.MULTISIG,
     ];
     expect(TransactionTypes.getBlockEmbeddableTypes()).to.deep.equal(embeddableTypes);
   });
@@ -121,9 +121,8 @@ describe("TransactionTypes", () => {
       TransactionTypes.MOSAIC_DEFINITION_CREATION,
       TransactionTypes.MOSAIC_SUPPLY_CHANGE,
       TransactionTypes.MULTISIG,
-      TransactionTypes.MULTISIG_SIGNATURE
+      TransactionTypes.MULTISIG_SIGNATURE,
     ];
     expect(TransactionTypes.getActiveTypes()).to.deep.equal(activeTypes);
   });
 });
-

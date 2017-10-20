@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import {Address} from "../../src/models/account/Address";
-import {TransactionHttp} from "../../src/infrastructure/TransactionHttp";
-import {NEMLibrary} from "../../src/NEMLibrary";
-import {NetworkTypes} from "../../src/models/node/NetworkTypes";
-import {Account} from "../../src/models/account/Account";
-import {TimeWindow} from "../../src/models/transaction/TimeWindow";
-import {XEM} from "../../src/models/mosaic/XEM";
-import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
-import {EmptyMessage} from "../../src/models/transaction/PlainMessage";
 import {ConfirmedTransactionListener} from "../../src/infrastructure/ConfirmedTransactionListener";
+import {TransactionHttp} from "../../src/infrastructure/TransactionHttp";
+import {Account} from "../../src/models/account/Account";
+import {Address} from "../../src/models/account/Address";
+import {XEM} from "../../src/models/mosaic/XEM";
+import {NetworkTypes} from "../../src/models/node/NetworkTypes";
+import {EmptyMessage} from "../../src/models/transaction/PlainMessage";
+import {TimeWindow} from "../../src/models/transaction/TimeWindow";
+import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
+import {NEMLibrary} from "../../src/NEMLibrary";
 
 declare let process: any;
 
@@ -51,28 +51,28 @@ describe("ConfirmedTransactionListener", () => {
     NEMLibrary.reset();
   });
 
-  it("should listen the next data", done => {
+  it("should listen the next data", (done) => {
     const address = new Address("TDM3DO-ZM5WJ3-ZRBPSM-YRU6JS-WKUCAH-5VIPOF-4W7K");
 
     const transferTransaction = TransferTransaction.create(
       TimeWindow.createWithDeadline(),
       address,
       new XEM(0),
-      EmptyMessage
+      EmptyMessage,
     );
 
     new ConfirmedTransactionListener().given(address)
-      .subscribe(x => {
+      .subscribe((x) => {
         console.log(x);
         done();
-      }, err => {
+      }, (err) => {
         console.log(err);
       });
 
-    let transaction = account.signTransaction(transferTransaction);
+    const transaction = account.signTransaction(transferTransaction);
 
-    transactionHttp.announceTransaction(transaction).delay(1000).subscribe(x => {
+    transactionHttp.announceTransaction(transaction).delay(1000).subscribe((x) => {
       console.log(x);
-    })
-  })
+    });
+  });
 });

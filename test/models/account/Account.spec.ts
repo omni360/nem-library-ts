@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import {Account} from "../../../src/models/account/Account";
-import {MultisigSignatureTransaction} from "../../../src/models/transaction/MultisigSignatureTransaction";
 import {expect} from "chai";
-import {TransferTransaction} from "../../../src/models/transaction/TransferTransaction";
+import {Account} from "../../../src/models/account/Account";
 import {Address} from "../../../src/models/account/Address";
+import {XEM} from "../../../src/models/mosaic/XEM";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {MultisigSignatureTransaction} from "../../../src/models/transaction/MultisigSignatureTransaction";
 import {EmptyMessage, PlainMessage} from "../../../src/models/transaction/PlainMessage";
 import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
+import {TransferTransaction} from "../../../src/models/transaction/TransferTransaction";
 import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
-import {XEM} from "../../../src/models/mosaic/XEM";
 import {TestVariables} from "../../config/TestVariables.spec";
 
 declare let process: any;
@@ -51,7 +51,7 @@ describe("Account", () => {
   });
 
   it("should sign a multisig transaction", () => {
-    let account = new Account(recipientAccount, publicKey, privateKey);
+    const account = new Account(recipientAccount, publicKey, privateKey);
     const transaction = new MultisigSignatureTransaction(
       TimeWindow.createFromDTOInfo(68502384, 68505984),
       -1744830462,
@@ -65,7 +65,7 @@ describe("Account", () => {
   });
 
   it("should sign a transaction with message", () => {
-    let account = new Account(recipientAccount, publicKey, privateKey);
+    const account = new Account(recipientAccount, publicKey, privateKey);
 
     const transaction = TransferTransaction.create(TimeWindow.createFromDTOInfo(68502384, 68505984), recipientAccount, new XEM(1),
       PlainMessage.create("test transaction"));
@@ -75,7 +75,7 @@ describe("Account", () => {
   });
 
   it("should sign a transaction without message", () => {
-    let account = new Account(recipientAccount, publicKey, privateKey);
+    const account = new Account(recipientAccount, publicKey, privateKey);
 
     const transaction = TransferTransaction.create(TimeWindow.createFromDTOInfo(68502384, 68505984), recipientAccount, new XEM(1), EmptyMessage);
     const signedTransaction = account.signTransaction(transaction);
@@ -84,24 +84,24 @@ describe("Account", () => {
   });
 
   it("should generate an account given a private key", () => {
-    let account = Account.createWithPrivateKey(privateKey);
+    const account = Account.createWithPrivateKey(privateKey);
     expect(account.publicKey).to.be.equal(publicKey);
     expect(account.address.plain()).to.be.equal(recipientAccount.plain());
   });
 
   it("hasPublicKey should return true when it has a public key", () => {
-    let account = Account.createWithPrivateKey(privateKey);
+    const account = Account.createWithPrivateKey(privateKey);
     expect(account.hasPublicKey()).to.be.true;
   });
 
   it("hasPublicKey should return false when it hasn't public key", () => {
-    let account = new Account(recipientAccount, "", privateKey);
+    const account = new Account(recipientAccount, "", privateKey);
     expect(account.hasPublicKey()).to.be.false;
   });
 
   it("should throw exception when the private key is not valid", () => {
     expect(() => {
-      Account.createWithPrivateKey(undefinedPrivateKey)
+      Account.createWithPrivateKey(undefinedPrivateKey);
     }).to.throw(Error);
   });
 

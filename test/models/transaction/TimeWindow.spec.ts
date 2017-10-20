@@ -23,8 +23,8 @@
  */
 
 import {expect} from "chai";
-import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
 import {ChronoUnit, LocalDateTime, ZonedDateTime, ZoneId, ZoneOffset} from "js-joda";
+import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
 describe("TimeWindow", () => {
 
   it("should create window default deadline 2h", () => {
@@ -46,13 +46,13 @@ describe("TimeWindow", () => {
     const timeWindow = TimeWindow.createWithDeadline();
     const date = new Date();
     expect(timeWindow.timeStamp.dayOfMonth()).to.be.equal(date.getDate());
-    expect(timeWindow.timeStamp.monthValue()).to.be.equal(date.getMonth()+1);
+    expect(timeWindow.timeStamp.monthValue()).to.be.equal(date.getMonth() + 1);
     expect(timeWindow.timeStamp.year()).to.be.equal(date.getFullYear());
   });
 
   it("should throw error deadline smaller than timeStamp", () => {
     expect(() => {
-      TimeWindow.createWithDeadline(-3)
+      TimeWindow.createWithDeadline(-3);
     }).to.throw(Error);
   });
 

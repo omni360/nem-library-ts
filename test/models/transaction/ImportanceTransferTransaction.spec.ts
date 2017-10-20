@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-import {
-  ImportanceMode,
-  ImportanceTransferTransaction
-} from "../../../src/models/transaction/ImportanceTransferTransaction";
 import {expect} from "chai";
 import {PublicAccount} from "../../../src/models/account/PublicAccount";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {
+  ImportanceMode,
+  ImportanceTransferTransaction,
+} from "../../../src/models/transaction/ImportanceTransferTransaction";
 import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
 import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 
 describe("ImportanceTransferTransaction", () => {
   before(() => {
@@ -40,7 +40,7 @@ describe("ImportanceTransferTransaction", () => {
   after(() => {
     NEMLibrary.reset();
   });
-  const publicKey: string = 'a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a';
+  const publicKey: string = "a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a";
 
   it("should be created with Activation Mode", () => {
     const transaction = new ImportanceTransferTransaction(
@@ -70,7 +70,7 @@ describe("ImportanceTransferTransaction", () => {
     const transaction = ImportanceTransferTransaction.create(
       TimeWindow.createWithDeadline(),
       ImportanceMode.Deactivate,
-      PublicAccount.createWithPublicKey(publicKey)
+      PublicAccount.createWithPublicKey(publicKey),
     );
     expect(transaction.mode).to.be.equal(ImportanceMode.Deactivate);
     expect(transaction.mode).to.be.equal(2);
@@ -80,7 +80,7 @@ describe("ImportanceTransferTransaction", () => {
     const transaction = ImportanceTransferTransaction.create(
       TimeWindow.createWithDeadline(),
       ImportanceMode.Deactivate,
-      PublicAccount.createWithPublicKey(publicKey)
+      PublicAccount.createWithPublicKey(publicKey),
     );
     // 150000 = 3 * 0.05 * 1000000
     expect(transaction.fee).to.be.equal(150000);

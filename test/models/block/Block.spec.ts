@@ -23,12 +23,12 @@
  */
 
 import {expect} from "chai";
-import {BlockDTO} from "../../../src/infrastructure/blockchain/BlockDTO";
-import {Block} from "../../../src/models/blockchain/Block";
-import {NEMLibrary} from "../../../src/NEMLibrary";
 import {NetworkTypes} from "../../../index";
+import {BlockDTO} from "../../../src/infrastructure/blockchain/BlockDTO";
 import {TransferTransactionDTO} from "../../../src/infrastructure/transaction/TransferTransactionDTO";
 import {PublicAccount} from "../../../src/models/account/PublicAccount";
+import {Block} from "../../../src/models/blockchain/Block";
+import {NEMLibrary} from "../../../src/NEMLibrary";
 
 describe("Block", () => {
   before(() => {
@@ -43,30 +43,30 @@ describe("Block", () => {
     const signature = "signature";
     const signer =  "697ab20e3f1349c4868c6443c4bef0ac23707621f94257cf1d71f743633c5966";
     const blockHash = "blockHash";
-    const blockDTO = <BlockDTO>{
+    const blockDTO = {
       timeStamp: 1234,
-      signature: signature,
+      signature,
       prevBlockHash: {
-        data: blockHash
+        data: blockHash,
       },
       type: 1,
-      transactions: [<TransferTransactionDTO>{
-          "timeStamp": 71847392,
-          "amount": 15674000000,
-          "signature": "6b306b2310e576ed21a821c329062289f2461b769b3504186a4390e4027d9232fb86f235a1c378cfe30f55f8f8e78c0e9ec537e6e4e9550ebbca31f5835ddd09",
-          "fee": 1000000,
-          "recipient": "TBNDYR4AVGYFEEUQ5LBPNEON42HSQ37NYGLZC344",
-          "type": 257,
-          "deadline": 71850992,
-          "message": {},
-          "version": -1744830463,
-          "signer": "697ab20e3f1349c4868c6443c4bef0ac23707621f94257cf1d71f743633c5966"
+      transactions: [{
+          timeStamp: 71847392,
+          amount: 15674000000,
+          signature: "6b306b2310e576ed21a821c329062289f2461b769b3504186a4390e4027d9232fb86f235a1c378cfe30f55f8f8e78c0e9ec537e6e4e9550ebbca31f5835ddd09",
+          fee: 1000000,
+          recipient: "TBNDYR4AVGYFEEUQ5LBPNEON42HSQ37NYGLZC344",
+          type: 257,
+          deadline: 71850992,
+          message: {},
+          version: -1744830463,
+          signer: "697ab20e3f1349c4868c6443c4bef0ac23707621f94257cf1d71f743633c5966",
 
-      }],
+      } as TransferTransactionDTO],
       version: 0x68,
-      signer: signer,
-      height: 1234
-    };
+      signer,
+      height: 1234,
+    } as BlockDTO;
 
     const block = Block.createFromBlockDTO(blockDTO);
     expect(block.timeStamp).to.be.equal(1234);
@@ -79,4 +79,3 @@ describe("Block", () => {
 
   });
 });
-

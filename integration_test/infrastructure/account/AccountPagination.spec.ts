@@ -33,26 +33,26 @@ describe("AccountPagination", () => {
   before(() => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);
     accountHttp = new AccountHttp([
-      {protocol: "http", domain: "bigalice2.nem.ninja", port: 7890}
+      {protocol: "http", domain: "bigalice2.nem.ninja", port: 7890},
     ]);
-    address = new Address("TDM3DO-ZM5WJ3-ZRBPSM-YRU6JS-WKUCAH-5VIPOF-4W7K")
+    address = new Address("TDM3DO-ZM5WJ3-ZRBPSM-YRU6JS-WKUCAH-5VIPOF-4W7K");
   });
 
   after(() => {
     NEMLibrary.reset();
   });
 
-  it("should just request one page", done => {
-    let pagedTransactions = accountHttp.allTransactionsPaginated(address, {pageSize: 5});
-    pagedTransactions.subscribe( x => {
+  it("should just request one page", (done) => {
+    const pagedTransactions = accountHttp.allTransactionsPaginated(address, {pageSize: 5});
+    pagedTransactions.subscribe( (x) => {
       done();
-    })
+    });
   });
 
-  it("should do pagination", done => {
-    let pagedTransactions = accountHttp.allTransactionsPaginated(address, {pageSize: 5});
+  it("should do pagination", (done) => {
+    const pagedTransactions = accountHttp.allTransactionsPaginated(address, {pageSize: 5});
     let time = 0;
-    pagedTransactions.subscribe(x => {
+    pagedTransactions.subscribe((x) => {
       if (time == 2) {
         done();
       }
@@ -60,7 +60,7 @@ describe("AccountPagination", () => {
         pagedTransactions.nextPage();
         ++time;
       }
-    }, err => {
+    }, (err) => {
       console.error(err);
     }, () => {
       done();
@@ -68,13 +68,12 @@ describe("AccountPagination", () => {
 
   });
 
-  it("should return transactions confirmed", done => {
-    let paginatedTransactions = accountHttp.incomingTransactionsPaginated(address, {pageSize: 5});
+  it("should return transactions confirmed", (done) => {
+    const paginatedTransactions = accountHttp.incomingTransactionsPaginated(address, {pageSize: 5});
     paginatedTransactions
-      .subscribe(transactions => {
-        transactions.map(_ => _.getTransactionInfo());
+      .subscribe((transactions) => {
+        transactions.map((_) => _.getTransactionInfo());
         done();
       });
   });
 });
-

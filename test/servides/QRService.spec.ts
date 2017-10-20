@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-import {QRService} from "../../src/services/QRService";
-import {SimpleWallet} from "../../src/models/wallet/SimpleWallet";
-import {Password} from "../../src/models/wallet/Password";
-import {expect} from "chai";
-import {NEMLibrary} from "../../src/NEMLibrary";
-import {NetworkTypes} from "../../src/models/node/NetworkTypes";
 import {deepEqual} from "assert";
+import {expect} from "chai";
+import {NetworkTypes} from "../../src/models/node/NetworkTypes";
 import {PlainMessage} from "../../src/models/transaction/PlainMessage";
+import {Password} from "../../src/models/wallet/Password";
+import {SimpleWallet} from "../../src/models/wallet/SimpleWallet";
+import {NEMLibrary} from "../../src/NEMLibrary";
+import {QRService} from "../../src/services/QRService";
 import {TestVariables} from "../config/TestVariables.spec";
 
 declare let process: any;
@@ -52,33 +52,33 @@ describe("QRService", () => {
   });
 
   it("should decrypt wallet from QR code", () => {
-    let qrWalletText = qrService.generateWalletQRText(password, simpleWallet);
-    let privateKey = qrService.decryptWalletQRText(password, JSON.parse(qrWalletText));
+    const qrWalletText = qrService.generateWalletQRText(password, simpleWallet);
+    const privateKey = qrService.decryptWalletQRText(password, JSON.parse(qrWalletText));
     expect(privateKey).to.be.equal(simpleWallet.unlockPrivateKey(password));
   });
 
   it("should not decrypt the QR if the password is wrong", () => {
-    let qrWalletText = qrService.generateWalletQRText(password, simpleWallet);
+    const qrWalletText = qrService.generateWalletQRText(password, simpleWallet);
     expect(() => {
-      let privateKey = qrService.decryptWalletQRText(new Password("another password"), JSON.parse(qrWalletText));
+      const privateKey = qrService.decryptWalletQRText(new Password("another password"), JSON.parse(qrWalletText));
       console.log("QRService", privateKey);
-    }).to.throw(Error)
+    }).to.throw(Error);
   });
 
   it("should generate QR code with address", () => {
-    let qrAddressText = qrService.generateAddressQRText(simpleWallet.address);
+    const qrAddressText = qrService.generateAddressQRText(simpleWallet.address);
     expect(qrAddressText).to.contain(simpleWallet.address.plain());
     expect(qrAddressText).to.contain("\"type\":1");
   });
 
   it("should decrypt QR code and return address", () => {
-    let qrWalletText = qrService.generateAddressQRText(simpleWallet.address);
-    let address = qrService.decryptAddressQRText(JSON.parse(qrWalletText));
+    const qrWalletText = qrService.generateAddressQRText(simpleWallet.address);
+    const address = qrService.decryptAddressQRText(JSON.parse(qrWalletText));
     deepEqual(address, simpleWallet.address);
   });
 
   it("should generate QR code with transaction", () => {
-    let qrTransactionText = qrService.generateTransactionQRText(simpleWallet.address, 1, "message");
+    const qrTransactionText = qrService.generateTransactionQRText(simpleWallet.address, 1, "message");
     expect(qrTransactionText).to.contain(simpleWallet.address.plain());
     expect(qrTransactionText).to.contain("\"type\":2");
     expect(qrTransactionText).to.contain("\"msg\":\"message\"");
@@ -86,9 +86,9 @@ describe("QRService", () => {
   });
 
   it("should decrypt QR code and return transaction", () => {
-    let qrTransactionText = qrService.generateTransactionQRText(simpleWallet.address, 1, "message");
-    let transaction = qrService.decryptTrasactionQRText(JSON.parse(qrTransactionText));
-    expect((<PlainMessage>transaction.message).plain()).to.be.equal("message");
+    const qrTransactionText = qrService.generateTransactionQRText(simpleWallet.address, 1, "message");
+    const transaction = qrService.decryptTrasactionQRText(JSON.parse(qrTransactionText));
+    expect((transaction.message as PlainMessage).plain()).to.be.equal("message");
     expect(transaction.xem().quantity()).to.be.equal(1000000);
     expect(transaction.recipient.plain()).to.be.equal(simpleWallet.address.plain());
   });

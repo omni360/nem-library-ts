@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
-import {MosaicHttp} from "../../../src/infrastructure/MosaicHttp";
 import {expect} from "chai";
 import {Observable} from "rxjs/Observable";
+import {MosaicHttp} from "../../../src/infrastructure/MosaicHttp";
 import {MosaicId} from "../../../src/models/mosaic/MosaicId";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {NEMLibrary} from "../../../src/NEMLibrary";
 
 describe("TransactionWithMosaics", () => {
   let mosaicHttp: MosaicHttp;
@@ -41,32 +41,31 @@ describe("TransactionWithMosaics", () => {
     NEMLibrary.reset();
   });
 
-  it("Create runtime MosaicTransferable with an xem", done => {
+  it("Create runtime MosaicTransferable with an xem", (done) => {
     mosaicHttp.getMosaicTransferableWithAmount(new MosaicId("server", "alcapone"), 1)
-      .subscribe(mosaicTransferable => {
+      .subscribe((mosaicTransferable) => {
         expect(mosaicTransferable.quantity()).to.be.equal(1);
         done();
       });
   });
 
-
-  it("Create runtime MosaicTransferable with an xem", done => {
+  it("Create runtime MosaicTransferable with an xem", (done) => {
     mosaicHttp.getMosaicTransferableWithAmount(new MosaicId("server", "alexis"), 1)
-      .subscribe(mosaicTransferable => {
+      .subscribe((mosaicTransferable) => {
         expect(mosaicTransferable.quantity()).to.be.equal(100000);
         done();
       });
   });
 
-  it("Fetch different mosaics and add the xem", done => {
+  it("Fetch different mosaics and add the xem", (done) => {
     Observable.from([
       {namespace: "server", mosaic: "alcapone", amount: 1},
-      {namespace: "server", mosaic: "alexis", amount: 1}
-    ]).flatMap(_ => mosaicHttp.getMosaicTransferableWithAmount(new MosaicId(_.namespace, _.mosaic), _.amount))
+      {namespace: "server", mosaic: "alexis", amount: 1},
+    ]).flatMap((_) => mosaicHttp.getMosaicTransferableWithAmount(new MosaicId(_.namespace, _.mosaic), _.amount))
       .toArray()
-      .subscribe(x => {
+      .subscribe((x) => {
         expect(x).to.have.length(2);
         done();
-      })
+      });
   });
 });

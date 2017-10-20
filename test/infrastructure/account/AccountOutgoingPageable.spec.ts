@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
+import {expect} from "chai";
 import nock = require("nock");
 import {AccountHttp} from "../../../src/infrastructure/AccountHttp";
 import {Address} from "../../../src/models/account/Address";
-import {NEMLibrary} from "../../../src/NEMLibrary";
 import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
-import {expect} from "chai";
+import {NEMLibrary} from "../../../src/NEMLibrary";
 
 describe("AccountOutgoingPageable", () => {
   let address: Address;
@@ -43,7 +43,7 @@ describe("AccountOutgoingPageable", () => {
       .replyWithFile(200, __dirname + "/responses/account_outgoing_1.json")
       .get("/account/transfers/outgoing?address=TDM3DOZM5WJ3ZRBPSMYRU6JSWKUCAH5VIPOF4W7K&id=128332&pageSize=10")
       .thrice()
-      .replyWithFile(200, __dirname + "/responses/account_outgoing_2.json")
+      .replyWithFile(200, __dirname + "/responses/account_outgoing_2.json");
   });
 
   after(() => {
@@ -51,31 +51,30 @@ describe("AccountOutgoingPageable", () => {
     nock.cleanAll();
   });
 
-
-  it("should receive the first file", done => {
+  it("should receive the first file", (done) => {
     accountHttp.outgoingTransactions(address)
-      .subscribe(x => {
+      .subscribe((x) => {
           expect(x).to.have.length(10);
           expect(x[0].getTransactionInfo().hash.data).to.be.equal("8ff2505f82bf0706708cc96cbe472fd0ef6c7db799d0c309004cbbc06bea9d0f");
           done();
-        }
-      )
+        },
+      );
   });
 
-  it("should receive the second json file", done => {
+  it("should receive the second json file", (done) => {
     accountHttp.outgoingTransactions(address, {id: 128332})
-      .subscribe(x => {
+      .subscribe((x) => {
           expect(x).to.have.length(10);
           expect(x[0].getTransactionInfo().hash.data).to.be.equal("a0f634f947b1e69581f757f0745cfcad7ab5c41fac952b78e402ce80edbaaf68");
           done();
-        }
-      )
+        },
+      );
   });
 
-  it("should be able to iterate the responses", done => {
-    let pageable = accountHttp.outgoingTransactionsPaginated(address);
+  it("should be able to iterate the responses", (done) => {
+    const pageable = accountHttp.outgoingTransactionsPaginated(address);
     let first = true;
-    pageable.subscribe(x => {
+    pageable.subscribe((x) => {
       if (first) {
         first = false;
         pageable.nextPage();
@@ -88,4 +87,3 @@ describe("AccountOutgoingPageable", () => {
     });
   });
 });
-

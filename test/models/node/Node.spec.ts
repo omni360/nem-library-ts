@@ -22,22 +22,22 @@
  * SOFTWARE.
  */
 
+import {deepEqual} from "assert";
 import {expect} from "chai";
-import {Node, NodeEndpoint, NodeIdentity, NodeMetaData} from "../../../src/models/node/Node";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
-import {NodeCollection} from "../../../src/models/node/NodeCollection";
-import {NodeDTO, NodeEndpointDTO, NodeIdentityDTO, NodeMetaDataDTO} from "../../../src/infrastructure/node/NodeDTO";
-import {NodeCollectionDTO} from "../../../src/infrastructure/node/NodeCollectionDTO";
-import {ApplicationMetaDataDTO} from "../../../src/infrastructure/node/ApplicationMetaDataDTO";
 import {NisNodeInfoDTO} from "../../../src/infrastructure/debug/NisNodeInfoDTO";
-import {ApplicationMetaData, NisNodeInfo} from "../../../src/models/node/NisNodeInfo";
+import {ApplicationMetaDataDTO} from "../../../src/infrastructure/node/ApplicationMetaDataDTO";
 import {
   ExtendedNodeExperienceDataDTO,
-  ExtendedNodeExperiencePairDTO
+  ExtendedNodeExperiencePairDTO,
 } from "../../../src/infrastructure/node/ExtendedNodeExperiencePairDTO";
+import {NodeCollectionDTO} from "../../../src/infrastructure/node/NodeCollectionDTO";
+import {NodeDTO, NodeEndpointDTO, NodeIdentityDTO, NodeMetaDataDTO} from "../../../src/infrastructure/node/NodeDTO";
 import {ExtendedNodeExperience, ExtendedNodeExperienceData} from "../../../src/models/node/ExtendedNodeExperience";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {ApplicationMetaData, NisNodeInfo} from "../../../src/models/node/NisNodeInfo";
+import {Node, NodeEndpoint, NodeIdentity, NodeMetaData} from "../../../src/models/node/Node";
+import {NodeCollection} from "../../../src/models/node/NodeCollection";
 import {NEMLibrary} from "../../../src/NEMLibrary";
-import {deepEqual} from "assert";
 
 describe("Node", () => {
 
@@ -49,7 +49,7 @@ describe("Node", () => {
     NEMLibrary.reset();
   });
 
-  it("should create Node object", done => {
+  it("should create Node object", (done) => {
     const nodeDTO = generateNodeDTO();
 
     const node = Node.createFromNodeDTO(nodeDTO);
@@ -59,16 +59,15 @@ describe("Node", () => {
     done();
   });
 
-
-  it("should create NodeCollection object", done => {
+  it("should create NodeCollection object", (done) => {
     const nodeDTO = generateNodeDTO();
 
-    const nodeCollectionDTO = <NodeCollectionDTO> {
+    const nodeCollectionDTO = {
       inactive: [nodeDTO],
       active: [nodeDTO],
       busy: [nodeDTO],
-      failure: [nodeDTO]
-    };
+      failure: [nodeDTO],
+    } as NodeCollectionDTO;
 
     const nodeCollection = NodeCollection.createFromNodeCollectionDTO(nodeCollectionDTO);
     const node = Node.createFromNodeDTO(nodeDTO);
@@ -80,21 +79,21 @@ describe("Node", () => {
     done();
   });
 
-  it("should create NisNodeInfo object", done => {
+  it("should create NisNodeInfo object", (done) => {
     const nodeDTO = generateNodeDTO();
 
-    const applicationMetaDataDTO = <ApplicationMetaDataDTO> {
+    const applicationMetaDataDTO = {
       currentTime: 12345678,
       application: "application",
       startTime: 12345678,
       version: "version",
       signer: "a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a",
-    };
+    } as ApplicationMetaDataDTO;
 
-    const nisNodeInfoDTO = <NisNodeInfoDTO> {
+    const nisNodeInfoDTO = {
       node: nodeDTO,
-      nisInfo: applicationMetaDataDTO
-    };
+      nisInfo: applicationMetaDataDTO,
+    } as NisNodeInfoDTO;
 
     const nisNodeInfo = NisNodeInfo.createFromNisNodeInfoDTO(nisNodeInfoDTO);
     deepEqual(nisNodeInfo.node, Node.createFromNodeDTO(nodeDTO));
@@ -103,19 +102,19 @@ describe("Node", () => {
 
   });
 
-  it("should create ExtendedNodeExperience object", done => {
+  it("should create ExtendedNodeExperience object", (done) => {
     const nodeDTO = generateNodeDTO();
 
-    const extendedNodeExperienceDataDTO = <ExtendedNodeExperienceDataDTO> {
+    const extendedNodeExperienceDataDTO = {
       f: 1,
-      s: 1
-    };
+      s: 1,
+    } as ExtendedNodeExperienceDataDTO;
 
-    const extendedNodeExperiencePairDTO = <ExtendedNodeExperiencePairDTO>{
+    const extendedNodeExperiencePairDTO = {
       node: nodeDTO,
       syncs: 1,
-      experience: extendedNodeExperienceDataDTO
-    };
+      experience: extendedNodeExperienceDataDTO,
+    } as ExtendedNodeExperiencePairDTO;
 
     const extendedNodeExperience = ExtendedNodeExperience.createFromExtendedNodeExperiencePairDTO(extendedNodeExperiencePairDTO);
     deepEqual(extendedNodeExperience.node, Node.createFromNodeDTO(nodeDTO));
@@ -124,36 +123,36 @@ describe("Node", () => {
     done();
   });
 
-  let generateNodeDTO = (): NodeDTO => {
-    return <NodeDTO> {
+  const generateNodeDTO = (): NodeDTO => {
+    return {
       metaData: generateMetaDataDTO(),
       endpoint: generateEndpointDTO(),
-      identity: generateIdentityDTO()
-    }
+      identity: generateIdentityDTO(),
+    } as NodeDTO;
   };
 
-  let generateMetaDataDTO = (): NodeMetaDataDTO => {
-    return <NodeMetaDataDTO>{
+  const generateMetaDataDTO = (): NodeMetaDataDTO => {
+    return {
       features: 1,
       networkId: NetworkTypes.TEST_NET,
       application: "application",
       version: "version",
-      platform: "platform"
-    }
-  }
+      platform: "platform",
+    } as NodeMetaDataDTO;
+  };
 
-  let generateEndpointDTO = (): NodeEndpointDTO => {
-    return <NodeEndpointDTO>{
+  const generateEndpointDTO = (): NodeEndpointDTO => {
+    return {
       protocol: "http",
       port: 7890,
-      host:"bob.nem.ninja"
-    }
-  }
+      host: "bob.nem.ninja",
+    } as NodeEndpointDTO;
+  };
 
-  let generateIdentityDTO = (): NodeIdentityDTO => {
-    return <NodeIdentityDTO> {
+  const generateIdentityDTO = (): NodeIdentityDTO => {
+    return {
       name: "nodeName",
-      publickey: "a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a"
-    }
-  }
+      publickey: "a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a",
+    } as NodeIdentityDTO;
+  };
 });

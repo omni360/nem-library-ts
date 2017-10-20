@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import {MultisigTransaction} from "../../../src/models/transaction/MultisigTransaction";
-import {expect} from "chai";
-import {TransactionTypes} from "../../../src/models/transaction/TransactionTypes";
-import {PublicAccount} from "../../../src/models/account/PublicAccount";
-import {MockTransaction} from "./MockTransaction.spec";
-import {HashData, MultisigTransactionInfo} from "../../../src/models/transaction/TransactionInfo";
-import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
-import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 import {deepEqual} from "assert";
+import {expect} from "chai";
+import {PublicAccount} from "../../../src/models/account/PublicAccount";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {MultisigTransaction} from "../../../src/models/transaction/MultisigTransaction";
+import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
+import {HashData, MultisigTransactionInfo} from "../../../src/models/transaction/TransactionInfo";
+import {TransactionTypes} from "../../../src/models/transaction/TransactionTypes";
+import {NEMLibrary} from "../../../src/NEMLibrary";
+import {MockTransaction} from "./MockTransaction.spec";
 
 describe("MultisigTransaction", () => {
   let publicKey;
@@ -40,7 +40,7 @@ describe("MultisigTransaction", () => {
 
   before(() => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);
-    publicKey = 'a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a';
+    publicKey = "a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a";
     mockTransaction = new MockTransaction(PublicAccount.createWithPublicKey(publicKey));
     multisigAccount = PublicAccount.createWithPublicKey("0a4dcc50b3c61677ff9b0b04717e1e9268611acb7cd0a8343e1b60ca3583ec2e");
   });
@@ -56,9 +56,8 @@ describe("MultisigTransaction", () => {
       version,
       mockTransaction,
       124134,
-      []
+      [],
     );
-
 
     expect(transaction.type).to.be.equal(TransactionTypes.MULTISIG);
     expect(transaction.signatures).to.have.length(0);
@@ -86,7 +85,7 @@ describe("MultisigTransaction", () => {
   });
 
   it("should return true when the MultisigTransaction has MultisigTransactionInfo", () => {
-    let multisigTransactionInfo = new MultisigTransactionInfo(123, 23123, new HashData("hash"), new HashData("innerhash"));
+    const multisigTransactionInfo = new MultisigTransactionInfo(123, 23123, new HashData("hash"), new HashData("innerhash"));
     const transaction = new MultisigTransaction(
       TimeWindow.createWithDeadline(),
       -1744830462,
@@ -110,13 +109,13 @@ describe("MultisigTransaction", () => {
   });
 
   it("isPendingToSign should return false when it has MultisigTransactionInfo", () => {
-    let multisigTransactionInfo = new MultisigTransactionInfo(123, 23123, new HashData("hash"), new HashData("innerhash"));
+    const multisigTransactionInfo = new MultisigTransactionInfo(123, 23123, new HashData("hash"), new HashData("innerhash"));
     const transaction = new MultisigTransaction(TimeWindow.createWithDeadline(), -1744830462, mockTransaction, 124134, [], undefined, undefined, multisigTransactionInfo, undefined);
     expect(transaction.isPendingToSign()).to.be.false;
   });
 
   it("should return HashData when it's passed on constructor", () => {
-    let hashData = new HashData("my hash");
+    const hashData = new HashData("my hash");
     const transaction = new MultisigTransaction(TimeWindow.createWithDeadline(), -1744830462, mockTransaction, 124134, [], undefined, undefined, undefined, hashData);
     deepEqual(transaction.hashData, hashData);
   });
@@ -125,7 +124,7 @@ describe("MultisigTransaction", () => {
     const transaction = MultisigTransaction.create(
       TimeWindow.createWithDeadline(),
       mockTransaction,
-      multisigAccount
+      multisigAccount,
     );
 
     expect(transaction.type).to.be.equal(TransactionTypes.MULTISIG);
@@ -137,7 +136,7 @@ describe("MultisigTransaction", () => {
     const transaction = MultisigTransaction.create(
       TimeWindow.createWithDeadline(),
       mockTransaction,
-      multisigAccount
+      multisigAccount,
     );
     expect(transaction.fee).to.be.equal(Math.floor(3 * 0.05 * 1000000));
   });
@@ -146,7 +145,7 @@ describe("MultisigTransaction", () => {
     const transaction = MultisigTransaction.create(
       TimeWindow.createWithDeadline(),
       mockTransaction,
-      multisigAccount
+      multisigAccount,
     );
     expect(transaction.otherTransaction.signer!.publicKey).to.be.equal(multisigAccount.publicKey);
   });

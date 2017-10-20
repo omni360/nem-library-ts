@@ -23,12 +23,12 @@
  */
 
 import {expect} from "chai";
-import {TestVariables} from "../../../test/config/TestVariables.spec";
-import {BlockHttp} from "../../../src/infrastructure/BlockHttp";
 import {BlockHeightDTO} from "../../../src/infrastructure/blockchain/BlockHeightDTO";
+import {BlockHttp} from "../../../src/infrastructure/BlockHttp";
 import {Block} from "../../../src/models/blockchain/Block";
-import {NEMLibrary} from "../../../src/NEMLibrary";
 import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {NEMLibrary} from "../../../src/NEMLibrary";
+import {TestVariables} from "../../../test/config/TestVariables.spec";
 
 describe("BlockHttp", () => {
 
@@ -40,13 +40,13 @@ describe("BlockHttp", () => {
     NEMLibrary.reset();
   });
   const blockHeight: BlockHeightDTO = {
-    height: 10000
+    height: 10000,
   };
 
-  it('get blockchain block with a given block height', done => {
+  it("get blockchain block with a given block height", (done) => {
     const blockHttp = new BlockHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     blockHttp.getBlockByHeight(10000)
-      .subscribe(block => {
+      .subscribe((block) => {
         expect(block).to.be.instanceOf(Block);
         expect(block.timeStamp).to.not.be.undefined;
         expect(block.signature).to.not.be.undefined;
@@ -60,12 +60,12 @@ describe("BlockHttp", () => {
       });
   });
 
-  it('uses the default testnet server when no argument is passed in constructor', () => {
+  it("uses the default testnet server when no argument is passed in constructor", () => {
     const blockHttp = new BlockHttp();
     expect(blockHttp.nextNode()).to.be.equals("http://bigalice2.nem.ninja:7890/block/");
   });
 
-  it('uses a specific domain when it is passed in constructor', () => {
+  it("uses a specific domain when it is passed in constructor", () => {
     const blockHttp = new BlockHttp([{domain: "bob.nem.ninja"}]);
     expect(blockHttp.nextNode()).to.contain("bob.nem.ninja");
   });

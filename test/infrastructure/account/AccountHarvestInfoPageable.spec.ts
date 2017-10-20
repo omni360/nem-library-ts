@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
+import {expect} from "chai";
 import nock = require("nock");
 import {AccountHttp} from "../../../src/infrastructure/AccountHttp";
 import {Address} from "../../../src/models/account/Address";
-import {NEMLibrary} from "../../../src/NEMLibrary";
 import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
-import {expect} from "chai";
+import {NEMLibrary} from "../../../src/NEMLibrary";
 
 describe("AccountHarvestInfoPageable", () => {
   let address: Address;
@@ -43,7 +43,7 @@ describe("AccountHarvestInfoPageable", () => {
       .replyWithFile(200, __dirname + "/responses/account_harvest_info_1.json")
       .get("/account/harvests?address=TALICESKTW5TAN5GEOK4TQKD43AUGSDTHK7UIIAK&id=1044488")
       .thrice()
-      .replyWithFile(200, __dirname + "/responses/account_harvest_info_2.json")
+      .replyWithFile(200, __dirname + "/responses/account_harvest_info_2.json");
   });
 
   after(() => {
@@ -51,31 +51,30 @@ describe("AccountHarvestInfoPageable", () => {
     nock.cleanAll();
   });
 
-
-  it("should receive the first file", done => {
+  it("should receive the first file", (done) => {
     accountHttp.getHarvestInfoDataForAnAccount(address).subscribe(
-      x => {
+      (x) => {
         expect(x).to.have.length(25);
         expect(x[0].id).to.be.equal(1044775);
         done();
-      }
-    )
+      },
+    );
   });
 
-  it("should receive the second json file", done => {
+  it("should receive the second json file", (done) => {
     accountHttp.getHarvestInfoDataForAnAccount(address, "1044488").subscribe(
-      x => {
+      (x) => {
         expect(x).to.have.length(25);
         expect(x[0].id).to.be.equal(1044484);
         done();
-      }
-    )
+      },
+    );
   });
 
-  it("should be able to iterate the responses", done => {
-    let pageable = accountHttp.getHarvestInfoDataForAnAccountPaginated(address);
+  it("should be able to iterate the responses", (done) => {
+    const pageable = accountHttp.getHarvestInfoDataForAnAccountPaginated(address);
     let first = true;
-    pageable.subscribe(x => {
+    pageable.subscribe((x) => {
       if (first) {
         first = false;
         pageable.nextPage();

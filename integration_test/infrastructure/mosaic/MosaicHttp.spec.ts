@@ -24,10 +24,10 @@
 
 import {expect} from "chai";
 import {MosaicHttp} from "../../../src/infrastructure/MosaicHttp";
-import {TestVariables} from "../../config/TestVariables.spec";
-import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 import {MosaicId} from "../../../src/models/mosaic/MosaicId";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {NEMLibrary} from "../../../src/NEMLibrary";
+import {TestVariables} from "../../config/TestVariables.spec";
 describe("MosaicHttp", () => {
   before(() => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);
@@ -37,12 +37,12 @@ describe("MosaicHttp", () => {
     NEMLibrary.reset();
   });
 
-  it('should get all root namespaces', done => {
+  it("should get all root namespaces", (done) => {
     const mosaicHttp = new MosaicHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const namespace = "ashter";
 
     mosaicHttp.getAllMosaicsGivenNamespace(namespace)
-      .subscribe(mosaicDefinitions => {
+      .subscribe((mosaicDefinitions) => {
         expect(mosaicDefinitions[0].creator).to.not.be.null;
         expect(mosaicDefinitions[0].id).to.not.be.null;
         expect(mosaicDefinitions[0].description).to.not.be.null;
@@ -53,12 +53,12 @@ describe("MosaicHttp", () => {
     });
   });
 
-  it('should get all root namespaces filter with id', done => {
+  it("should get all root namespaces filter with id", (done) => {
     const mosaicHttp = new MosaicHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const namespace = "ashter";
 
     mosaicHttp.getAllMosaicsGivenNamespace(namespace, 449)
-      .subscribe(mosaicDefinitions => {
+      .subscribe((mosaicDefinitions) => {
         expect(mosaicDefinitions[0].creator).to.not.be.null;
         expect(mosaicDefinitions[0].id).to.not.be.null;
         expect(mosaicDefinitions[0].description).to.not.be.null;
@@ -68,12 +68,12 @@ describe("MosaicHttp", () => {
       });
   });
 
-  it('should get all root namespaces filter with pageSize', done => {
+  it("should get all root namespaces filter with pageSize", (done) => {
     const mosaicHttp = new MosaicHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const namespace = "ashter";
 
     mosaicHttp.getAllMosaicsGivenNamespace(namespace, undefined, 5)
-      .subscribe(mosaicDefinitions => {
+      .subscribe((mosaicDefinitions) => {
         expect(mosaicDefinitions[0].creator).to.not.be.null;
         expect(mosaicDefinitions[0].id).to.not.be.null;
         expect(mosaicDefinitions[0].description).to.not.be.null;
@@ -84,22 +84,21 @@ describe("MosaicHttp", () => {
       });
   });
 
-
-  it('uses the default testnet server when no argument is passed in constructor', () => {
+  it("uses the default testnet server when no argument is passed in constructor", () => {
     const mosaicHttp = new MosaicHttp();
     expect(mosaicHttp.nextNode()).to.be.equals("http://bigalice2.nem.ninja:7890/namespace/");
   });
 
-  it('uses a specific domain when it is passed in constructor', () => {
+  it("uses a specific domain when it is passed in constructor", () => {
     const mosaicHttp = new MosaicHttp([{domain: "bob.nem.ninja"}]);
     expect(mosaicHttp.nextNode()).to.contain("bob.nem.ninja");
   });
 
-  it('should look for an expecific mosaic', done => {
+  it("should look for an expecific mosaic", (done) => {
     new MosaicHttp().getMosaicDefinition(new MosaicId("server", "alcapone"))
-      .subscribe(mosaic =>  {
+      .subscribe((mosaic) =>  {
         expect(mosaic.id.name).to.be.equal("alcapone");
         done();
       });
-  })
+  });
 });

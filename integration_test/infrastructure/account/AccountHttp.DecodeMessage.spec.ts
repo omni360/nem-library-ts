@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 import {AccountHttp} from "../../../src/infrastructure/AccountHttp";
 import {Address} from "../../../src/models/account/Address";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {NEMLibrary} from "../../../src/NEMLibrary";
 import {TestVariables} from "../../config/TestVariables.spec";
 
 describe("AccountHttp.DecodeMessage", () => {

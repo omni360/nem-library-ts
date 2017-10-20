@@ -22,33 +22,31 @@
  * SOFTWARE.
  */
 
-import {HttpEndpoint, Protocol, ServerConfig} from "../../src/infrastructure/HttpEndpoint";
-import {NEMLibrary} from "../../src/NEMLibrary";
-import {NetworkTypes} from "../../src/models/node/NetworkTypes";
 import {expect} from "chai";
+import {HttpEndpoint, Protocol, ServerConfig} from "../../src/infrastructure/HttpEndpoint";
+import {NetworkTypes} from "../../src/models/node/NetworkTypes";
+import {NEMLibrary} from "../../src/NEMLibrary";
 
 class MockHttpEndpoint extends HttpEndpoint {
 
   constructor(nodes?: ServerConfig[], preferredProtocol?: Protocol) {
-    super("mock", nodes, preferredProtocol)
+    super("mock", nodes, preferredProtocol);
   }
 }
-
 
 describe("HttpEndpoint", () => {
 
   it("should just have testnet nodes with protocol https", () => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);
-    let mockHttpEndpoint = new MockHttpEndpoint(undefined, "https");
+    const mockHttpEndpoint = new MockHttpEndpoint(undefined, "https");
     expect(mockHttpEndpoint.nextNode()).to.contain("https://");
     expect(mockHttpEndpoint.nextNode()).to.contain("https://");
     NEMLibrary.reset();
   });
 
-
   it("should just have testnet nodes with protocol http", () => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);
-    let mockHttpEndpoint = new MockHttpEndpoint(undefined, "http");
+    const mockHttpEndpoint = new MockHttpEndpoint(undefined, "http");
     expect(mockHttpEndpoint.nextNode()).to.contain("http://");
     expect(mockHttpEndpoint.nextNode()).to.contain("http://");
     NEMLibrary.reset();
@@ -56,16 +54,15 @@ describe("HttpEndpoint", () => {
 
   it("should just have mainnet nodes with protocol https", () => {
     NEMLibrary.bootstrap(NetworkTypes.MAIN_NET);
-    let mockHttpEndpoint = new MockHttpEndpoint(undefined, "https");
+    const mockHttpEndpoint = new MockHttpEndpoint(undefined, "https");
     expect(mockHttpEndpoint.nextNode()).to.contain("https://");
     expect(mockHttpEndpoint.nextNode()).to.contain("https://");
     NEMLibrary.reset();
   });
 
-
   it("should just have mainnet nodes with protocol http", () => {
     NEMLibrary.bootstrap(NetworkTypes.MAIN_NET);
-    let mockHttpEndpoint = new MockHttpEndpoint(undefined, "http");
+    const mockHttpEndpoint = new MockHttpEndpoint(undefined, "http");
     expect(mockHttpEndpoint.nextNode()).to.contain("http://");
     expect(mockHttpEndpoint.nextNode()).to.contain("http://");
     NEMLibrary.reset();

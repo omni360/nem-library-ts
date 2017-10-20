@@ -22,21 +22,21 @@
  * SOFTWARE.
  */
 
-import {UnconfirmedTransactionListener} from "../../src/infrastructure/UnconfirmedTransactionListener";
-import {Address} from "../../src/models/account/Address";
-import {TransactionHttp} from "../../src/infrastructure/TransactionHttp";
-import {NEMLibrary} from "../../src/NEMLibrary";
-import {NetworkTypes} from "../../src/models/node/NetworkTypes";
-import {Account} from "../../src/models/account/Account";
-import {TimeWindow} from "../../src/models/transaction/TimeWindow";
-import {XEM} from "../../src/models/mosaic/XEM";
-import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
-import {EmptyMessage} from "../../src/models/transaction/PlainMessage";
 import {Observable} from "rxjs/Observable";
+import {TransactionHttp} from "../../src/infrastructure/TransactionHttp";
+import {UnconfirmedTransactionListener} from "../../src/infrastructure/UnconfirmedTransactionListener";
+import {Account} from "../../src/models/account/Account";
+import {Address} from "../../src/models/account/Address";
+import {XEM} from "../../src/models/mosaic/XEM";
+import {NetworkTypes} from "../../src/models/node/NetworkTypes";
+import {EmptyMessage} from "../../src/models/transaction/PlainMessage";
+import {TimeWindow} from "../../src/models/transaction/TimeWindow";
+import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
+import {NEMLibrary} from "../../src/NEMLibrary";
 
 declare let process: any;
 
-describe('UnconfirmedTransactionListener', () => {
+describe("UnconfirmedTransactionListener", () => {
   const privateKey: string = process.env.PRIVATE_KEY;
   let transactionHttp: TransactionHttp;
   let account: Account;
@@ -52,31 +52,31 @@ describe('UnconfirmedTransactionListener', () => {
     NEMLibrary.reset();
   });
 
-  it("should listen the next data", done => {
+  it("should listen the next data", (done) => {
     const address = new Address("TDM3DO-ZM5WJ3-ZRBPSM-YRU6JS-WKUCAH-5VIPOF-4W7K");
 
     const transferTransaction = TransferTransaction.create(
       TimeWindow.createWithDeadline(),
       address,
       new XEM(0),
-      EmptyMessage
+      EmptyMessage,
     );
 
     new UnconfirmedTransactionListener().given(account.address)
-      .subscribe(x => {
+      .subscribe((x) => {
         console.log(x);
         done();
-      }, err => {
+      }, (err) => {
         console.log(err);
       });
 
-    let transaction = account.signTransaction(transferTransaction);
+    const transaction = account.signTransaction(transferTransaction);
 
     Observable.of(1)
       .delay(3000)
-      .flatMap(ignored => transactionHttp.announceTransaction(transaction))
-      .subscribe(x => {
+      .flatMap((ignored) => transactionHttp.announceTransaction(transaction))
+      .subscribe((x) => {
         console.log(x);
       });
-  })
+  });
 });

@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-import {ChainHttp} from "../../../src/infrastructure/ChainHttp";
 import {expect} from "chai";
-import {TestVariables} from "../../../test/config/TestVariables.spec";
-import {NEMLibrary} from "../../../src/NEMLibrary";
+import {ChainHttp} from "../../../src/infrastructure/ChainHttp";
 import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {NEMLibrary} from "../../../src/NEMLibrary";
+import {TestVariables} from "../../../test/config/TestVariables.spec";
 
 describe("ChainHttp", () => {
 
@@ -38,29 +38,29 @@ describe("ChainHttp", () => {
     NEMLibrary.reset();
   });
 
-  it('get blockchain height', done => {
+  it("get blockchain height", (done) => {
     const chainHttp = new ChainHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     chainHttp.getBlockchainHeight()
-      .subscribe(blockHeight => {
+      .subscribe((blockHeight) => {
         expect(blockHeight).to.not.be.undefined;
         expect(blockHeight).to.be.greaterThan(0);
         done();
       });
   });
 
-  it('get blockchain score', done => {
+  it("get blockchain score", (done) => {
     const chainHttp = new ChainHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     chainHttp.getBlockchainScore()
-      .subscribe(blockchainScore => {
+      .subscribe((blockchainScore) => {
         expect(blockchainScore).to.not.be.undefined;
         done();
       });
   });
 
-  it('get last block of the blockchain score', done => {
+  it("get last block of the blockchain score", (done) => {
     const chainHttp = new ChainHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     chainHttp.getBlockchainLastBlock()
-      .subscribe(block => {
+      .subscribe((block) => {
         expect(block.timeStamp).to.not.be.undefined;
         expect(block.signature).to.not.be.undefined;
         expect(block.prevBlockHash).to.not.be.undefined;
@@ -72,12 +72,12 @@ describe("ChainHttp", () => {
       });
   });
 
-  it('uses the default testnet server when no argument is passed in constructor', () => {
+  it("uses the default testnet server when no argument is passed in constructor", () => {
     const chainHttp = new ChainHttp();
     expect(chainHttp.nextNode()).to.be.equals("http://bigalice2.nem.ninja:7890/chain/");
   });
 
-  it('uses a specific domain when it is passed in constructor', () => {
+  it("uses a specific domain when it is passed in constructor", () => {
     const chainHttp = new ChainHttp([{domain: "bob.nem.ninja"}]);
     expect(chainHttp.nextNode()).to.contain("bob.nem.ninja");
   });

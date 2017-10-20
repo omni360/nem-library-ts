@@ -27,5 +27,5 @@ export const TestVariables = {
   DEFAULT_TEST_PROTOCOL: "http",
   DEFAULT_TEST_PORT: 7890,
   DEFAULT_TEST_URL: "http://23.228.67.85:7890",
-  ACCOUNT_HISTORICAL_DATA_NODE_DOMAIN: "hugealice.nem.ninja"
+  ACCOUNT_HISTORICAL_DATA_NODE_DOMAIN: "hugealice.nem.ninja",
 };

@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-import {expect} from "chai";
-import {NamespaceMetaDataPairDTO} from "../../../src/infrastructure/namespace/NamespaceMetaDataPairDTO";
-import {Namespace} from "../../../src/models/namespace/Namespace";
-import {NamespaceDTO} from "../../../src/infrastructure/namespace/NamespaceDTO";
-import {Address} from "../../../src/models/account/Address";
 import {deepEqual} from "assert";
+import {expect} from "chai";
+import {NamespaceDTO} from "../../../src/infrastructure/namespace/NamespaceDTO";
+import {NamespaceMetaDataPairDTO} from "../../../src/infrastructure/namespace/NamespaceMetaDataPairDTO";
+import {Address} from "../../../src/models/account/Address";
+import {Namespace} from "../../../src/models/namespace/Namespace";
 
 describe("Namespace", () => {
 
@@ -36,16 +36,16 @@ describe("Namespace", () => {
     const owner = "TCJZJHAV63RE2JSKN27DFIHZRXIHAI736WXEOJGA";
     const height = 1;
     const id = 1;
-    const namespaceMetaDataPairDTO = <NamespaceMetaDataPairDTO>{
+    const namespaceMetaDataPairDTO = {
       meta: {
-        id: id
+        id,
       },
-      namespace:{
+      namespace: {
         fqn: name,
-        owner: owner,
-        height: height
-      }
-    };
+        owner,
+        height,
+      },
+    } as NamespaceMetaDataPairDTO;
 
     const namespace = Namespace.createFromNamespaceMetaDataPairDTO(namespaceMetaDataPairDTO);
     expect(namespace.name).to.be.equal(name);
@@ -59,11 +59,11 @@ describe("Namespace", () => {
     const name = "namespaceName";
     const owner =  "TCJZJHAV63RE2JSKN27DFIHZRXIHAI736WXEOJGA";
     const height = 1;
-    const namespaceDTO = <NamespaceDTO>{
+    const namespaceDTO = {
       fqn: name,
-      owner: owner,
-      height: height
-    };
+      owner,
+      height,
+    } as NamespaceDTO;
 
     const namespace = Namespace.createFromNamespaceDTO(namespaceDTO);
     expect(namespace.name).to.be.equal(name);
@@ -82,7 +82,7 @@ describe("Namespace", () => {
       name,
       owner,
       height,
-      namespaceId
+      namespaceId,
     );
     expect(namespace.name).to.be.equal(name);
     deepEqual(namespace.owner, owner);
@@ -91,4 +91,3 @@ describe("Namespace", () => {
 
   });
 });
-

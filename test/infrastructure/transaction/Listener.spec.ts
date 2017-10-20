@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-import {Listener} from "../../../src/infrastructure/Listener";
-import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 import {expect} from "chai";
+import {Listener} from "../../../src/infrastructure/Listener";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {NEMLibrary} from "../../../src/NEMLibrary";
 
 class MockListener extends Listener {
-  getWSURL(): string {
+  public getWSURL(): string {
     return this.nextNode();
   }
 }
@@ -42,7 +42,7 @@ describe("Listener", () => {
   it("should have the URL of bigalice2.nem.ninja with NEMLibrary.bootstrap(NetworkType.TEST_NET)", () => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);
 
-    let listener = new MockListener();
+    const listener = new MockListener();
     expect(listener.getWSURL()).to.be.equal("http://bigalice2.nem.ninja:7778/w/messages");
 
     NEMLibrary.reset();
@@ -51,7 +51,7 @@ describe("Listener", () => {
   it("should have the URL of bigalice2.nem.ninja with NEMLibrary.bootstrap(NetworkType.TEST_NET)", () => {
     NEMLibrary.bootstrap(NetworkTypes.MAIN_NET);
 
-    let listener = new MockListener();
+    const listener = new MockListener();
     expect(listener.getWSURL()).to.be.equal("http://alice6.nem.ninja:7778/w/messages");
 
     NEMLibrary.reset();
@@ -60,9 +60,9 @@ describe("Listener", () => {
   it("should have a different port", () => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);
 
-    let listener = new MockListener([{protocol: "http", domain: "bigalice2.nem.ninja", port: 2323}]);
+    const listener = new MockListener([{protocol: "http", domain: "bigalice2.nem.ninja", port: 2323}]);
     expect(listener.getWSURL()).to.be.equal("http://bigalice2.nem.ninja:2323/w/messages");
 
     NEMLibrary.reset();
-  })
+  });
 });

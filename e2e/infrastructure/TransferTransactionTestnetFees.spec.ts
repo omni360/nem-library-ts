@@ -22,22 +22,22 @@
  * SOFTWARE.
  */
 
-import {NEMLibrary} from "../../src/NEMLibrary";
-import {NetworkTypes} from "../../src/models/node/NetworkTypes";
-import {Account} from "../../src/models/account/Account";
-import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
-import {TimeWindow} from "../../src/models/transaction/TimeWindow";
-import {EmptyMessage, PlainMessage} from "../../src/models/transaction/PlainMessage";
 import {expect} from "chai";
 import {TransactionHttp} from "../../src/infrastructure/TransactionHttp";
-import {TestVariables} from "../../test/config/TestVariables.spec";
+import {Account} from "../../src/models/account/Account";
 import {Address} from "../../src/models/account/Address";
 import {XEM} from "../../src/models/mosaic/XEM";
+import {NetworkTypes} from "../../src/models/node/NetworkTypes";
+import {EmptyMessage, PlainMessage} from "../../src/models/transaction/PlainMessage";
+import {TimeWindow} from "../../src/models/transaction/TimeWindow";
+import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
+import {NEMLibrary} from "../../src/NEMLibrary";
+import {TestVariables} from "../../test/config/TestVariables.spec";
 
 declare let process: any;
 
 describe("TransferTransactionTestnetFees", () => {
-  const recipientAccount: string = 'TBV7LE4TFDEMGVOON5MYOK2P7TU2KEKLMHOLHQT6';
+  const recipientAccount: string = "TBV7LE4TFDEMGVOON5MYOK2P7TU2KEKLMHOLHQT6";
   const privateKey: string = process.env.PRIVATE_KEY;
   let account: Account;
   let transactionHttp: TransactionHttp;
@@ -60,7 +60,7 @@ describe("TransferTransactionTestnetFees", () => {
       EmptyMessage);
     const signedTransaction = account.signTransaction(transaction);
 
-    let result = await transactionHttp.announceTransaction(signedTransaction).toPromise();
+    const result = await transactionHttp.announceTransaction(signedTransaction).toPromise();
     expect(result.message).to.equal("SUCCESS");
     expect(result.transactionHash.data).to.not.null;
   });
@@ -73,7 +73,7 @@ describe("TransferTransactionTestnetFees", () => {
       PlainMessage.create("simple"));
     const signedTransaction = account.signTransaction(transaction);
 
-    let result = await transactionHttp.announceTransaction(signedTransaction).toPromise();
+    const result = await transactionHttp.announceTransaction(signedTransaction).toPromise();
     expect(result.message).to.equal("SUCCESS");
     expect(result.transactionHash.data).to.not.null;
   });

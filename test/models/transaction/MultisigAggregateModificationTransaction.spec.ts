@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
+import {expect} from "chai";
+import {PublicAccount} from "../../../src/models/account/PublicAccount";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 import {
   CosignatoryModification,
   CosignatoryModificationAction,
-  MultisigAggregateModificationTransaction
+  MultisigAggregateModificationTransaction,
 } from "../../../src/models/transaction/MultisigAggregateModificationTransaction";
-import {expect} from "chai";
-import {PublicAccount} from "../../../src/models/account/PublicAccount";
 import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
 import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 
 describe("MultisigAggregateModificationTransaction", () => {
   let modifications;
@@ -39,9 +39,9 @@ describe("MultisigAggregateModificationTransaction", () => {
 
   before(() => {
     NEMLibrary.bootstrap(NetworkTypes.TEST_NET);
-    publicKey = 'a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a';
+    publicKey = "a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a";
     modifications = [
-      new CosignatoryModification(PublicAccount.createWithPublicKey(publicKey), CosignatoryModificationAction.ADD)
+      new CosignatoryModification(PublicAccount.createWithPublicKey(publicKey), CosignatoryModificationAction.ADD),
     ];
   });
 

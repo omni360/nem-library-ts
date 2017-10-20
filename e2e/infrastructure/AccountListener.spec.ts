@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import {Address} from "../../src/models/account/Address";
-import {NEMLibrary} from "../../src/NEMLibrary";
-import {NetworkTypes} from "../../src/models/node/NetworkTypes";
 import {AccountListener} from "../../src/infrastructure/AccountListener";
 import {TransactionHttp} from "../../src/infrastructure/TransactionHttp";
 import {Account} from "../../src/models/account/Account";
-import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
-import {TimeWindow} from "../../src/models/transaction/TimeWindow";
+import {Address} from "../../src/models/account/Address";
 import {XEM} from "../../src/models/mosaic/XEM";
+import {NetworkTypes} from "../../src/models/node/NetworkTypes";
 import {EmptyMessage} from "../../src/models/transaction/PlainMessage";
+import {TimeWindow} from "../../src/models/transaction/TimeWindow";
+import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
+import {NEMLibrary} from "../../src/NEMLibrary";
 
 declare let process: any;
 
@@ -51,27 +51,27 @@ describe("AccountListener", () => {
     NEMLibrary.reset();
   });
 
-  it("should listen the next data", done => {
+  it("should listen the next data", (done) => {
     const address = new Address("TCJZJH-AV63RE-2JSKN2-7DFIHZ-RXIHAI-736WXE-OJGA");
 
     const transferTransaction = TransferTransaction.create(
       TimeWindow.createWithDeadline(),
       address,
       new XEM(0),
-      EmptyMessage
+      EmptyMessage,
     );
 
-    new AccountListener().given(address).subscribe(x => {
+    new AccountListener().given(address).subscribe((x) => {
       console.log(x);
       done();
-    }, err => {
+    }, (err) => {
       console.log(err);
     });
 
-    let transaction = account.signTransaction(transferTransaction);
+    const transaction = account.signTransaction(transferTransaction);
 
-    transactionHttp.announceTransaction(transaction).delay(1000).subscribe(x => {
+    transactionHttp.announceTransaction(transaction).delay(1000).subscribe((x) => {
       console.log(x);
     });
-  })
+  });
 });

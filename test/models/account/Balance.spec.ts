@@ -27,7 +27,7 @@ import {Balance} from "../../../src/models/account/Balance";
 
 describe("Balance", () => {
 
-  it("should create balance object and have correct balance amounts", done => {
+  it("should create balance object and have correct balance amounts", (done) => {
       const totalBalance = 10000;
       const unvestedBalance = 4000;
       const vestedBalance = 6000;
@@ -37,6 +37,6 @@ describe("Balance", () => {
       expect(balance.balance).to.be.equal(totalBalance);
       expect(balance.vestedBalance).to.be.equal(vestedBalance);
       expect(balance.unvestedBalance).to.be.equal(unvestedBalance);
-      done()
+      done();
   });
 });

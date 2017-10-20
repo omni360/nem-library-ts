@@ -23,25 +23,25 @@
  */
 
 import {expect} from "chai";
-import {AccountImportanceInfo} from "../../../src/models/account/AccountImportanceInfo";
 import {
   AccountImportanceDataDTO,
-  AccountImportanceViewModelDTO
+  AccountImportanceViewModelDTO,
 } from "../../../src/infrastructure/account/AccountImportanceViewModelDTO";
+import {AccountImportanceInfo} from "../../../src/models/account/AccountImportanceInfo";
 
 describe("AccountImportanceInfo", () => {
-  const address: string = 'TCJZJHAV63RE2JSKN27DFIHZRXIHAI736WXEOJGA';
+  const address: string = "TCJZJHAV63RE2JSKN27DFIHZRXIHAI736WXEOJGA";
 
-  it("should create an AccountImportanceInfo object", done => {
-    const accountImportanceViewModelDTO = <AccountImportanceViewModelDTO> {
-      address: address,
-      importance: <AccountImportanceDataDTO> {
+  it("should create an AccountImportanceInfo object", (done) => {
+    const accountImportanceViewModelDTO = {
+      address,
+      importance: {
         isSet: 1,
         score: 1,
         ev: 1,
-        height: 1
-      }
-    };
+        height: 1,
+      } as AccountImportanceDataDTO,
+    } as AccountImportanceViewModelDTO;
 
     const accountImportanceInfo = AccountImportanceInfo.createFromAccountImportanceViewModelDTO(accountImportanceViewModelDTO);
     expect(accountImportanceInfo.address.plain()).to.be.equal(address);

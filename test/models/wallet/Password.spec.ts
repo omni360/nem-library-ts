@@ -29,7 +29,7 @@ describe("Password", () => {
   it("should throw Error if Password is empty", () => {
     expect(() => {
       new Password("");
-    }).to.throw(Error,"Password must be at least 8 characters");
+    }).to.throw(Error, "Password must be at least 8 characters");
   });
 
   it("should be valid with at least 8 characters", () => {
@@ -40,6 +40,6 @@ describe("Password", () => {
   it("should throw Error if Password has less than 8 characters", () => {
     expect(() => {
       new Password("1234567");
-    }).to.throw(Error,"Password must be at least 8 characters");
+    }).to.throw(Error, "Password must be at least 8 characters");
   });
 });

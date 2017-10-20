@@ -22,20 +22,19 @@
  * SOFTWARE.
  */
 
+import {deepEqual} from "assert";
 import {expect} from "chai";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {LocalDateTime} from "js-joda";
+import {Account} from "../../../src/models/account/Account";
 import {Address} from "../../../src/models/account/Address";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 import {EncryptedPrivateKey} from "../../../src/models/wallet/EncryptedPrivateKey";
 import {Password} from "../../../src/models/wallet/Password";
 import {SimpleWallet} from "../../../src/models/wallet/SimpleWallet";
 import {NEMLibrary} from "../../../src/NEMLibrary";
-import {LocalDateTime} from "js-joda";
-import {deepEqual} from "assert";
-import {Account} from "../../../src/models/account/Account";
 import {TestVariables} from "../../config/TestVariables.spec";
 
 declare let process: any;
-
 
 describe("SimpleWallet", () => {
   const privateKey: string = process.env.PRIVATE_KEY || TestVariables.TEST_PRIVATE_KEY;
@@ -63,7 +62,6 @@ describe("SimpleWallet", () => {
     expect(simpleWallet.address.plain()).to.be.equal(environmentAccount.address.plain());
   });
 
-
   it("should open a new simple wallet", () => {
     const simpleWallet = SimpleWallet.create("My wallet", new Password("password"));
     const account = simpleWallet.open(new Password("password"));
@@ -77,27 +75,27 @@ describe("SimpleWallet", () => {
   });
 
   it("should return a wlt content", () => {
-    let simpleWallet = new SimpleWallet("My wallet",
+    const simpleWallet = new SimpleWallet("My wallet",
       NetworkTypes.TEST_NET,
       new Address("TAZ53XZ2PLF2CRMF7AWPAMYZKW63ZOCBKMEJEOQJ"),
       LocalDateTime.of(2017, 11, 20),
       new EncryptedPrivateKey(
         "a4eb0dfb0bbc38dece38d58601da57596cfe25e99a7f9a42a2863972af32c839c23e8a12d45bfe09f1c8d0fd52e77274",
-        "98a53e7046535b9ce0be282d3a271f12"
+        "98a53e7046535b9ce0be282d3a271f12",
         ));
-    let wlt = simpleWallet.writeWLTFile();
-    expect(wlt).to.be.equal("eyJuYW1lIjoiTXkgd2FsbGV0IiwibmV0d29yayI6IjE1MiIsImFkZHJlc3MiOiJUQVo1M1haMlBMRjJDUk1GN0FXUEFNWVpLVzYzWk9DQktNRUpFT1FKIiwiY3JlYXRpb25EYXRlIjoiMjAxNy0xMS0yMFQwMDowMCIsInNjaGVtYSI6MSwidHlwZSI6InNpbXBsZSIsImVuY3J5cHRlZFByaXZhdGVLZXkiOiJhNGViMGRmYjBiYmMzOGRlY2UzOGQ1ODYwMWRhNTc1OTZjZmUyNWU5OWE3ZjlhNDJhMjg2Mzk3MmFmMzJjODM5YzIzZThhMTJkNDViZmUwOWYxYzhkMGZkNTJlNzcyNzQiLCJpdiI6Ijk4YTUzZTcwNDY1MzViOWNlMGJlMjgyZDNhMjcxZjEyIn0=")
+    const wlt = simpleWallet.writeWLTFile();
+    expect(wlt).to.be.equal("eyJuYW1lIjoiTXkgd2FsbGV0IiwibmV0d29yayI6IjE1MiIsImFkZHJlc3MiOiJUQVo1M1haMlBMRjJDUk1GN0FXUEFNWVpLVzYzWk9DQktNRUpFT1FKIiwiY3JlYXRpb25EYXRlIjoiMjAxNy0xMS0yMFQwMDowMCIsInNjaGVtYSI6MSwidHlwZSI6InNpbXBsZSIsImVuY3J5cHRlZFByaXZhdGVLZXkiOiJhNGViMGRmYjBiYmMzOGRlY2UzOGQ1ODYwMWRhNTc1OTZjZmUyNWU5OWE3ZjlhNDJhMjg2Mzk3MmFmMzJjODM5YzIzZThhMTJkNDViZmUwOWYxYzhkMGZkNTJlNzcyNzQiLCJpdiI6Ijk4YTUzZTcwNDY1MzViOWNlMGJlMjgyZDNhMjcxZjEyIn0=");
   });
 
   it("should return a simple wallet from WLT", () => {
-    let simpleWallet = SimpleWallet.readFromWLT("eyJuYW1lIjoiTXkgd2FsbGV0IiwibmV0d29yayI6IjE1MiIsImFkZHJlc3MiOiJUQVo1M1haMlBMRjJDUk1GN0FXUEFNWVpLVzYzWk9DQktNRUpFT1FKIiwiY3JlYXRpb25EYXRlIjoiMjAxNy0xMS0yMFQwMDowMCIsInNjaGVtYSI6MSwidHlwZSI6InNpbXBsZSIsImVuY3J5cHRlZFByaXZhdGVLZXkiOiJhNGViMGRmYjBiYmMzOGRlY2UzOGQ1ODYwMWRhNTc1OTZjZmUyNWU5OWE3ZjlhNDJhMjg2Mzk3MmFmMzJjODM5YzIzZThhMTJkNDViZmUwOWYxYzhkMGZkNTJlNzcyNzQiLCJpdiI6Ijk4YTUzZTcwNDY1MzViOWNlMGJlMjgyZDNhMjcxZjEyIn0=");
+    const simpleWallet = SimpleWallet.readFromWLT("eyJuYW1lIjoiTXkgd2FsbGV0IiwibmV0d29yayI6IjE1MiIsImFkZHJlc3MiOiJUQVo1M1haMlBMRjJDUk1GN0FXUEFNWVpLVzYzWk9DQktNRUpFT1FKIiwiY3JlYXRpb25EYXRlIjoiMjAxNy0xMS0yMFQwMDowMCIsInNjaGVtYSI6MSwidHlwZSI6InNpbXBsZSIsImVuY3J5cHRlZFByaXZhdGVLZXkiOiJhNGViMGRmYjBiYmMzOGRlY2UzOGQ1ODYwMWRhNTc1OTZjZmUyNWU5OWE3ZjlhNDJhMjg2Mzk3MmFmMzJjODM5YzIzZThhMTJkNDViZmUwOWYxYzhkMGZkNTJlNzcyNzQiLCJpdiI6Ijk4YTUzZTcwNDY1MzViOWNlMGJlMjgyZDNhMjcxZjEyIn0=");
     expect(simpleWallet.name).to.be.equal("My wallet");
     deepEqual(simpleWallet.network, NetworkTypes.TEST_NET);
     deepEqual(simpleWallet.address, new Address("TAZ53XZ2PLF2CRMF7AWPAMYZKW63ZOCBKMEJEOQJ"));
     deepEqual(simpleWallet.creationDate, LocalDateTime.of(2017, 11, 20));
     deepEqual(simpleWallet.encryptedPrivateKey, new EncryptedPrivateKey(
       "a4eb0dfb0bbc38dece38d58601da57596cfe25e99a7f9a42a2863972af32c839c23e8a12d45bfe09f1c8d0fd52e77274",
-      "98a53e7046535b9ce0be282d3a271f12"
+      "98a53e7046535b9ce0be282d3a271f12",
     ));
   });
 
@@ -111,7 +109,7 @@ describe("SimpleWallet", () => {
     const password = new Password("this is an invalid password");
     const simpleWallet = SimpleWallet.createWithPrivateKey("my wallet", new Password("valid password"), privateKey);
     expect(() => {
-      let privateKey = simpleWallet.unlockPrivateKey(password);
+      const privateKey = simpleWallet.unlockPrivateKey(password);
       console.log("SimpleWallet", privateKey);
     }).to.throw(Error);
   });

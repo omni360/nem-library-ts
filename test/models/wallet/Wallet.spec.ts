@@ -23,13 +23,13 @@
  */
 
 import {expect} from "chai";
-import {Wallet, WalletType} from "../../../src/models/wallet/Wallet";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
-import {Address} from "../../../src/models/account/Address";
-import {Password} from "../../../src/models/wallet/Password";
-import {FakeWallet} from "./FakeWallet.spec";
-import {NEMLibrary} from "../../../src/NEMLibrary";
 import {LocalDateTime} from "js-joda";
+import {Address} from "../../../src/models/account/Address";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {Password} from "../../../src/models/wallet/Password";
+import {Wallet, WalletType} from "../../../src/models/wallet/Wallet";
+import {NEMLibrary} from "../../../src/NEMLibrary";
+import {FakeWallet} from "./FakeWallet.spec";
 
 describe("Wallet", () => {
 
@@ -63,18 +63,18 @@ describe("Wallet", () => {
   });
 
   it("should return simple wallet type", () => {
-    let type = Wallet.walletTypeGivenWLT("eyJuYW1lIjoiTXkgd2FsbGV0IiwibmV0d29yayI6IjE1MiIsImFkZHJlc3MiOiJUQVo1M1haMlBMRjJDUk1GN0FXUEFNWVpLVzYzWk9DQktNRUpFT1FKIiwiY3JlYXRpb25EYXRlIjoiMjAxNy0xMS0yMFQwMDowMCIsInNjaGVtYSI6MSwidHlwZSI6ImJyYWluIn0=");
+    const type = Wallet.walletTypeGivenWLT("eyJuYW1lIjoiTXkgd2FsbGV0IiwibmV0d29yayI6IjE1MiIsImFkZHJlc3MiOiJUQVo1M1haMlBMRjJDUk1GN0FXUEFNWVpLVzYzWk9DQktNRUpFT1FKIiwiY3JlYXRpb25EYXRlIjoiMjAxNy0xMS0yMFQwMDowMCIsInNjaGVtYSI6MSwidHlwZSI6ImJyYWluIn0=");
     expect(type).to.be.equal(WalletType.BRAIN);
   });
 
   it("should return brain wallet type", () => {
-    let type = Wallet.walletTypeGivenWLT("eyJuYW1lIjoiTXkgd2FsbGV0IiwibmV0d29yayI6IjE1MiIsImFkZHJlc3MiOiJUQVo1M1haMlBMRjJDUk1GN0FXUEFNWVpLVzYzWk9DQktNRUpFT1FKIiwiY3JlYXRpb25EYXRlIjoiMjAxNy0xMS0yMFQwMDowMCIsInNjaGVtYSI6MSwidHlwZSI6InNpbXBsZSIsImVuY3J5cHRlZFByaXZhdGVLZXkiOiJhNGViMGRmYjBiYmMzOGRlY2UzOGQ1ODYwMWRhNTc1OTZjZmUyNWU5OWE3ZjlhNDJhMjg2Mzk3MmFmMzJjODM5YzIzZThhMTJkNDViZmUwOWYxYzhkMGZkNTJlNzcyNzQiLCJpdiI6Ijk4YTUzZTcwNDY1MzViOWNlMGJlMjgyZDNhMjcxZjEyIn0=");
+    const type = Wallet.walletTypeGivenWLT("eyJuYW1lIjoiTXkgd2FsbGV0IiwibmV0d29yayI6IjE1MiIsImFkZHJlc3MiOiJUQVo1M1haMlBMRjJDUk1GN0FXUEFNWVpLVzYzWk9DQktNRUpFT1FKIiwiY3JlYXRpb25EYXRlIjoiMjAxNy0xMS0yMFQwMDowMCIsInNjaGVtYSI6MSwidHlwZSI6InNpbXBsZSIsImVuY3J5cHRlZFByaXZhdGVLZXkiOiJhNGViMGRmYjBiYmMzOGRlY2UzOGQ1ODYwMWRhNTc1OTZjZmUyNWU5OWE3ZjlhNDJhMjg2Mzk3MmFmMzJjODM5YzIzZThhMTJkNDViZmUwOWYxYzhkMGZkNTJlNzcyNzQiLCJpdiI6Ijk4YTUzZTcwNDY1MzViOWNlMGJlMjgyZDNhMjcxZjEyIn0=");
     expect(type).to.be.equal(WalletType.SIMPLE);
   });
 
   it("should return error when the wallet type is not recognized", () => {
     expect(() => {
       Wallet.walletTypeGivenWLT("eyJuYW1lIjoiTXkgd2FsbGV0IiwibmV0d29yayI6IjE1MiIsImFkZHJlc3MiOiJUQVo1M1haMlBMRjJDUk1GN0FXUEFNWVpLVzYzWk9DQktNRUpFT1FKIiwiY3JlYXRpb25EYXRlIjoiMjAxNy0xMS0yMFQwMDowMCIsInNjaGVtYSI6MSwidHlwZSI6InNpbXBsZTIyMjIiLCJlbmNyeXB0ZWRQcml2YXRlS2V5IjoiYTRlYjBkZmIwYmJjMzhkZWNlMzhkNTg2MDFkYTU3NTk2Y2ZlMjVlOTlhN2Y5YTQyYTI4NjM5NzJhZjMyYzgzOWMyM2U4YTEyZDQ1YmZlMDlmMWM4ZDBmZDUyZTc3Mjc0IiwiaXYiOiI5OGE1M2U3MDQ2NTM1YjljZTBiZTI4MmQzYTI3MWYxMiJ9=");
-    }).to.throw(Error)
-  })
+    }).to.throw(Error);
+  });
 });

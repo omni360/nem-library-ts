@@ -22,20 +22,20 @@
  * SOFTWARE.
  */
 
-import {Transaction} from "../../../src/models/transaction/Transaction";
-import {Account} from "../../../src/models/account/Account";
 import {expect} from "chai";
-import {MockTransaction} from "./MockTransaction.spec";
 import {PublicAccount} from "../../../index";
+import {Account} from "../../../src/models/account/Account";
 import {Address} from "../../../src/models/account/Address";
-import {NEMLibrary} from "../../../src/NEMLibrary";
 import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {Transaction} from "../../../src/models/transaction/Transaction";
+import {NEMLibrary} from "../../../src/NEMLibrary";
 import {TestVariables} from "../../config/TestVariables.spec";
+import {MockTransaction} from "./MockTransaction.spec";
 
 declare let process: any;
 
 describe("Transaction", () => {
-  const recipientAccount = new Address('TCJZJHAV63RE2JSKN27DFIHZRXIHAI736WXEOJGA');
+  const recipientAccount = new Address("TCJZJHAV63RE2JSKN27DFIHZRXIHAI736WXEOJGA");
   const privateKey: string = process.env.PRIVATE_KEY || TestVariables.TEST_PRIVATE_KEY;
 
   before(() => {
@@ -58,7 +58,7 @@ describe("Transaction", () => {
 
   it("should throw exception when there is a sender, but it hasn't public key", () => {
     expect(() => {
-      new MockTransaction(new PublicAccount(recipientAccount, ""))
+      new MockTransaction(new PublicAccount(recipientAccount, ""));
     })
       .to.throw(Error, /signer key pair is required to create a verifiable entity/);
   });
@@ -67,7 +67,7 @@ describe("Transaction", () => {
     const account = Account.createWithPrivateKey(privateKey);
     const transaction = new MockTransaction(account);
     expect(() => {
-      transaction.getTransactionInfo()
+      transaction.getTransactionInfo();
     }).to.throw(Error, /TransactionInfo is not available when it is not confirmed/);
   });
 

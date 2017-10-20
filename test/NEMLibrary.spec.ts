@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
+import {expect} from "chai";
 import {NetworkTypes} from "../src/models/node/NetworkTypes";
 import {Environment, NEMLibrary} from "../src/NEMLibrary";
-import {expect} from "chai";
 
 describe("NEMLibrary", () => {
 
@@ -44,13 +44,13 @@ describe("NEMLibrary", () => {
   it("should throw Errror when the bootstrap is called twice", () => {
     NEMLibrary.bootstrap(NetworkTypes.MAIN_NET);
     expect(() => {
-      NEMLibrary.bootstrap(NetworkTypes.MAIN_NET)
+      NEMLibrary.bootstrap(NetworkTypes.MAIN_NET);
     }).to.throw(Error, "NEMLibrary should only be initialized once");
   });
 
   it("should throw exception when the NEMLibrary is not initialized", () => {
     expect(() => {
-      NEMLibrary.getNetworkType()
+      NEMLibrary.getNetworkType();
     }).to.throw(Error, "NEMLibrary should be initialized using NEMLibrary.bootstrap(NetworkType.TEST_NET)");
   });
 

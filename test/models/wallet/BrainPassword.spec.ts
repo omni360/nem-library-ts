@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import {BrainPassword} from "../../../src/models/wallet/BrainPassword";
 import {expect} from "chai";
+import {BrainPassword} from "../../../src/models/wallet/BrainPassword";
 
 describe("BrainPassword", () => {
 

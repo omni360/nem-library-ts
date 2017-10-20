@@ -24,8 +24,8 @@
 
 import {TransactionDTO} from "../../../src/infrastructure/transaction/TransactionDTO";
 import {PublicAccount} from "../../../src/models/account/PublicAccount";
-import {Transaction} from "../../../src/models/transaction/Transaction";
 import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
+import {Transaction} from "../../../src/models/transaction/Transaction";
 
 export class MockTransaction extends Transaction {
   public readonly fee: number = 5;

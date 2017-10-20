@@ -23,23 +23,23 @@
  */
 
 import {expect} from "chai";
-import {NemAnnounceResult, TypeNemAnnounceResult} from "../../../src/models/transaction/NemAnnounceResult";
 import {NemAnnounceResultDTO} from "../../../src/infrastructure/transaction/NemAnnounceResultDTO";
+import {NemAnnounceResult, TypeNemAnnounceResult} from "../../../src/models/transaction/NemAnnounceResult";
 
 describe("NemAnnonceResult", () => {
 
   it("should be created from constructor", () => {
-    const nemAnnounceResultDTO = <NemAnnounceResultDTO> {
+    const nemAnnounceResultDTO = {
         type: TypeNemAnnounceResult.HeartBeat,
       code: 2,
       message: "message",
       transactionHash: {
-        data: "transactionHash"
+        data: "transactionHash",
       },
       innerTransactionHash: {
-        data: "innerTransactionHash"
-      }
-    }
+        data: "innerTransactionHash",
+      },
+    } as NemAnnounceResultDTO;
     const nemAnnounceResult = NemAnnounceResult.createFromNemAnnounceResultDTO(nemAnnounceResultDTO);
 
     expect(nemAnnounceResult.type).to.be.equal(TypeNemAnnounceResult.HeartBeat);

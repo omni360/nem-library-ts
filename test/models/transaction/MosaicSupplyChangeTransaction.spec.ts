@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-import {
-  MosaicSupplyChangeTransaction,
-  MosaicSupplyType
-} from "../../../src/models/transaction/MosaicSupplyChangeTransaction";
+import {deepEqual} from "assert";
 import {expect} from "chai";
 import {MosaicId} from "../../../src/models/mosaic/MosaicId";
+import {
+  MosaicSupplyChangeTransaction,
+  MosaicSupplyType,
+} from "../../../src/models/transaction/MosaicSupplyChangeTransaction";
 import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
-import {deepEqual} from "assert";
 
 describe("MosaicSupplyChangeTransaction", () => {
   const PUBLIC_KEY = "5d5d829644625eb6554273f70b1187d904761fab4c5c0e5f01666f6725e9278b";
@@ -42,7 +42,7 @@ describe("MosaicSupplyChangeTransaction", () => {
       mosaicId,
       MosaicSupplyType.Increase,
       1000,
-      454545
+      454545,
     );
     deepEqual(transaction.mosaicId, mosaicId);
     expect(transaction.delta).to.be.equal(1000);

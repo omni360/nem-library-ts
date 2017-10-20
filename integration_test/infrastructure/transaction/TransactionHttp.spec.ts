@@ -22,24 +22,24 @@
  * SOFTWARE.
  */
 import {expect} from "chai";
-import {TransactionHttp} from "../../../src/infrastructure/TransactionHttp";
-import {Account} from "../../../src/models/account/Account";
-import {TransferTransaction} from "../../../src/models/transaction/TransferTransaction";
-import {TestVariables} from "../../../test/config/TestVariables.spec";
-import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
-import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
-import {Address} from "../../../src/models/account/Address";
-import {EmptyMessage, PlainMessage} from "../../../src/models/transaction/PlainMessage";
-import {XEM} from "../../../src/models/mosaic/XEM";
 import {Observable} from "rxjs/Observable";
 import {MosaicHttp} from "../../../src/infrastructure/MosaicHttp";
+import {TransactionHttp} from "../../../src/infrastructure/TransactionHttp";
+import {Account} from "../../../src/models/account/Account";
+import {Address} from "../../../src/models/account/Address";
 import {MosaicId} from "../../../src/models/mosaic/MosaicId";
+import {XEM} from "../../../src/models/mosaic/XEM";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {EmptyMessage, PlainMessage} from "../../../src/models/transaction/PlainMessage";
+import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
+import {TransferTransaction} from "../../../src/models/transaction/TransferTransaction";
+import {NEMLibrary} from "../../../src/NEMLibrary";
+import {TestVariables} from "../../../test/config/TestVariables.spec";
 
 declare let process: any;
 
 describe("TransactionHttp", () => {
-  const recipientAccount: string = 'TBV7LE4TFDEMGVOON5MYOK2P7TU2KEKLMHOLHQT6';
+  const recipientAccount: string = "TBV7LE4TFDEMGVOON5MYOK2P7TU2KEKLMHOLHQT6";
   const privateKey: string = process.env.PRIVATE_KEY || TestVariables.TEST_PRIVATE_KEY;
 
   before(() => {
@@ -53,13 +53,13 @@ describe("TransactionHttp", () => {
   /**
    * TODO: We have to create a secure way to test the transactions.
    */
-  it('creates a TRANSFER', async () => {
+  it("creates a TRANSFER", async () => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
     const amount = new XEM(2000000);
     const transferTransaction = TransferTransaction.create(TimeWindow.createWithDeadline(), new Address(recipientAccount), amount,
       PlainMessage.createFromDTO(
-        "74657374207472616e73616374696f6e"
+        "74657374207472616e73616374696f6e",
       ));
     const signedTransaction = account.signTransaction(transferTransaction);
     /*
@@ -68,12 +68,12 @@ describe("TransactionHttp", () => {
      expect(result.transactionHash.data).to.not.null;*/
   });
 
-  it('uses the localhost server when no argument is passed in constructor', () => {
+  it("uses the localhost server when no argument is passed in constructor", () => {
     const transactionHttp = new TransactionHttp();
     expect(transactionHttp.nextNode()).to.be.equals("http://bigalice2.nem.ninja:7890/transaction/");
   });
 
-  it('should create a TRANSFER and throw error wrong fee', done => {
+  it("should create a TRANSFER and throw error wrong fee", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
     const transferTransaction = new TransferTransaction(
@@ -83,29 +83,27 @@ describe("TransactionHttp", () => {
       1,
       0,
       PlainMessage.createFromDTO(
-        "74657374207472616e73616374696f6e"
-      )
+        "74657374207472616e73616374696f6e",
+      ),
     );
 
     const signedTransaction = account.signTransaction(transferTransaction);
-    transactionHttp.announceTransaction(signedTransaction).subscribe(announceSuccessResult => {
+    transactionHttp.announceTransaction(signedTransaction).subscribe((announceSuccessResult) => {
 
-    }, error => {
+    }, (error) => {
       expect(error.toString()).to.be.contain("FAILURE_INSUFFICIENT_FEE");
       done();
     });
   });
 
-  it("receive a transaction by its hash", done => {
-    let hash = "cd442136cf5b634a8d608c680103ee5126cebfdc0e549bdd9f01c904b4fa8128";
-    let transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
+  it("receive a transaction by its hash", (done) => {
+    const hash = "cd442136cf5b634a8d608c680103ee5126cebfdc0e549bdd9f01c904b4fa8128";
+    const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     transactionHttp.getByHash(hash)
-      .subscribe(transaction => {
+      .subscribe((transaction) => {
         expect(transaction.getTransactionInfo().hash.data).to.be.equal(hash);
         done();
       });
   });
 
-
 });
-

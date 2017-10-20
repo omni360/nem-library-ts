@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-import {expect} from "chai";
-import {AccountInfo, AccountInfoWithMetaData} from "../../../src/models/account/AccountInfo";
-import {AccountInfoDTO} from "../../../src/infrastructure/account/AccountInfoDTO";
-import {AccountMetaDataPairDTO} from "../../../src/infrastructure/account/AccountMetaDataPairDTO";
-import {AccountMetaDataDTO} from "../../../src/infrastructure/account/AccountMetaDataDTO";
-import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 import {deepEqual} from "assert";
+import {expect} from "chai";
+import {AccountInfoDTO} from "../../../src/infrastructure/account/AccountInfoDTO";
+import {AccountMetaDataDTO} from "../../../src/infrastructure/account/AccountMetaDataDTO";
+import {AccountMetaDataPairDTO} from "../../../src/infrastructure/account/AccountMetaDataPairDTO";
+import {AccountInfo, AccountInfoWithMetaData} from "../../../src/models/account/AccountInfo";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {NEMLibrary} from "../../../src/NEMLibrary";
 
 describe("AccountInfo", () => {
   before(() => {
@@ -40,19 +40,19 @@ describe("AccountInfo", () => {
     NEMLibrary.reset();
   });
 
-  const address: string = 'TCJZJHAV63RE2JSKN27DFIHZRXIHAI736WXEOJGA';
-  const publicKey: string = 'a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a';
+  const address: string = "TCJZJHAV63RE2JSKN27DFIHZRXIHAI736WXEOJGA";
+  const publicKey: string = "a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a";
 
-  it("should create an AccountInfo object", done => {
-    const accountInfoDTO = <AccountInfoDTO> {
-      address: address,
-      publicKey: publicKey,
+  it("should create an AccountInfo object", (done) => {
+    const accountInfoDTO = {
+      address,
+      publicKey,
       balance: 10000,
       harvestedBlocks: 1,
       importance: 0.5,
       label: null,
-      vestedBalance: 5000
-    };
+      vestedBalance: 5000,
+    } as AccountInfoDTO;
 
     const accountInfo = AccountInfo.createFromAccountInfoDTO(accountInfoDTO);
     expect(accountInfo.publicAccount.publicKey).to.be.equal(publicKey);
@@ -64,27 +64,26 @@ describe("AccountInfo", () => {
     done();
   });
 
-
-  it("should create an AccountInfoWithMetaData object", done => {
-    const accountInfoDTO = <AccountInfoDTO> {
-      address: address,
-      publicKey: publicKey,
+  it("should create an AccountInfoWithMetaData object", (done) => {
+    const accountInfoDTO = {
+      address,
+      publicKey,
       balance: 10000,
       harvestedBlocks: 1,
       importance: 0.5,
       label: null,
-      vestedBalance: 5000
-    };
+      vestedBalance: 5000,
+    } as AccountInfoDTO;
 
-    const accountInfoWithMetaDataDTO = <AccountMetaDataPairDTO> {
+    const accountInfoWithMetaDataDTO = {
       account: accountInfoDTO,
-      meta: <AccountMetaDataDTO> {
+      meta: {
         cosignatoryOf: [accountInfoDTO],
         cosignatories: [accountInfoDTO],
-        status: 'UNKNOWN',
-        remoteStatus: "REMOTE"
-      }
-    };
+        status: "UNKNOWN",
+        remoteStatus: "REMOTE",
+      } as AccountMetaDataDTO,
+    } as AccountMetaDataPairDTO;
 
     const accountInfoWithMetaData = AccountInfoWithMetaData.createFromAccountMetaDataPairDTO(accountInfoWithMetaDataDTO);
     const accountInfo = AccountInfo.createFromAccountInfoDTO(accountInfoDTO);
@@ -97,10 +96,9 @@ describe("AccountInfo", () => {
     expect(accountInfoWithMetaData.importance).to.be.equal(0.5);
     deepEqual(accountInfoWithMetaData.cosignatoryOf, [accountInfo]);
     deepEqual(accountInfoWithMetaData.cosignatories, [accountInfo]);
-    expect(accountInfoWithMetaData.status).to.be.equal('UNKNOWN');
-    expect(accountInfoWithMetaData.remoteStatus).to.be.equal('REMOTE');
+    expect(accountInfoWithMetaData.status).to.be.equal("UNKNOWN");
+    expect(accountInfoWithMetaData.remoteStatus).to.be.equal("REMOTE");
     done();
   });
-
 
 });

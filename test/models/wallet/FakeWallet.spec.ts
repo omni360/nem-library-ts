@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import {Wallet} from "../../../src/models/wallet/Wallet";
-import {Password} from "../../../src/models/wallet/Password";
 import {Account} from "../../../src/models/account/Account";
+import {Password} from "../../../src/models/wallet/Password";
+import {Wallet} from "../../../src/models/wallet/Wallet";
 
 export class FakeWallet extends Wallet {
-  unlockPrivateKey(password: Password): string {
+  public unlockPrivateKey(password: Password): string {
     return "e85467d94fdf70b5713d3b3b083597e0962f38843feb10259158a3fa6dc444b6";
   }
 
-  open(password: Password): Account {
+  public open(password: Password): Account {
     return Account.createWithPrivateKey("e85467d94fdf70b5713d3b3b083597e0962f38843feb10259158a3fa6dc444b6");
   }
 }

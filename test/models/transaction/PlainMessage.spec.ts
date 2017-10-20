@@ -57,5 +57,5 @@ describe("PlainMessage", () => {
   it("should try to encode estrange characters", () => {
     const plainMessage = PlainMessage.create("La blockchain és una manera eficaç d'obtindre beneficis. !?{}[]_ł€¶");
     expect(plainMessage.plain()).to.be.equal("La blockchain és una manera eficaç d'obtindre beneficis. !?{}[]_ł€¶");
-  })
+  });
 });

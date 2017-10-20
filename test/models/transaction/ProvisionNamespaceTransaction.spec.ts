@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-import {ProvisionNamespaceTransaction} from "../../../src/models/transaction/ProvisionNamespaceTransaction";
 import {expect} from "chai";
 import {Address} from "../../../src/models/account/Address";
-import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
 import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {ProvisionNamespaceTransaction} from "../../../src/models/transaction/ProvisionNamespaceTransaction";
+import {TimeWindow} from "../../../src/models/transaction/TimeWindow";
 import {NEMLibrary} from "../../../src/NEMLibrary";
 
 describe("ProvisionNamespaceTransaction", () => {
@@ -82,7 +82,6 @@ describe("ProvisionNamespaceTransaction", () => {
     expect(transaction.fee).to.be.equal(Math.floor(3 * 0.05 * 1000000));
     expect(transaction.rentalFee).to.be.equal(Math.floor(10 * 1000000));
   });
-
 
   it("should have the specific rental fee sink for TEST_NET", () => {
     NEMLibrary.reset();

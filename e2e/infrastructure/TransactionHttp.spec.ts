@@ -22,47 +22,47 @@
  * SOFTWARE.
  */
 
+import {expect} from "chai";
+import {Observable} from "rxjs/Observable";
+import {MosaicHttp} from "../../src/infrastructure/MosaicHttp";
 import {TransactionHttp} from "../../src/infrastructure/TransactionHttp";
-import {TestVariables} from "../../test/config/TestVariables.spec";
 import {Account} from "../../src/models/account/Account";
-import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
+import {Address} from "../../src/models/account/Address";
 import {PublicAccount} from "../../src/models/account/PublicAccount";
-import {
-  ImportanceMode,
-  ImportanceTransferTransaction
-} from "../../src/models/transaction/ImportanceTransferTransaction";
-import {ProvisionNamespaceTransaction} from "../../src/models/transaction/ProvisionNamespaceTransaction";
-import {EmptyMessage, PlainMessage} from "../../src/models/transaction/PlainMessage";
-import {TimeWindow} from "../../src/models/transaction/TimeWindow";
-import {NEMLibrary} from "../../src/NEMLibrary";
-import {NetworkTypes} from "../../src/models/node/NetworkTypes";
-import {MosaicDefinitionCreationTransaction} from "../../src/models/transaction/MosaicDefinitionCreationTransaction";
+import {Mosaic} from "../../src/models/mosaic/Mosaic";
 import {MosaicDefinition, MosaicProperties} from "../../src/models/mosaic/MosaicDefinition";
 import {MosaicId} from "../../src/models/mosaic/MosaicId";
 import {MosaicLevy, MosaicLevyType} from "../../src/models/mosaic/MosaicLevy";
+import {MosaicTransferable} from "../../src/models/mosaic/MosaicTransferable";
+import {XEM} from "../../src/models/mosaic/XEM";
+import {NetworkTypes} from "../../src/models/node/NetworkTypes";
+import {EncryptedMessage} from "../../src/models/transaction/EncryptedMessage";
+import {
+  ImportanceMode,
+  ImportanceTransferTransaction,
+} from "../../src/models/transaction/ImportanceTransferTransaction";
+import {MosaicDefinitionCreationTransaction} from "../../src/models/transaction/MosaicDefinitionCreationTransaction";
 import {
   MosaicSupplyChangeTransaction,
-  MosaicSupplyType
+  MosaicSupplyType,
 } from "../../src/models/transaction/MosaicSupplyChangeTransaction";
-import {MultisigTransaction} from "../../src/models/transaction/MultisigTransaction";
 import {
   CosignatoryModification,
   CosignatoryModificationAction,
-  MultisigAggregateModificationTransaction
+  MultisigAggregateModificationTransaction,
 } from "../../src/models/transaction/MultisigAggregateModificationTransaction";
-import {Mosaic} from "../../src/models/mosaic/Mosaic";
-import {expect} from "chai";
-import {Address} from "../../src/models/account/Address";
-import {EncryptedMessage} from "../../src/models/transaction/EncryptedMessage";
-import {MosaicTransferable} from "../../src/models/mosaic/MosaicTransferable";
-import {XEM} from "../../src/models/mosaic/XEM";
-import {Observable} from "rxjs/Observable";
-import {MosaicHttp} from "../../src/infrastructure/MosaicHttp";
+import {MultisigTransaction} from "../../src/models/transaction/MultisigTransaction";
+import {EmptyMessage, PlainMessage} from "../../src/models/transaction/PlainMessage";
+import {ProvisionNamespaceTransaction} from "../../src/models/transaction/ProvisionNamespaceTransaction";
+import {TimeWindow} from "../../src/models/transaction/TimeWindow";
+import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
+import {NEMLibrary} from "../../src/NEMLibrary";
+import {TestVariables} from "../../test/config/TestVariables.spec";
 
 declare let process: any;
 
 describe("TransactionHttp", () => {
-  const recipientAccount: string = 'TBV7LE4TFDEMGVOON5MYOK2P7TU2KEKLMHOLHQT6';
+  const recipientAccount: string = "TBV7LE4TFDEMGVOON5MYOK2P7TU2KEKLMHOLHQT6";
   const privateKey: string = process.env.PRIVATE_KEY;
   const newMultiSigPrivateKey: string = process.env.MULTISIG_PRIVATE_KEY;
   const delegateAccountHarvestingPrivateKey: string = process.env.DELEGATE_HARVESTING_PRIVATE_KEY;
@@ -81,7 +81,7 @@ describe("TransactionHttp", () => {
   /**
    * TODO: We have to create a secure way to test the transactions.
    */
-  it('creates a TRANSFER', done => {
+  it("creates a TRANSFER", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
     const amount = new XEM(100);
@@ -91,13 +91,13 @@ describe("TransactionHttp", () => {
       amount,
       EmptyMessage);
     const signedTransaction = account.signTransaction(transferTransaction);
-    transactionHttp.announceTransaction(signedTransaction).subscribe(announceSuccessResult => {
+    transactionHttp.announceTransaction(signedTransaction).subscribe((announceSuccessResult) => {
       expect(announceSuccessResult.transactionHash.data).to.not.null;
       done();
     });
   });
 
-  it('creates a TRANSFER with encrypted message', done => {
+  it("creates a TRANSFER with encrypted message", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
     const recipientPublicAccount = PublicAccount.createWithPublicKey("b254d8b2b00e1b1266eb54a6931cd7c1b0f307e41d9ebb01f025f4933758f0be");
@@ -118,7 +118,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it('creates a TRANSFER with mosaic', done => {
+  it("creates a TRANSFER with mosaic", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
 
@@ -136,7 +136,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it('creates a TRANSFER with mosaic and message', done => {
+  it("creates a TRANSFER with mosaic and message", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
 
@@ -154,8 +154,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-
-  it('creates a IMPORTANCE_TRANSFER', done => {
+  it("creates a IMPORTANCE_TRANSFER", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
     const delegatedAccount = Account.createWithPublicKey(delegateAccountHarvestingPrivateKey);
@@ -170,7 +169,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it('creates a PROVISION_NAMESPACE', done => {
+  it("creates a PROVISION_NAMESPACE", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
     const provisionNamespaceTransaction = ProvisionNamespaceTransaction.create(TimeWindow.createWithDeadline(), "newpart");
@@ -183,7 +182,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it('creates a MOSAIC_DEFINITION_CREATION without levy', done => {
+  it("creates a MOSAIC_DEFINITION_CREATION without levy", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
     const mosaicDefinitionTransaction = MosaicDefinitionCreationTransaction.create(
@@ -192,8 +191,8 @@ describe("TransactionHttp", () => {
         PublicAccount.createWithPublicKey(account.publicKey),
         new MosaicId("newpart", "joe12"),
         "mosaic description",
-        new MosaicProperties(0, 10000, true, true)
-      )
+        new MosaicProperties(0, 10000, true, true),
+      ),
     );
 
     const signedTransaction = account.signTransaction(mosaicDefinitionTransaction);
@@ -205,7 +204,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it('creates a MOSAIC_DEFINITION_CREATION with levy', done => {
+  it("creates a MOSAIC_DEFINITION_CREATION with levy", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
     const mosaicDefinitionTransaction = MosaicDefinitionCreationTransaction.create(
@@ -219,9 +218,9 @@ describe("TransactionHttp", () => {
           MosaicLevyType.Percentil,
           account.address,
           new MosaicId("nem", "xem"),
-          2
-        )
-      )
+          2,
+        ),
+      ),
     );
 
     const signedTransaction = account.signTransaction(mosaicDefinitionTransaction);
@@ -233,8 +232,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-
-  it('creates a MOSAIC_SUPPLY_CHANGE', done => {
+  it("creates a MOSAIC_SUPPLY_CHANGE", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
     const mosaicSupplyChange = MosaicSupplyChangeTransaction.create(TimeWindow.createWithDeadline(), new MosaicId("newpart", "joe6"), MosaicSupplyType.Increase, 10);
@@ -247,14 +245,14 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it("MULTISIG create multisig", done => {
+  it("MULTISIG create multisig", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(newMultiSigPrivateKey);
 
     const multisigAggregateModificationTransaction = MultisigAggregateModificationTransaction.create(
       TimeWindow.createWithDeadline(),
       [new CosignatoryModification(PublicAccount.createWithPublicKey("18025570b50177f4dfe93cdbb8859c3afa2a490084446e3212d3ad9434a80d0a"), CosignatoryModificationAction.ADD)],
-      1
+      1,
     );
 
     const signedTransaction = account.signTransaction(multisigAggregateModificationTransaction);
@@ -266,18 +264,18 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it("MULTISIG_AGGREGATE_MODIFICATION add cosignatory", done => {
+  it("MULTISIG_AGGREGATE_MODIFICATION add cosignatory", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
 
     const multisigAggregateModificationTransaction = MultisigAggregateModificationTransaction.create(
       TimeWindow.createWithDeadline(),
-      [new CosignatoryModification(PublicAccount.createWithPublicKey("18025570b50177f4dfe93cdbb8859c3afa2a490084446e3212d3ad9434a80d0a"), CosignatoryModificationAction.ADD)]
+      [new CosignatoryModification(PublicAccount.createWithPublicKey("18025570b50177f4dfe93cdbb8859c3afa2a490084446e3212d3ad9434a80d0a"), CosignatoryModificationAction.ADD)],
     );
     const multisigTransferTransaction = MultisigTransaction.create(
       TimeWindow.createWithDeadline(),
       multisigAggregateModificationTransaction,
-      multisigAccount
+      multisigAccount,
     );
     const signedTransaction = account.signTransaction(multisigTransferTransaction);
     // transactionHttp.announceTransaction(signedTransaction).subscribe(announceSuccessResult => {
@@ -289,18 +287,18 @@ describe("TransactionHttp", () => {
   });
 
   // @warning this transaction will need to be cosigned
-  it("MULTISIG_AGGREGATE_MODIFICATION remove cosignatory", done => {
+  it("MULTISIG_AGGREGATE_MODIFICATION remove cosignatory", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
 
     const multisigAggregateModificationTransaction = MultisigAggregateModificationTransaction.create(
       TimeWindow.createWithDeadline(),
-      [new CosignatoryModification(PublicAccount.createWithPublicKey("18025570b50177f4dfe93cdbb8859c3afa2a490084446e3212d3ad9434a80d0a"), CosignatoryModificationAction.DELETE)]
+      [new CosignatoryModification(PublicAccount.createWithPublicKey("18025570b50177f4dfe93cdbb8859c3afa2a490084446e3212d3ad9434a80d0a"), CosignatoryModificationAction.DELETE)],
     );
     const multisigTransferTransaction = MultisigTransaction.create(
       TimeWindow.createWithDeadline(),
       multisigAggregateModificationTransaction,
-      multisigAccount
+      multisigAccount,
     );
     const signedTransaction = account.signTransaction(multisigTransferTransaction);
     // transactionHttp.announceTransaction(signedTransaction).subscribe(announceSuccessResult => {
@@ -311,7 +309,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it("MULTISIG - TRANSFER with mosaics", done => {
+  it("MULTISIG - TRANSFER with mosaics", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
     const amount = 2000000;
@@ -322,12 +320,12 @@ describe("TransactionHttp", () => {
       [new MosaicTransferable(new MosaicId("multisigns", "mosaic"), new MosaicProperties(), 1),
         new MosaicTransferable(new MosaicId("multisigns", "mosaic"), new MosaicProperties(), 1),
         new MosaicTransferable(new MosaicId("multisigns", "mosaic"), new MosaicProperties(), 1)],
-      PlainMessage.create("test message")
+      PlainMessage.create("test message"),
     );
     const multisigTransferTransaction = MultisigTransaction.create(
       TimeWindow.createWithDeadline(),
       transferTransaction,
-      multisigAccount
+      multisigAccount,
     );
     const signedTransaction = account.signTransaction(multisigTransferTransaction);
     // transactionHttp.announceTransaction(signedTransaction).subscribe(announceSuccessResult => {
@@ -338,7 +336,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it("MULTISIG - IMPORTANCE_TRANSFER", done => {
+  it("MULTISIG - IMPORTANCE_TRANSFER", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
     const delegatedAccount = PublicAccount.createWithPublicKey("02785c70494f5b3351b5f5a3390b94fd0041474ccd8bcd1c486746114b679e18");
@@ -346,7 +344,7 @@ describe("TransactionHttp", () => {
     const multisigTransferTransaction = MultisigTransaction.create(
       TimeWindow.createWithDeadline(),
       importanceTransferTransaction,
-      multisigAccount
+      multisigAccount,
     );
     const signedTransaction = account.signTransaction(multisigTransferTransaction);
     // transactionHttp.announceTransaction(signedTransaction).subscribe(announceSuccessResult => {
@@ -357,7 +355,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it("MULTISIG - PROVISION_NAMESPACE", done => {
+  it("MULTISIG - PROVISION_NAMESPACE", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
 
@@ -365,7 +363,7 @@ describe("TransactionHttp", () => {
     const multisigTransferTransaction = MultisigTransaction.create(
       TimeWindow.createWithDeadline(),
       provisionNamespaceTransaction,
-      multisigAccount
+      multisigAccount,
     );
     const signedTransaction = account.signTransaction(multisigTransferTransaction);
     // transactionHttp.announceTransaction(signedTransaction).subscribe(announceSuccessResult => {
@@ -376,7 +374,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it("MULTISIG - MOSAIC_DEFINITION_CREATION", done => {
+  it("MULTISIG - MOSAIC_DEFINITION_CREATION", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
 
@@ -391,15 +389,15 @@ describe("TransactionHttp", () => {
           MosaicLevyType.Percentil,
           account.address,
           new MosaicId("nem", "xem"),
-          2
-        )
-      )
+          2,
+        ),
+      ),
     );
 
     const multisigTransferTransaction = MultisigTransaction.create(
       TimeWindow.createWithDeadline(),
       mosaicDefinitionTransaction,
-      multisigAccount
+      multisigAccount,
     );
     const signedTransaction = account.signTransaction(multisigTransferTransaction);
     // transactionHttp.announceTransaction(signedTransaction).subscribe(announceSuccessResult => {
@@ -410,7 +408,7 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it("MULTISIG - MOSAIC_SUPPLY_CHANGE", done => {
+  it("MULTISIG - MOSAIC_SUPPLY_CHANGE", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const account = Account.createWithPrivateKey(privateKey);
 
@@ -418,7 +416,7 @@ describe("TransactionHttp", () => {
     const multisigTransferTransaction = MultisigTransaction.create(
       TimeWindow.createWithDeadline(),
       mosaicSupplyChange,
-      multisigAccount
+      multisigAccount,
     );
     const signedTransaction = account.signTransaction(multisigTransferTransaction);
     // transactionHttp.announceTransaction(signedTransaction).subscribe(announceSuccessResult => {
@@ -429,30 +427,29 @@ describe("TransactionHttp", () => {
     done();
   });
 
-  it("Fetch different mosaics and add the xem and send transaction", done => {
+  it("Fetch different mosaics and add the xem and send transaction", (done) => {
     const transactionHttp = new TransactionHttp([{domain: TestVariables.DEFAULT_TEST_DOMAIN}]);
     const mosaicHttp = new MosaicHttp();
     const account = Account.createWithPrivateKey(privateKey);
     Observable.from([
       {namespace: "newpart", mosaic: "joe6", quantity: 1},
       {namespace: "newpart", mosaic: "joe7", quantity: 1},
-      {namespace: "newpart", mosaic: "joe8", quantity: 1}
-    ]).flatMap(_ => mosaicHttp.getMosaicTransferableWithAmount(new MosaicId(_.namespace, _.mosaic), _.quantity))
+      {namespace: "newpart", mosaic: "joe8", quantity: 1},
+    ]).flatMap((_) => mosaicHttp.getMosaicTransferableWithAmount(new MosaicId(_.namespace, _.mosaic), _.quantity))
       .toArray()
-      .map(mosaics => TransferTransaction.createWithMosaics(
+      .map((mosaics) => TransferTransaction.createWithMosaics(
         TimeWindow.createWithDeadline(),
         new Address("TBV7LE4TFDEMGVOON5MYOK2P7TU2KEKLMHOLHQT6"),
         mosaics,
-        EmptyMessage
-        )
+        EmptyMessage,
+        ),
       )
-      .map(transaction => account.signTransaction(transaction))
-      .flatMap(signedTransaction => transactionHttp.announceTransaction(signedTransaction))
-      .subscribe(nemAnnounceResult => {
+      .map((transaction) => account.signTransaction(transaction))
+      .flatMap((signedTransaction) => transactionHttp.announceTransaction(signedTransaction))
+      .subscribe((nemAnnounceResult) => {
         expect(nemAnnounceResult).to.not.be.null;
         done();
-      })
+      });
   });
 
 });
-

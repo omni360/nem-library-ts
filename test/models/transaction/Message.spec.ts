@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import {Message} from "../../../src/models/transaction/Message";
 import {expect} from "chai";
+import {Message} from "../../../src/models/transaction/Message";
 
 describe("Message", () => {
 

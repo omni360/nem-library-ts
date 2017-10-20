@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import {Address} from "../../../src/models/account/Address";
 import {expect} from "chai";
+import {Address} from "../../../src/models/account/Address";
 import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 
 describe("Address", () => {
@@ -60,7 +60,7 @@ describe("Address", () => {
 
   it("should throw exception when the address contain an invalid network type", () => {
     expect(() => {
-      new Address("ZD7Z3KYHWH57CJRF7K3QVIZAETELAH7UJML4OTM2")
+      new Address("ZD7Z3KYHWH57CJRF7K3QVIZAETELAH7UJML4OTM2");
     }).to.throw(Error, "NetworkType invalid");
   });
 

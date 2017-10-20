@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import {Mosaic} from "../../../src/models/mosaic/Mosaic";
-import {expect} from "chai";
-import {MosaicId} from "../../../src/models/mosaic/MosaicId";
-import {MosaicDefinition, MosaicProperties} from "../../../src/models/mosaic/MosaicDefinition";
-import {PublicAccount} from "../../../src/models/account/PublicAccount";
-import {MosaicLevy} from "../../../src/models/mosaic/MosaicLevy";
-import {Address} from "../../../src/models/account/Address";
-import {NEMLibrary} from "../../../src/NEMLibrary";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
 import {deepEqual} from "assert";
+import {expect} from "chai";
+import {Address} from "../../../src/models/account/Address";
+import {PublicAccount} from "../../../src/models/account/PublicAccount";
+import {Mosaic} from "../../../src/models/mosaic/Mosaic";
+import {MosaicDefinition, MosaicProperties} from "../../../src/models/mosaic/MosaicDefinition";
+import {MosaicId} from "../../../src/models/mosaic/MosaicId";
+import {MosaicLevy} from "../../../src/models/mosaic/MosaicLevy";
+import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
+import {NEMLibrary} from "../../../src/NEMLibrary";
 
 describe("Mosaic", () => {
   before(() => {
@@ -72,7 +72,6 @@ describe("Mosaic", () => {
     expect(mosaicLevy.type).to.be.equal(type);
     expect(mosaicLevy.recipient).to.be.equal(recipient);
   });
-
 
   it("should create a mosaicDefinition object", () => {
     const creator = PublicAccount.createWithPublicKey("a4f9d42cf8e1f7c6c3216ede81896c4fa9f49071ee4aee2a4843e2711899b23a");
