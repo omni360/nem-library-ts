@@ -129,7 +129,7 @@ export abstract class Transaction {
    * @returns {any}
    */
   protected serializeDTO(dto: TransactionDTO): TransactionDTO {
-    return _.omitBy(dto, _.isUndefined);
+    return _.omitBy(dto, _.isUndefined) as TransactionDTO;
   }
 
   /**
