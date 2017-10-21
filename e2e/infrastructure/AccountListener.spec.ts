@@ -32,6 +32,7 @@ import {EmptyMessage} from "../../src/models/transaction/PlainMessage";
 import {TimeWindow} from "../../src/models/transaction/TimeWindow";
 import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
 import {NEMLibrary} from "../../src/NEMLibrary";
+import {Observable} from "rxjs";
 
 declare let process: any;
 
@@ -61,17 +62,21 @@ describe("AccountListener", () => {
       EmptyMessage,
     );
 
-    new AccountListener().given(address).subscribe((x) => {
+    const subscriber = new AccountListener().given(account.address).subscribe((x) => {
       console.log(x);
       done();
+      subscriber.unsubscribe();
     }, (err) => {
       console.log(err);
     });
 
     const transaction = account.signTransaction(transferTransaction);
 
-    transactionHttp.announceTransaction(transaction).delay(1000).subscribe((x) => {
-      console.log(x);
-    });
+    Observable.of(1)
+      .delay(3000)
+      .flatMap((ignored) => transactionHttp.announceTransaction(transaction))
+      .subscribe((x) => {
+        console.log(x);
+      });
   });
 });

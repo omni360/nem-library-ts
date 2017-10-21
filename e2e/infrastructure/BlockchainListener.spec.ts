@@ -32,6 +32,7 @@ import {EmptyMessage} from "../../src/models/transaction/PlainMessage";
 import {TimeWindow} from "../../src/models/transaction/TimeWindow";
 import {TransferTransaction} from "../../src/models/transaction/TransferTransaction";
 import {NEMLibrary} from "../../src/NEMLibrary";
+import {Observable} from "rxjs/Observable";
 
 declare let process: any;
 
@@ -61,18 +62,22 @@ describe("BlockchainListener", () => {
       EmptyMessage,
     );
 
-    new BlockchainListener().newBlock().subscribe((x) => {
+    const subscriber = new BlockchainListener().newBlock().subscribe((x) => {
       console.log(x);
       done();
+      subscriber.unsubscribe();
     }, (err) => {
       console.log(err);
     });
 
     const transaction = account.signTransaction(transferTransaction);
 
-    transactionHttp.announceTransaction(transaction).delay(1000).subscribe((x) => {
-      console.log(x);
-    });
+    Observable.of(1)
+      .delay(3000)
+      .flatMap((ignored) => transactionHttp.announceTransaction(transaction))
+      .subscribe((x) => {
+        console.log(x);
+      });
   });
 
   it("should listen the new block", (done) => {
@@ -85,17 +90,21 @@ describe("BlockchainListener", () => {
       EmptyMessage,
     );
 
-    new BlockchainListener().newHeight().subscribe((x) => {
+    const subscriber = new BlockchainListener().newHeight().subscribe((x) => {
       console.log(x);
       done();
+      subscriber.unsubscribe();
     }, (err) => {
       console.log(err);
     });
 
     const transaction = account.signTransaction(transferTransaction);
 
-    transactionHttp.announceTransaction(transaction).delay(1000).subscribe((x) => {
-      console.log(x);
-    });
+    Observable.of(1)
+      .delay(3000)
+      .flatMap((ignored) => transactionHttp.announceTransaction(transaction))
+      .subscribe((x) => {
+        console.log(x);
+      });
   });
 });
