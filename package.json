@@ -8,7 +8,7 @@
     "test:e2e": "mocha --ui bdd --recursive ./dist/e2e --timeout 60000",
     "test:int": "mocha --ui bdd --recursive ./dist/integration_test --timeout 10000",
     "test:unit": "mocha --ui bdd --recursive ./dist/test",
-    "test:all": "mocha --ui bdd --recursive ./dist/test ./dist/integration_test ./dist/e2e --timeout 90000",
+    "test:all": "npm run build && mocha --ui bdd --recursive ./dist/test ./dist/integration_test ./dist/e2e --timeout 90000",
     "test:cov": "nyc npm run test:all && nyc report --reporter=text-lcov --timeout 90000 | coveralls",
     "build": "rm -rf dist && tsc && npm run copyjson && npm run copyvendor",
     "gen:docs": "typedoc --out ts-docs/ src/",
