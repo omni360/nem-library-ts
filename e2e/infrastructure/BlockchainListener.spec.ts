@@ -73,7 +73,7 @@ describe("BlockchainListener", () => {
     const transaction = account.signTransaction(transferTransaction);
 
     Observable.of(1)
-      .delay(3000)
+      .delay(1000)
       .flatMap((ignored) => transactionHttp.announceTransaction(transaction))
       .subscribe((x) => {
         console.log(x);

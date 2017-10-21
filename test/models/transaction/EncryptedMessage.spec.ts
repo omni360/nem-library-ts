@@ -39,7 +39,7 @@ declare let process: any;
 
 describe("EncryptedMessage", () => {
 
-  const privateKey: string = process.env.PRIVATE_KEY || TestVariables.TEST_PRIVATE_KEY;
+  const privateKey: string = TestVariables.TEST_PRIVATE_KEY;
   let recipientPublicAccount: PublicAccount;
 
   before(() => {
