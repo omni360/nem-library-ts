@@ -37,9 +37,9 @@ import {TestVariables} from "../../config/TestVariables.spec";
 declare let process: any;
 
 describe("Account", () => {
-  const recipientAccount = new Address(process.env.ADDRESS || TestVariables.TEST_ADDRESS);
-  const publicKey: string = process.env.PUBLIC_KEY || TestVariables.TEST_PUBLIC_KEY;
-  const privateKey: string = process.env.PRIVATE_KEY || TestVariables.TEST_PRIVATE_KEY;
+  const recipientAccount = new Address(TestVariables.TEST_ADDRESS);
+  const publicKey: string = TestVariables.TEST_PUBLIC_KEY;
+  const privateKey: string = TestVariables.TEST_PRIVATE_KEY;
   const undefinedPrivateKey: string = process.env.NOT_DEFINED_PRIVATE_KEY;
 
   before(() => {
