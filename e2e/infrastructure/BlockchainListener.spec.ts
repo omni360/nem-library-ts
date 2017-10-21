@@ -64,8 +64,8 @@ describe("BlockchainListener", () => {
 
     const subscriber = new BlockchainListener().newBlock().subscribe((x) => {
       console.log(x);
-      done();
       subscriber.unsubscribe();
+      done();
     }, (err) => {
       console.log(err);
     });

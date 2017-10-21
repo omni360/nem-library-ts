@@ -62,9 +62,10 @@ describe("ConfirmedTransactionListener", () => {
       EmptyMessage,
     );
 
-    new ConfirmedTransactionListener().given(account.address)
+    const subscriber = new ConfirmedTransactionListener().given(account.address)
       .subscribe((x) => {
         console.log(x);
+        subscriber.unsubscribe();
         done();
       }, (err) => {
         console.log(err);

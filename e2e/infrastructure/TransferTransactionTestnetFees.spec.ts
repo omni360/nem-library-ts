@@ -69,7 +69,7 @@ describe("TransferTransactionTestnetFees", () => {
     const transaction = TransferTransaction.create(
       TimeWindow.createWithDeadline(),
       new Address(recipientAccount),
-      new XEM(500000),
+      new XEM(0),
       PlainMessage.create("simple"));
     const signedTransaction = account.signTransaction(transaction);
 

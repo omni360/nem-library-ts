@@ -64,8 +64,8 @@ describe("AccountListener", () => {
 
     const subscriber = new AccountListener().given(account.address).subscribe((x) => {
       console.log(x);
-      done();
       subscriber.unsubscribe();
+      done();
     }, (err) => {
       console.log(err);
     });
