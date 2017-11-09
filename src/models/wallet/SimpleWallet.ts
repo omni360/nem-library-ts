@@ -147,7 +147,7 @@ export class SimpleWallet extends Wallet {
   public static readFromNanoWalletWLF(wlt: string): SimpleWallet {
     const wallet = JSON.parse(Base64.decode(wlt));
     // TODO: Check the encrypted and iv fields, if they aren't null, it's a simple wallet
-    const account = wallet.account[0];
+    const account = wallet.accounts[0];
     return new SimpleWallet(
       wallet.name,
       account.network,
