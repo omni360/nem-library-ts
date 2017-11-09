@@ -132,7 +132,7 @@ export class SimpleWallet extends Wallet {
    */
   public static readFromWLT(wlt: string): SimpleWallet {
     const wallet = JSON.parse(Base64.decode(wlt));
-    if (wallet.type != "simple") {
+    if (wallet.type !== "simple") {
       throw new Error("ERROR WLT TYPE");
     }
     return new SimpleWallet(
@@ -142,5 +142,18 @@ export class SimpleWallet extends Wallet {
       LocalDateTime.parse(wallet.creationDate),
       new EncryptedPrivateKey(wallet.encryptedPrivateKey, wallet.iv),
     );
+  }
+
+  public static readFromNanoWalletWLF(wlt: string): SimpleWallet {
+    const wallet = JSON.parse(Base64.decode(wlt));
+    // TODO: Check the encrypted and iv fields, if they aren't null, it's a simple wallet
+    const account = wallet.account[0];
+    return new SimpleWallet(
+      wallet.name,
+      account.network,
+      new Address(account.address),
+      LocalDateTime.parse(new Date()),
+      new EncryptedPrivateKey(account.encrypted, account.iv)
+    )
   }
 }
