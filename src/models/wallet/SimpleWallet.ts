@@ -152,7 +152,7 @@ export class SimpleWallet extends Wallet {
       wallet.name,
       account.network,
       new Address(account.address),
-      LocalDateTime.parse(new Date()),
+      LocalDateTime.parse((new Date()).toDateString()),
       new EncryptedPrivateKey(account.encrypted, account.iv)
     )
   }
