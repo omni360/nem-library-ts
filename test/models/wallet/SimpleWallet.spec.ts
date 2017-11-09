@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-import {deepEqual} from "assert";
-import {expect} from "chai";
-import {LocalDateTime} from "js-joda";
-import {Account} from "../../../src/models/account/Account";
-import {Address} from "../../../src/models/account/Address";
-import {NetworkTypes} from "../../../src/models/node/NetworkTypes";
-import {EncryptedPrivateKey} from "../../../src/models/wallet/EncryptedPrivateKey";
-import {Password} from "../../../src/models/wallet/Password";
-import {SimpleWallet} from "../../../src/models/wallet/SimpleWallet";
-import {NEMLibrary} from "../../../src/NEMLibrary";
-import {TestVariables} from "../../config/TestVariables.spec";
+import { deepEqual } from "assert";
+import { expect } from "chai";
+import { LocalDateTime } from "js-joda";
+import { Account } from "../../../src/models/account/Account";
+import { Address } from "../../../src/models/account/Address";
+import { NetworkTypes } from "../../../src/models/node/NetworkTypes";
+import { EncryptedPrivateKey } from "../../../src/models/wallet/EncryptedPrivateKey";
+import { Password } from "../../../src/models/wallet/Password";
+import { SimpleWallet } from "../../../src/models/wallet/SimpleWallet";
+import { NEMLibrary } from "../../../src/NEMLibrary";
+import { TestVariables } from "../../config/TestVariables.spec";
 
 declare let process: any;
 
@@ -82,7 +82,7 @@ describe("SimpleWallet", () => {
       new EncryptedPrivateKey(
         "a4eb0dfb0bbc38dece38d58601da57596cfe25e99a7f9a42a2863972af32c839c23e8a12d45bfe09f1c8d0fd52e77274",
         "98a53e7046535b9ce0be282d3a271f12",
-        ));
+      ));
     const wlt = simpleWallet.writeWLTFile();
     expect(wlt).to.be.equal("eyJuYW1lIjoiTXkgd2FsbGV0IiwibmV0d29yayI6IjE1MiIsImFkZHJlc3MiOiJUQVo1M1haMlBMRjJDUk1GN0FXUEFNWVpLVzYzWk9DQktNRUpFT1FKIiwiY3JlYXRpb25EYXRlIjoiMjAxNy0xMS0yMFQwMDowMCIsInNjaGVtYSI6MSwidHlwZSI6InNpbXBsZSIsImVuY3J5cHRlZFByaXZhdGVLZXkiOiJhNGViMGRmYjBiYmMzOGRlY2UzOGQ1ODYwMWRhNTc1OTZjZmUyNWU5OWE3ZjlhNDJhMjg2Mzk3MmFmMzJjODM5YzIzZThhMTJkNDViZmUwOWYxYzhkMGZkNTJlNzcyNzQiLCJpdiI6Ijk4YTUzZTcwNDY1MzViOWNlMGJlMjgyZDNhMjcxZjEyIn0=");
   });
@@ -113,4 +113,11 @@ describe("SimpleWallet", () => {
       console.log("SimpleWallet", privateKey);
     }).to.throw(Error);
   });
+
+  it("should return a Simple Wallet from NanoWallet file format", () => {
+    const simpleWallet = SimpleWallet.readFromNanoWalletWLF("eyJwcml2YXRlS2V5IjoiIiwibmFtZSI6IkpvcmlzIHRlc3QiLCJhY2NvdW50cyI6eyIwIjp7ImJyYWluIjp0cnVlLCJhbGdvIjoicGFzczpiaXAzMiIsImVuY3J5cHRlZCI6IjQ4MWJjYmZiMDExODgxMTY4MmM5OTA2YWUzNzlkOWIyMjIxNGQ0MzA1MzU4ZDFhNDU3ZTgwNWU5ZmJjYjhkM2I5NzM3OTI4MGRhODRhNmRjZDE0MDVlMzYxYzIxZmIyNSIsIml2IjoiYTVlYzE1ODhlZjkxZWQ0Njc1ZDAzYjQyMTRkNjFmNzUiLCJhZGRyZXNzIjoiVERKSFBTSUhTSFRYMloySlVaVkdIWkE1SEJQT1hKSlJNWE5DMzRMVCIsImxhYmVsIjoiUHJpbWFyeSIsIm5ldHdvcmsiOi0xMDQsImNoaWxkIjoiYmYzZjMzOGY0MWVhYjYxN2JhNmRjNDEyMThhZDhkYjdlYmYxZGQwM2QxZWM3NzRjNjM0YmRkNjM3MjFjY2MxYiIsIiQkaGFzaEtleSI6Im9iamVjdDoxODYyIn0sIjEiOnsiYWRkcmVzcyI6IlRBUURXVkNHTU5SVzM1TkM2TlUyVk9UMlNJSUpOTFJWU0w1R0oyWEMiLCJsYWJlbCI6InRlc3RXYWxsZXQiLCJjaGlsZCI6ImFlYzVlZTczNWE0ZWJlM2M1OWQxMDIzY2MzM2Q1MGU1NGQzNjRlNmIxMzA3ZjYwYTVlNDg3ZmU0YWM2M2JkZTYiLCJlbmNyeXB0ZWQiOiI5ZWUxMzM0ZDc0ODEzZWQxZjVlMDE3NDc4MWNiNDJkYTA3ZWJmYjlhYWIxY2FmYjAwMjI5YjA2NWYzY2I3ZTU1ZjYzNDgwNGM0MTFhYzlmMmY0NDM1N2U0MWQ3YWY0ZDkiLCJpdiI6Ijc1MmMwNzdiODRhNjU2NjE4NmE0NTU4NjYwZmVhZDJkIiwiJCRoYXNoS2V5Ijoib2JqZWN0OjE4NjMifX0sIiQkaGFzaEtleSI6Im9iamVjdDoxNiJ9");
+    expect(simpleWallet.name).to.be.equal("Joris test");
+    deepEqual(simpleWallet.network, NetworkTypes.TEST_NET);
+    deepEqual(simpleWallet.address, new Address("TDJHPSIHSHTX2Z2JUZVGHZA5HBPOXJJRMXNC34LT"));
+  })
 });

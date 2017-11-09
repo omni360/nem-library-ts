@@ -148,11 +148,12 @@ export class SimpleWallet extends Wallet {
     const wallet = JSON.parse(Base64.decode(wlt));
     // TODO: Check the encrypted and iv fields, if they aren't null, it's a simple wallet
     const account = wallet.accounts[0];
+    const network = account.network;
     return new SimpleWallet(
       wallet.name,
-      account.network,
+      network < 0 ? NetworkTypes.TEST_NET : NetworkTypes.MAIN_NET,
       new Address(account.address),
-      LocalDateTime.parse((new Date()).toDateString()),
+      LocalDateTime.now(),
       new EncryptedPrivateKey(account.encrypted, account.iv)
     )
   }
